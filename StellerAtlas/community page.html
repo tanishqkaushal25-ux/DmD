@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Hub - StellerAtlas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> <style>
+        /* --- GLOBAL STYLES & HACKATHON "WOW" FACTOR --- */
+        :root {
+            --dark-bg: #03010b;
+            --primary-card-bg: rgba(18, 16, 38, 0.6);
+            --primary-text: #e0e0e0;
+            --accent-color: #3b82f6; /* A vibrant blue */
+            --glow-color: #6d28d9;   /* A deep purple for glows */
+            --border-color: rgba(255, 255, 255, 0.1);
+            --transition-fast: 0.2s ease-out;
+            --transition-medium: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--primary-text);
+            overflow-x: hidden;
+            /* Hackathon Suggestion: Add a background video for maximum impact. 
+              I've prepared the CSS for it. Just add a <video> element after the <body> tag.
+              <video autoplay muted loop id="bg-video">
+                  <source src="your-space-video.mp4" type="video/mp4">
+              </video>
+            */
+            background-image: url('https://www.transparenttextures.com/patterns/stardust.png'); /* A subtle fallback texture */
+        }
+
+        #bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            opacity: 0.2;
+        }
+
+        main {
+            padding-top: 120px; /* Space for fixed navbar */
+        }
+
+        section {
+            padding: 80px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 50px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #fff;
+            text-shadow: 0 0 10px var(--glow-color);
+        }
+        
+        h3 {
+             font-size: 1.8rem;
+             font-weight: 600;
+             margin-bottom: 25px;
+             color: #f0f0f0;
+             border-left: 4px solid var(--accent-color);
+             padding-left: 15px;
+        }
+
+
+        /* --- NAVIGATION BAR --- */
+        nav.navbar {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* Better alignment */
+            padding: 0 40px;
+            background: rgba(3, 1, 11, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            user-select: none;
+            transition: background 0.3s ease;
+            gap: 40px;
+        }
+
+        .navbar-logo img {
+            height: 80px;
+            width: auto;
+            transition: transform var(--transition-fast), filter var(--transition-fast);
+        }
+        .navbar-logo img:hover {
+            transform: scale(1.08);
+            filter: drop-shadow(0 0 8px var(--accent-color));
+        }
+
+        .navbar-menu {
+            display: flex;
+            gap: 38px;
+        }
+        .navbar-menu a {
+            color: #ececec; text-decoration: none; font-weight: 600; font-size: 1.04rem;
+            letter-spacing: 0.03em; padding: 8px 15px; transition: color var(--transition-fast);
+            position: relative;
+        }
+        .navbar-menu a::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px;
+            background-color: var(--accent-color); transform: scaleX(0);
+            transform-origin: center; transition: transform var(--transition-fast);
+        }
+        .navbar-menu a:hover { color: #fff; }
+        .navbar-menu a:hover::after { transform: scaleX(1); }
+
+        .navbar-special {
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+            position: relative;
+        }
+        .dropdown {
+            display: flex; align-items: center; position: relative;
+        }
+        .dropdown-toggle {
+            font-size: 1rem; font-weight: 600; color: #fff; background: none;
+            border: 1px solid var(--accent-color); border-radius: 9px; padding: 10px 26px;
+            margin-right: 18px; cursor: pointer; letter-spacing: 0.08em; outline: none;
+            transition: all var(--transition-fast);
+            text-transform: uppercase;
+        }
+        .dropdown-toggle:hover {
+            background-color: var(--accent-color);
+            box-shadow: 0 0 15px var(--accent-color);
+        }
+        #timer {
+            font-family: monospace; font-size: 1.1rem; font-weight: 600;
+            letter-spacing: 0.12em; color: var(--primary-text); margin-left: 8px; user-select: none;
+        }
+        .dropdown-menu {
+            display: none; position: absolute; top: calc(100% + 15px); right: 0;
+            background: #111; border-radius: 8px; min-width: 320px; padding: 16px;
+            box-shadow: 0 4px 18px #000a; z-index: 100; flex-direction: column;
+            border: 1px solid var(--border-color);
+        }
+        .dropdown:hover .dropdown-menu,
+        .dropdown:focus-within .dropdown-menu { display: flex; }
+        .dropdown-item {
+            display: flex; align-items: center; margin-bottom: 14px; color: #eee;
+        }
+        .dropdown-item img {
+            width: 60px; height: 60px; border-radius: 9px; margin-right: 16px; object-fit: cover;
+        }
+        .dropdown-item strong { font-weight: 700; display: block; margin-bottom: 4px; }
+        .dropdown-item span { font-size: 0.9rem; color: #ccc; }
+        .dropdown-link {
+            text-align: center; color: var(--accent-color); font-weight: 700; text-decoration: none;
+            margin-top: 12px; cursor: pointer;
+        }
+        .dropdown-link:hover { text-decoration: underline; }
+
+        /* --- COMMUNITY DISCUSSION FEED --- */
+        #community-feed {
+            display: grid;
+            grid-template-columns: 1fr 2.5fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .create-post, .post-card {
+            background: var(--primary-card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            transition: transform var(--transition-medium), box-shadow var(--transition-medium);
+        }
+        
+        .create-post {
+            position: sticky;
+            top: 140px;
+        }
+        .create-post h3 {
+             border: none; padding-left: 0;
+        }
+
+        .create-post textarea {
+            width: 100%;
+            height: 120px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            color: var(--primary-text);
+            font-family: 'Exo 2', sans-serif;
+            font-size: 1rem;
+            resize: vertical;
+            margin-bottom: 15px;
+        }
+        .create-post textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 8px var(--accent-color);
+        }
+        .create-post button {
+            width: 100%;
+            padding: 12px;
+            background: var(--accent-color);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        .create-post button:hover {
+            background: #fff;
+            color: var(--accent-color);
+            box-shadow: 0 0 15px #fff;
+        }
+        
+        .posts-list {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .post-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .post-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .post-header img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 15px;
+            border: 2px solid var(--accent-color);
+        }
+        .post-user {
+            font-weight: 700;
+            color: #fff;
+        }
+        .post-timestamp {
+            font-size: 0.85rem;
+            color: #aaa;
+        }
+
+        .post-content {
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .post-actions {
+            display: flex;
+            gap: 30px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 15px;
+        }
+        .post-actions button {
+            background: none;
+            border: none;
+            color: #aaa;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color var(--transition-fast), transform var(--transition-fast);
+        }
+        .post-actions button:hover {
+            color: var(--accent-color);
+            transform: scale(1.1);
+        }
+
+        /* --- INTERACTIVE POLL SLIDER --- */
+        #poll-section {
+            padding-top: 60px;
+        }
+        .poll-slider-container {
+            display: flex;
+            gap: 30px;
+            overflow-x: auto;
+            padding-bottom: 25px; /* space for shadow and scrollbar */
+            scroll-snap-type: x mandatory;
+        }
+        /* Aesthetic scrollbar */
+        .poll-slider-container::-webkit-scrollbar {
+            height: 8px;
+        }
+        .poll-slider-container::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.2);
+            border-radius: 4px;
+        }
+        .poll-slider-container::-webkit-scrollbar-thumb {
+            background: var(--accent-color);
+            border-radius: 4px;
+        }
+        .poll-slider-container::-webkit-scrollbar-thumb:hover {
+            background: var(--glow-color);
+        }
+        
+        .poll-card {
+            flex: 0 0 350px; /* fixed width for cards */
+            background: var(--primary-card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px;
+            backdrop-filter: blur(5px);
+            scroll-snap-align: start;
+            transition: all var(--transition-medium);
+        }
+        
+        .poll-card h3 {
+            font-size: 1.2rem;
+            min-height: 60px;
+            border: none;
+            padding-left: 0;
+        }
+
+        .poll-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .poll-options button {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--primary-text);
+            font-size: 0.95rem;
+            cursor: pointer;
+            text-align: left;
+            transition: all var(--transition-fast);
+        }
+        .poll-options button:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--accent-color);
+        }
+        .poll-options button:disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+        .poll-options button.selected-answer {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            color: #fff;
+            font-weight: 700;
+            box-shadow: 0 0 10px var(--accent-color);
+        }
+
+        .explanation-box {
+            margin-top: 20px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            padding: 15px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out, padding 0.5s ease-in-out;
+        }
+        .explanation-box.visible {
+            max-height: 200px;
+            opacity: 1;
+        }
+
+        /* --- ASTRO-ART GALLERY --- */
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform var(--transition-medium);
+        }
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        .gallery-item .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity var(--transition-medium);
+            font-size: 2rem;
+        }
+        .gallery-item:hover .overlay {
+            opacity: 1;
+        }
+        
+        #upload-btn {
+            display: block;
+            margin: 40px auto 0;
+            padding: 15px 35px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
+            background-color: transparent;
+            border: 2px solid var(--accent-color);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        #upload-btn:hover {
+            background-color: var(--accent-color);
+            box-shadow: 0 0 20px var(--accent-color);
+        }
+
+
+        /* --- UPCOMING EVENTS SLIDER --- */
+        .events-slider-wrapper {
+            position: relative;
+        }
+        .events-slider-container {
+            overflow: hidden;
+        }
+        .events-slider {
+            display: flex;
+            gap: 25px;
+            scroll-snap-type: x mandatory;
+            overflow-x: scroll;
+            padding-bottom: 20px; /* Hide scrollbar visually */
+            scrollbar-width: none; /* Firefox */
+        }
+        .events-slider::-webkit-scrollbar { display: none; } /* Chrome, Safari */
+        
+        .event-card {
+            flex: 0 0 320px;
+            scroll-snap-align: start;
+            background: var(--primary-card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .event-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+        .event-info {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        .event-info h4 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+        .event-info p {
+            font-size: 0.9rem;
+            color: #ccc;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+        .notify-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: transparent;
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        .notify-btn:hover {
+            background-color: var(--accent-color);
+            color: #fff;
+        }
+        
+        .slider-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border-color);
+            color: #fff;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 10;
+            transition: all var(--transition-fast);
+        }
+        .slider-arrow:hover {
+            background-color: var(--accent-color);
+        }
+        #prev-event { left: -25px; }
+        #next-event { right: -25px; }
+
+        /* Notification Modal */
+        #notification-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            display: none; /* Hidden by default */
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: var(--dark-bg);
+            padding: 40px;
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 0 30px var(--glow-color);
+        }
+        .modal-content h3 {
+            margin-bottom: 20px;
+            border: none;
+            padding: 0;
+        }
+        #modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: #aaa;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color var(--transition-fast), transform var(--transition-fast);
+        }
+        #modal-close:hover {
+            color: #fff;
+            transform: rotate(90deg);
+        }
+        #email-input {
+            width: 100%;
+            padding: 12px;
+            background-color: rgba(0,0,0,0.3);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+        #submit-notification {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--accent-color);
+            border: none;
+            color: #fff;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        #submit-notification:disabled {
+            background-color: #555;
+            cursor: not-allowed;
+        }
+
+        /* --- USEFUL RESOURCES --- */
+        .resources-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+        }
+        .resource-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .resource-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background-color: rgba(255,255,255,0.03);
+            padding: 15px;
+            border-radius: 10px;
+            transition: background-color var(--transition-fast), transform var(--transition-fast);
+        }
+        .resource-item:hover {
+            background-color: rgba(255,255,255,0.07);
+            transform: translateX(10px);
+        }
+        .resource-item img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .resource-item a {
+            color: var(--primary-text);
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: color var(--transition-fast);
+        }
+        .resource-item a:hover {
+            color: var(--accent-color);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background-color: #000;
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 60px;
+            border-top: 1px solid var(--border-color);
+        }
+        .footer-links {
+            margin-bottom: 20px;
+        }
+        .footer-links a {
+            color: #aaa;
+            text-decoration: none;
+            margin: 0 15px;
+            transition: color var(--transition-fast);
+        }
+        .footer-links a:hover {
+            color: #fff;
+        }
+        .footer-copyright {
+            color: #777;
+            font-size: 0.9rem;
+        }
+        
+        /* --- RESPONSIVENESS --- */
+        @media (max-width: 1200px) {
+            .navbar-menu { display: none; } /* Simplified for demo, a real site would have a hamburger menu */
+        }
+        @media (max-width: 992px) {
+            h2 { font-size: 2.2rem; }
+            #community-feed, .resources-container {
+                grid-template-columns: 1fr;
+            }
+            .create-post {
+                 position: static; /* Unstick on smaller screens */
+                 margin-bottom: 40px;
+            }
+        }
+        @media (max-width: 768px) {
+             section { padding: 60px 3%; }
+            .slider-arrow {
+                 width: 40px; height: 40px; font-size: 1.2rem;
+            }
+            #prev-event { left: 10px; }
+            #next-event { right: 10px; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+      <a href="#" class="navbar-logo">
+        <img src="https://i.ibb.co/mG7g2Fh/logo.png" alt="Starlight Hub Logo">
+      </a>
+      <div class="navbar-menu">
+          <a href="#home">HOME</a>
+          <a href="#community-feed">COMMUNITY</a>
+          <a href="#poll-section">POLLS</a>
+          <a href="#astro-gallery">GALLERY</a>
+          <a href="#events-section">EVENTS</a>
+          <a href="#resources-section">RESOURCES</a>
+      </div>
+      <div class="navbar-special">
+          <div class="dropdown">
+              <button class="dropdown-toggle">UPCOMING</button>
+              <span id="timer">T-17:49:51</span>
+              <div class="dropdown-menu">
+                  <div class="dropdown-item">
+                      <img src="https://picsum.photos/seed/launch1/60/60" alt="Starlink Mission" />
+                      <div><strong>Starlink Mission</strong><span>October 14, 2025 11:53 India Time</span></div>
+                  </div>
+                   <div class="dropdown-item">
+                      <img src="https://picsum.photos/seed/launch2/60/60" alt="Artemis II" />
+                      <div><strong>Artemis II Flyby</strong><span>November 29, 2025</span></div>
+                  </div>
+                  <a href="#" class="dropdown-link">ALL UPCOMING LAUNCHES</a>
+              </div>
+          </div>
+      </div>
+    </nav>
+    
+    <main>
+        <section id="community-feed">
+            <div class="create-post">
+                <h3>Join the Conversation</h3>
+                <textarea placeholder="What's on your mind, stargazer?"></textarea>
+                <button>Post</button>
+            </div>
+            <div class="posts-list">
+                <article class="post-card">
+                    <div class="post-header">
+                        <img src="https://picsum.photos/seed/user1/50/50" alt="User Avatar">
+                        <div>
+                            <div class="post-user">@AstroExplorer</div>
+                            <div class="post-timestamp">5m ago</div>
+                        </div>
+                    </div>
+                    <p class="post-content">Just saw the James Webb Telescope's latest image of the Pillars of Creation. Absolutely breathtaking! The level of detail is just unreal. It really puts into perspective how vast and beautiful our universe is. 🤯 #JWST #Space</p>
+                    <div class="post-actions">
+                        <button><i class="fas fa-heart"></i> 1.2k Likes</button>
+                        <button><i class="fas fa-comment"></i> 34 Comments</button>
+                        <button><i class="fas fa-share"></i> Share</button>
+                    </div>
+                </article>
+                <article class="post-card">
+                    <div class="post-header">
+                        <img src="https://picsum.photos/seed/user2/50/50" alt="User Avatar">
+                        <div>
+                            <div class="post-user">@CosmicClara</div>
+                            <div class="post-timestamp">2h ago</div>
+                        </div>
+                    </div>
+                    <p class="post-content">Does anyone have recommendations for a good beginner-level telescope for backyard stargazing? Looking for something under $500 that's good for viewing planets and maybe some brighter nebulae. Any advice is appreciated!</p>
+                    <div class="post-actions">
+                        <button><i class="fas fa-heart"></i> 98 Likes</button>
+                        <button><i class="fas fa-comment"></i> 15 Comments</button>
+                        <button><i class="fas fa-share"></i> Share</button>
+                    </div>
+                </article>
+                <article class="post-card">
+                    <div class="post-header">
+                        <img src="https://picsum.photos/seed/user3/50/50" alt="User Avatar">
+                        <div>
+                            <div class="post-user">@RocketManRon</div>
+                            <div class="post-timestamp">1d ago</div>
+                        </div>
+                    </div>
+                    <p class="post-content">Super excited for the upcoming Artemis II mission! Seeing humans orbit the Moon again is going to be a historic moment. Who else is planning to watch the launch live?</p>
+                    <div class="post-actions">
+                        <button><i class="fas fa-heart"></i> 756 Likes</button>
+                        <button><i class="fas fa-comment"></i> 112 Comments</button>
+                        <button><i class="fas fa-share"></i> Share</button>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section id="poll-section">
+            <h2>Community Polls</h2>
+            <div class="poll-slider-container">
+                <div class="poll-card">
+                    <h3>Which upcoming space mission excites you the most?</h3>
+                    <div class="poll-options">
+                        <button>Artemis II (Moon Orbit)</button>
+                        <button>Europa Clipper (Jupiter's Moon)</button>
+                        <button>Mars Sample Return</button>
+                        <button>Dragonfly (Titan Drone)</button>
+                    </div>
+                    <div class="explanation-box">
+                        <p><strong>Europa Clipper:</strong> This mission will investigate Jupiter's moon Europa, a prime candidate for life beyond Earth due to its suspected subsurface ocean.</p>
+                    </div>
+                </div>
+                <div class="poll-card">
+                    <h3>If you could travel anywhere in the solar system, where would you go?</h3>
+                    <div class="poll-options">
+                        <button>Mars</button>
+                        <button>The rings of Saturn</button>
+                        <button>A Kuiper Belt object</button>
+                        <button>The cloud tops of Jupiter</button>
+                    </div>
+                    <div class="explanation-box">
+                        <p><strong>The rings of Saturn:</strong> Composed of countless particles of ice and rock, Saturn's rings are one of the most visually stunning phenomena in our solar system.</p>
+                    </div>
+                </div>
+                <div class="poll-card">
+                    <h3>What is the most profound discovery in modern astronomy?</h3>
+                    <div class="poll-options">
+                        <button>Exoplanets</button>
+                        <button>Dark Energy</button>
+                        <button>Gravitational Waves</button>
+                        <button>The Cosmic Microwave Background</button>
+                    </div>
+                    <div class="explanation-box">
+                        <p><strong>Gravitational Waves:</strong> First predicted by Einstein, these ripples in spacetime allow us to observe cosmic events like black hole mergers in a completely new way.</p>
+                    </div>
+                </div>
+                </div>
+        </section>
+
+        <section id="astro-gallery">
+            <h2>Astro-Art Gallery</h2>
+            <div class="image-grid">
+                <div class="gallery-item"><img src="https://picsum.photos/seed/astro1/500/500" alt="Astrophotography image"><div class="overlay"><i class="fas fa-search-plus"></i></div></div>
+                <div class="gallery-item"><img src="https://picsum.photos/seed/astro2/500/500" alt="Astrophotography image"><div class="overlay"><i class="fas fa-search-plus"></i></div></div>
+                <div class="gallery-item"><img src="https://picsum.photos/seed/astro3/500/500" alt="Astrophotography image"><div class="overlay"><i class="fas fa-search-plus"></i></div></div>
+                <div class="gallery-item"><img src="https://picsum.photos/seed/astro4/500/500" alt="Astrophotography image"><div class="overlay"><i class="fas fa-search-plus"></i></div></div>
+                <div class="gallery-item"><img src="https://picsum.photos/seed/astro5/500/500" alt="Astrophotography image"><div class="overlay"><i class="fas fa-search-plus"></i></div></div>
+                <div class="gallery-item"><img src="https://picsum.photos/seed/astro6/500/500" alt="Astrophotography image"><div class="overlay"><i class="fas fa-search-plus"></i></div></div>
+            </div>
+            <button id="upload-btn">Upload Your Image</button>
+        </section>
+
+        <section id="events-section">
+            <h2>Upcoming Events</h2>
+            <div class="events-slider-wrapper">
+                <div class="events-slider-container">
+                    <div class="events-slider">
+                        <div class="event-card">
+                            <img src="https://picsum.photos/seed/event1/400/250" alt="Event Banner">
+                            <div class="event-info">
+                                <h4>Perseid Meteor Shower Peak</h4>
+                                <p>August 12-13, 2026 - Watch one of the best meteor showers of the year from a dark sky location.</p>
+                                <button class="notify-btn">Notify Me</button>
+                            </div>
+                        </div>
+                        <div class="event-card">
+                            <img src="https://picsum.photos/seed/event2/400/250" alt="Event Banner">
+                            <div class="event-info">
+                                <h4>Webinar: Black Holes Explained</h4>
+                                <p>October 5, 2025 - Join Dr. Eva Rostova for a deep dive into the mysteries of black holes.</p>
+                                <button class="notify-btn">Notify Me</button>
+                            </div>
+                        </div>
+                        <div class="event-card">
+                            <img src="https://picsum.photos/seed/event3/400/250" alt="Event Banner">
+                            <div class="event-info">
+                                <h4>Total Solar Eclipse (Spain)</h4>
+                                <p>August 12, 2026 - A rare opportunity to witness a total solar eclipse over parts of Europe.</p>
+                                <button class="notify-btn">Notify Me</button>
+                            </div>
+                        </div>
+                        <div class="event-card">
+                            <img src="https://picsum.photos/seed/event4/400/250" alt="Event Banner">
+                            <div class="event-info">
+                                <h4>Community Star Party</h4>
+                                <p>November 1, 2025 - Local meetup for stargazing. Telescopes will be provided!</p>
+                                <button class="notify-btn">Notify Me</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="slider-arrow" id="prev-event">&#10094;</button>
+                <button class="slider-arrow" id="next-event">&#10095;</button>
+            </div>
+        </section>
+
+        <div id="notification-modal">
+            <div class="modal-content">
+                <button id="modal-close">&times;</button>
+                <h3>Get Notified!</h3>
+                <p>Enter your email to get a reminder for this event.</p>
+                <input type="email" id="email-input" placeholder="youremail@example.com">
+                <button id="submit-notification" disabled>Submit</button>
+            </div>
+        </div>
+
+        <section id="resources-section">
+            <h2>Expand Your Universe</h2>
+            <div class="resources-container">
+                <div class="youtube-channels">
+                    <h3>YouTube Channels</h3>
+                    <div class="resource-list">
+                        <div class="resource-item">
+                            <img src="https://picsum.photos/seed/yt1/50/50" alt="NASA Logo">
+                            <a href="https://www.youtube.com/c/NASA" target="_blank">NASA</a>
+                        </div>
+                        <div class="resource-item">
+                            <img src="https://picsum.photos/seed/yt2/50/50" alt="Veritasium Logo">
+                            <a href="https://www.youtube.com/c/veritasium" target="_blank">Veritasium</a>
+                        </div>
+                        <div class="resource-item">
+                            <img src="https://picsum.photos/seed/yt3/50/50" alt="PBS Space Time Logo">
+                            <a href="https://www.youtube.com/c/pbsspacetime" target="_blank">PBS Space Time</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="websites">
+                    <h3>Websites</h3>
+                    <div class="resource-list">
+                        <div class="resource-item">
+                            <img src="https://picsum.photos/seed/web1/50/50" alt="APOD Logo">
+                            <a href="https://apod.nasa.gov/apod/astropix.html" target="_blank">Astronomy Picture of the Day (APOD)</a>
+                        </div>
+                        <div class="resource-item">
+                            <img src="https://picsum.photos/seed/web2/50/50" alt="Space.com Logo">
+                            <a href="https://www.space.com/" target="_blank">Space.com</a>
+                        </div>
+                        <div class="resource-item">
+                            <img src="https://picsum.photos/seed/web3/50/50" alt="ESA Logo">
+                            <a href="https://www.esa.int/" target="_blank">European Space Agency (ESA)</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-links">
+            <a href="#">About Us</a>
+            <a href="#">Contact</a>
+            <a href="#">Privacy Policy</a>
+        </div>
+        <p class="footer-copyright">&copy; 2025 Starlight Community Hub. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- NAVIGATION BAR COUNTDOWN ---
+            // This function creates a countdown timer for the upcoming launch button.
+            function startCountdown(seconds) {
+                let timer = seconds;
+                const timerEl = document.getElementById('timer');
+                if (!timerEl) return;
+                
+                setInterval(() => {
+                    let h = Math.floor(timer / 3600);
+                    let m = Math.floor((timer % 3600) / 60);
+                    let s = timer % 60;
+                    
+                    timerEl.textContent = `T-${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+                    
+                    if (timer > 0) {
+                        timer--;
+                    }
+                }, 1000);
+            }
+            startCountdown(64500); // Setting initial countdown time.
+
+            // --- INTERACTIVE POLL SLIDER ---
+            // This adds interactivity to the poll cards.
+            const pollSlider = document.querySelector('.poll-slider-container');
+            if (pollSlider) {
+                pollSlider.addEventListener('click', (e) => {
+                    // Check if an option button was clicked
+                    if (e.target.tagName === 'BUTTON' && e.target.parentElement.classList.contains('poll-options')) {
+                        const pollCard = e.target.closest('.poll-card');
+                        if (!pollCard) return;
+
+                        const optionButtons = pollCard.querySelectorAll('.poll-options button');
+                        const explanationBox = pollCard.querySelector('.explanation-box');
+
+                        // Disable all buttons in this poll and show the explanation
+                        optionButtons.forEach(button => button.disabled = true);
+                        e.target.classList.add('selected-answer');
+                        explanationBox.classList.add('visible');
+                    }
+                });
+            }
+
+            // --- ASTRO-ART GALLERY ---
+            // Simple alert for the upload button.
+            const uploadBtn = document.getElementById('upload-btn');
+            if (uploadBtn) {
+                uploadBtn.addEventListener('click', () => {
+                    alert('Image upload functionality coming soon!');
+                });
+            }
+
+            // --- UPCOMING EVENTS SLIDER & MODAL ---
+            // Handles slider navigation and the notification modal.
+            const prevBtn = document.getElementById('prev-event');
+            const nextBtn = document.getElementById('next-event');
+            const eventsSlider = document.querySelector('.events-slider');
+            
+            if (prevBtn && nextBtn && eventsSlider) {
+                const scrollAmount = 345; // Width of a card + gap
+
+                nextBtn.addEventListener('click', () => {
+                    eventsSlider.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+                });
+
+                prevBtn.addEventListener('click', () => {
+                    eventsSlider.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+                });
+            }
+
+            // Modal functionality
+            const modal = document.getElementById('notification-modal');
+            const closeModalBtn = document.getElementById('modal-close');
+            const emailInput = document.getElementById('email-input');
+            const submitBtn = document.getElementById('submit-notification');
+            const notifyBtns = document.querySelectorAll('.notify-btn');
+
+            if (modal) {
+                // Open modal
+                notifyBtns.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        modal.style.display = 'flex';
+                    });
+                });
+
+                // Close modal
+                closeModalBtn.addEventListener('click', () => {
+                    modal.style.display = 'none';
+                });
+                
+                // Close modal if clicking outside the content
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                         modal.style.display = 'none';
+                    }
+                });
+
+
+                // Email validation and submit button enabling/disabling
+                emailInput.addEventListener('input', () => {
+                    const emailRegex = /^\S+@\S+\.\S+$/;
+                    const isValid = emailRegex.test(emailInput.value);
+                    submitBtn.disabled = !isValid;
+                });
+            }
+        });
+    </script>
+</body>
+</html>

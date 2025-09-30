@@ -1,664 +1,1491 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Astronomy Guide - Astrophysics Explorer</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    :root {
-      --primary-color: #ffffff;
-      --accent-color: #ffd860;
-      --dark-bg: #000000;
-      --semi-dark-bg: rgba(10, 10, 10, 0.7);
-      --font-primary: 'Montserrat', Arial, sans-serif;
-      --transition-fast: 0.3s ease;
-      --transition-med: 0.5s ease;
-    }
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap');
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astronomy Page | Astrophysics Explorer</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-    body {
-      margin:0; padding:0;
-      font-family: var(--font-primary);
-      background: var(--dark-bg);
-      color: var(--primary-color);
-      overflow-x: hidden;
-      position: relative;
-    }
-    video#bg-video {
-      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-      object-fit: cover; z-index: -2;
-      filter: brightness(0.6);
-      pointer-events: none;
-    }
-    canvas#star-field {
-      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-      z-index: -1;
-      pointer-events: none;
-    }
+    <style>
+        /*
+        ==========================================================================
+        * ASTROPHYSICS EXPLORER - HACKATHON PROJECT
+        * Author: Hackathon Helper (Gemini)
+        * Description: A single-page, immersive astronomy guide.
+        * Theme: Sophisticated Dark Mode with "Glassmorphism" UI.
+        * Key Features: On-scroll animations, interactive tools, dynamic content.
+        ==========================================================================
+        */
 
+        /* ---------------------------------- */
+        /* --- 1. Root & Global Styles --- */
+        /* ---------------------------------- */
+        :root {
+            --primary-bg: #000000;
+            --glass-bg: rgba(10, 10, 20, 0.55);
+            --border-color: rgba(255, 216, 96, 0.2);
+            --primary-text: #E0E0E0;
+            --heading-text: #FFFFFF;
+            --accent-color: #FFD860; /* A stellar gold */
+            --accent-glow: rgba(255, 216, 96, 0.2);
+            --success-color: #4CAF50;
+            --error-color: #F44336;
+            --font-family: 'Montserrat', sans-serif;
+            --max-width: 1200px;
+            --border-radius: 12px;
+            --transition-speed: 0.4s;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--primary-bg);
+            color: var(--primary-text);
+            line-height: 1.7;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+
+        /* --- NAVIGATION BAR --- */
     nav.navbar {
-      position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
-      min-height: 100px;
-      display: flex;
-      align-items: center;
-      padding: 0 40px;
-      background: rgba(0,0,0,0.5);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-      user-select: none;
-      transition: background 0.3s ease;
-      gap: 38px;
-    }
-    .navbar-logo img {
-      height: 80px;
-      width: auto;
-      transition: transform var(--transition-fast), filter var(--transition-fast);
-      cursor: pointer;
-    }
-    .navbar-logo img:hover {
-      transform: scale(1.08);
-      filter: drop-shadow(0 0 8px var(--accent-color));
-    }
-    .navbar-menu {
-      display: flex;
-      gap: 38px;
-    }
-    .navbar-menu a {
-      color: #ececec;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 1.04rem;
-      letter-spacing: 0.03em;
-      padding: 8px 15px;
-      transition: color var(--transition-fast);
-      position: relative;
-      user-select: none;
-    }
-    .navbar-menu a::after {
-      content: '';
-      position: absolute;
-      bottom: 0; left: 0; width: 100%; height: 2px;
-      background-color: var(--accent-color);
-      transform: scaleX(0);
-      transform-origin: center;
-      transition: transform var(--transition-fast);
-    }
-    .navbar-menu a:hover {
-      color: var(--primary-color);
-    }
-    .navbar-menu a:hover::after {
-      transform: scaleX(1);
-    }
-    .navbar-special {
-      display: flex;
-      align-items: center;
-      white-space: nowrap;
-      position: relative;
-    }
-    /* Section style */
-    main {
-      max-width: 1100px;
-      margin: 140px auto 60px;
-      padding: 0 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  padding: 0 40px;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  user-select: none;
+  transition: background 0.3s ease;
+  gap: 40px;
+}
+.navbar-logo img {
+  height: 80px;
+  width: auto;
+  transition: transform var(--transition-fast), filter var(--transition-fast);
+}
+.navbar-logo img:hover {
+  transform: scale(1.08);
+  filter: drop-shadow(0 0 8px var(--accent-color));
+}
+.navbar-menu {
+  display: flex;
+  gap: 38 px;
+}
+.navbar-menu a {
+  color: #ececec;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.04rem;
+  letter-spacing: 0.03em;
+  padding: 8px 15px;
+  transition: color var(--transition-fast);
+  position: relative;
+}
+.navbar-menu a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--accent-color);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform var(--transition-fast);
+}
+.navbar-menu a:hover {
+  color: var(--primary-color);
+}
+.navbar-menu a:hover::after {
+  transform: scaleX(1);
+}
+.navbar-special {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  position: relative;
+}
+.dropdown {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.dropdown-toggle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  background: none;
+  border: 1px solid var(--primary-color);
+  border-radius: 9px;
+  padding: 10px 26px;
+  margin-right: 18px;
+  cursor: pointer;
+  letter-spacing: 0.08em;
+  outline: none;
+  transition: border-color 0.2s, color 0.2s;
+}
+.dropdown-toggle:hover {
+  border-color: var(--accent-color);
+  color: var(--accent-color);
+}
+#timer {
+  font-family: monospace;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--primary-color);
+  margin-left: 8px;
+  user-select: none;
+}
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 15px);
+  right: 0;
+  background: #111;
+  border-radius: 8px;
+  min-width: 320px;
+  padding: 16px;
+  box-shadow: 0 4px 18px #000a;
+  z-index: 100;
+  flex-direction: column;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.dropdown:hover .dropdown-menu,
+.dropdown:focus-within .dropdown-menu {
+  display: flex;
+}
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 14px;
+  color: #eee;
+}
+.dropdown-item img {
+  width: 60px;
+  height: 60px;
+  border-radius: 9px;
+  margin-right: 16px;
+  object-fit: cover;
+}
+.dropdown-item strong {
+  font-weight: 700;
+  display: block;
+  margin-bottom: 4px;
+}
+.dropdown-item span {
+  font-size: 0.9rem;
+  color: #ccc;
+}
+.dropdown-link {
+  text-align: center;
+  color: var(--accent-color);
+  font-weight: 700;
+  text-decoration: none;
+  margin-top: 12px;
+  cursor: pointer;
+}
+.dropdown-link:hover {
+  text-decoration: underline;
+}
+        /* ---------------------------------- */
+        /* --- 2. Background & Overlays --- */
+        /* ---------------------------------- */
+        #background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: hidden;
+        }
+
+        #bg-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.4;
+            /* HACKATHON HELPER NOTE: I've set up the HTML for the background video.
+               You just need to provide the 'bg.mp4' file in the same directory.
+               A slow, panning shot of a nebula or galaxy works best. */
+        }
+        
+        #starfield {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        /* ---------------------------------- */
+        /* --- 3. Layout & Section Styling --- */
+        /* ---------------------------------- */
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        main > section {
+            padding: 6rem 0;
+            position: relative;
+        }
+        
+        /* The core "Glassmorphism" card style */
+        .glass-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px); /* For Safari */
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        /* On-scroll animation setup */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ---------------------------------- */
+        /* --- 4. Typography --- */
+        /* ---------------------------------- */
+        h1, h2, h3 {
+            color: var(--heading-text);
+            font-weight: 600;
+            text-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            line-height: 1.1;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-size: clamp(2rem, 5vw, 2.8rem);
+            margin-bottom: 3rem;
+            text-align: center;
+            color: var(--accent-color);
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+        
+        p {
+            margin-bottom: 1rem;
+        }
+
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: color var(--transition-speed) ease;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 1.5rem;
+        }
+
+        ul li {
+            position: relative;
+            margin-bottom: 0.75rem;
+        }
+
+        ul li::before {
+            content: '✦';
+            position: absolute;
+            left: -1.5rem;
+            color: var(--accent-color);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        /* ---------------------------------- */
+        /* --- 5. UI Components (Buttons, Forms) --- */
+        /* ---------------------------------- */
+        .btn {
+            display: inline-block;
+            background: var(--accent-color);
+            color: var(--primary-bg);
+            padding: 0.8rem 1.8rem;
+            border: 2px solid var(--accent-color);
+            border-radius: 50px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all var(--transition-speed) ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn:hover {
+            background: transparent;
+            color: var(--accent-color);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px var(--accent-glow);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--accent-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--accent-color);
+            color: var(--primary-bg);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.8rem 1.2rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--primary-text);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all var(--transition-speed) ease;
+        }
+
+        .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        /* ---------------------------------- */
+        /* --- 6. Header & Hero Section --- */
+        /* ---------------------------------- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .hero h1 span {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(20px) scale(0.9);
+            animation: fadeInChar 0.5s forwards;
+        }
+
+        @keyframes fadeInChar {
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        .hero .container {
+           padding-top: 10vh;
+        }
+
+        /* ---------------------------------- */
+        /* --- 7. Specific Section Layouts --- */
+        /* ---------------------------------- */
+
+        /* Weather Section */
+        #weather-results {
+            margin-top: 2rem;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: var(--border-radius);
+            display: none; /* Hidden by default */
+        }
+        .weather-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+        }
+        .weather-item {
+            text-align: center;
+        }
+        .weather-item svg {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 0.5rem;
+            fill: var(--accent-color);
+        }
+        .weather-item .label {
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+        .weather-item .value {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        #stargazing-score {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+        #stargazing-score .score-text {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        .score-Excellent { color: #4CAF50; }
+        .score-Good { color: #8BC34A; }
+        .score-Fair { color: #FFEB3B; }
+        .score-Poor { color: #F44336; }
+
+        /* Telescope Section */
+        .telescope-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .telescope-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            text-align: center;
+            transition: all var(--transition-speed) ease;
+        }
+        .telescope-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px var(--accent-glow);
+            border-color: var(--accent-color);
+        }
+        .telescope-card img {
+            max-width: 180px;
+            height: auto;
+            margin-bottom: 1.5rem;
+        }
+        .telescope-card .pros, .telescope-card .cons {
+            text-align: left;
+            margin-top: 1rem;
+        }
+        .telescope-card .pros li::before { content: '✓'; color: var(--success-color); }
+        .telescope-card .cons li::before { content: '✕'; color: var(--error-color); }
+
+        /* Accessories Section */
+        .accordion-item {
+            border-bottom: 1px solid var(--border-color);
+        }
+        .accordion-header {
+            padding: 1.5rem 1rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color var(--transition-speed) ease;
+        }
+        .accordion-header:hover {
+            background-color: rgba(255, 216, 96, 0.05);
+        }
+        .accordion-header::after {
+            content: '+';
+            font-size: 2rem;
+            color: var(--accent-color);
+            transition: transform var(--transition-speed) ease;
+        }
+        .accordion-item.active .accordion-header::after {
+            transform: rotate(45deg);
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, padding 0.5s ease;
+            padding: 0 1rem;
+        }
+
+        /* Sun Locator Section */
+        #sun-locator-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            align-items: flex-end;
+        }
+        #sun-locator-form .form-group {
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 0;
+        }
+        #sun-locator-results {
+            margin-top: 2rem;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: var(--border-radius);
+            display: none;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+        }
+        #sun-locator-results .result-item {
+            text-align: center;
+        }
+        #sun-locator-results .label {
+             font-size: 0.9rem;
+            color: #aaa;
+        }
+        #sun-locator-results .value {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--accent-color);
+        }
+
+        /* Calendar Section */
+        .calendar-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .calendar-event {
+            display: flex;
+            gap: 2rem;
+            align-items: flex-start;
+            padding: 1.5rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-left: 4px solid var(--accent-color);
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+        .event-date {
+            flex-shrink: 0;
+            text-align: center;
+        }
+        .event-date .month {
+            font-size: 1rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            color: var(--accent-color);
+        }
+        .event-date .day {
+            font-size: 2.5rem;
+            font-weight: bold;
+            line-height: 1;
+        }
+        .event-details h3 {
+            margin-bottom: 0.5rem;
+            color: var(--heading-text);
+        }
+
+        /* ---------------------------------- */
+        /* --- 8. Responsiveness --- */
+        /* ---------------------------------- */
+        @media (max-width: 768px) {
+            main > section {
+                padding: 4rem 0;
+            }
+            h1 {
+                font-size: 2.5rem;
+            }
+            h2 {
+                font-size: 1.8rem;
+            }
+            .form-group {
+                flex-direction: column;
+            }
+            #sun-locator-form {
+                 grid-template-columns: 1fr;
+            }
+            .calendar-event {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: center;
+                text-align: center;
+            }
+        }
+        /* PROFESSIONAL FOOTER STYLES */
+    footer {
       position: relative;
       z-index: 5;
+      background: #050505;
+      padding: 80px 40px 20px 40px;
+      border-top: 4px solid var(--accent-color);
+      color: #999;
     }
-    section {
-      background: rgba(10,15,25,0.7);
-      padding: 30px 40px;
-      border-radius: 20px;
-      margin-bottom: 40px;
-      box-shadow: 0 0 25px rgba(255,216,96,0.8);
-      opacity: 0;
-      transform: translateY(50px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
-    }
-    section.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    h1, h2 {
-      font-family: 'Montserrat', sans-serif;
-      margin-bottom: 30px;
-      color: var(--accent-color);
-      text-shadow: 0 0 15px rgba(255,216,96,0.9);
-      letter-spacing: 0.07em;
-    }
-    h1 {
-      font-size: 3.5rem;
-      text-align: center;
-    }
-    h2 {
-      font-size: 2.4rem;
-    }
-    p, ul {
-      font-size: 1.1rem;
-      line-height: 1.7;
-      color: #ddd;
-    }
-    ul {
-      padding-left: 20px;
-      margin-top: 10px;
-    }
-    li {
-      margin-bottom: 0.6rem;
-    }
-    /* Weather input/button */
-    #weather form {
-      display: flex;
-      gap: 8px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-    #weather input[type="text"] {
-      flex: 1 1 250px;
-      padding: 10px 15px;
-      border-radius: 15px;
-      border: none;
-      font-size: 1.1rem;
-      background: rgba(255,255,255,0.1);
-      color: var(--primary-color);
-      box-shadow: 0 0 8px var(--accent-color);
-      outline: none;
-      transition: background 0.3s ease;
-    }
-    #weather input[type="text"]:focus {
-      background: rgba(255,255,255,0.25);
-    }
-    #weather button {
-      padding: 10px 25px;
-      border-radius: 15px;
-      border: none;
-      background: var(--accent-color);
-      color: var(--dark-bg);
-      font-size: 1.1rem;
-      font-weight: 600;
-      cursor: pointer;
-      box-shadow: 0 0 12px var(--accent-color);
-      transition: background 0.3s ease;
-    }
-    #weather button:hover {
-      background: #fff3ac;
-      box-shadow: 0 0 25px var(--accent-color);
-    }
-    #weather-result {
-      text-align: center;
-      margin-top: 20px;
-      font-size: 1.2rem;
-      color: var(--accent-color);
-      font-weight: 600;
-      text-shadow: 0 0 10px var(--accent-color);
-    }
-    /* Telescope types cards */
-    .card-container {
-      display: flex;
-      gap: 2rem;
-      flex-wrap: wrap;
-      justify-content: space-around;
-      margin-top: 20px;
-    }
-    .card {
-      background: rgba(255,216,96,0.15);
-      border-radius: 20px;
-      box-shadow: 0 0 28px 0 rgba(255,216,96,0.7);
-      flex: 1 1 300px;
-      padding: 20px;
-      cursor: default;
-      transition: transform .3s ease;
-    }
-    .card:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 45px 5px rgba(255,216,96,0.9);
-    }
-    .card h3 {
-      margin-bottom: 15px;
-      font-weight: 900;
-      font-size: 1.8rem;
-      color: var(--accent-color);
-      text-shadow: 0 0 12px rgba(255,216,96,0.9);
-    }
-    .card p {
-      font-size: 1.05rem;
-      color: #eee;
-      line-height: 1.5;
-    }
-    /* Email section styling */
-    #email-section {
-      text-align: center;
-    }
-    #email-section form {
-      margin-top: 20px;
-      display: inline-flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-    #email-section input[type="email"] {
-      padding: 12px 18px;
-      border-radius: 50px;
-      border: none;
-      font-size: 1rem;
-      width: 260px;
-      box-shadow: 0 0 12px var(--accent-color);
-      color: var(--primary-color);
-      background: rgba(255,255,255,0.1);
-    }
-    #email-section input[type="email"]:focus {
-      background: rgba(255,255,255,0.25);
-      outline: none;
-    }
-    #email-section button {
-      background: var(--accent-color);
-      border-radius: 50px;
-      border: none;
-      padding: 12px 30px;
-      color: var(--dark-bg);
-      font-weight: 700;
-      font-size: 1rem;
-      cursor: pointer;
-      box-shadow: 0 0 18px var(--accent-color);
-      transition: box-shadow 0.3s ease;
-    }
-    #email-section button:hover {
-      box-shadow: 0 0 38px var(--accent-color);
-    }
-    #email-msg {
-      margin-top: 15px;
-      font-size: 1.1rem;
-      color: var(--accent-color);
-      text-shadow: 0 0 12px var(--accent-color);
-      height: 24px;
-    }
-    /* Astronomical Calculator Styles */
-    #astro-calculator {
-      background: rgba(20, 20, 30, 0.85);
-      padding: 20px 30px;
-      border-radius: 20px;
-      text-align: center;
-      box-shadow: 0 0 24px 4px rgba(255,216,96,0.8);
-      max-width: 600px;
+    .footer-container {
+      max-width: 1300px;
       margin: 0 auto;
     }
-    #astro-calculator h2 {
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr repeat(4, 1fr);
+      gap: 50px;
+      margin-bottom: 60px;
+    }
+    .footer-col .logo-footer {
+      height: 50px;
       margin-bottom: 20px;
     }
-    #astro-calculator label {
-      display: block;
-      margin-bottom: 6px;
-      font-weight: 600;
+    .footer-col p {
+      line-height: 1.7;
+      max-width: 300px;
+    }
+    .footer-col h4 {
+      font-size: 1.1rem;
+      margin-bottom: 25px;
+      color: var(--primary-color);
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+    .footer-col ul {
+      list-style: none;
+      padding: 0;
+    }
+    .footer-col ul li {
+      margin-bottom: 15px;
+    }
+    .footer-col a {
+      text-decoration: none;
+      color: #999;
+      transition: color var(--transition-fast);
+    }
+    .footer-col a:hover {
       color: var(--accent-color);
     }
-    #astro-calculator input[type="date"],
-    #astro-calculator input[type="text"] {
-      width: 100%;
-      padding: 8px 10px;
-      margin-bottom: 16px;
-      border-radius: 10px;
-      border: none;
-      outline: none;
-      font-size: 1.1rem;
-      background: rgba(255,255,255,0.1);
-      color: var(--primary-color);
-      box-shadow: 0 0 8px var(--accent-color);
-      text-align: center;
+    .social-icons {
+      display: flex;
+      gap: 15px;
     }
-    #astro-calculator button {
+    .social-icons a {
+      font-size: 1.2rem;
+      color: #999;
+      background-color: #222;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      transition: background-color var(--transition-fast), color var(--transition-fast);
+    }
+    .social-icons a:hover {
+      background-color: var(--accent-color);
+      color: #000;
+    }
+
+    .newsletter-form {
+      display: flex;
+      margin-top: 10px;
+      max-width: 250px;
+    }
+    .newsletter-form input {
+      flex-grow: 1;
+      padding: 12px;
+      border: 1px solid #444;
+      background: #222;
+      color: var(--primary-color);
+      border-radius: 5px 0 0 5px;
+      outline: none;
+    }
+    .newsletter-form button {
+      padding: 12px 20px;
+      border: 1px solid var(--accent-color);
       background: var(--accent-color);
-      border-radius: 30px;
-      border: none;
-      padding: 12px 40px;
-      font-size: 1.1rem;
-      font-weight: 700;
       color: var(--dark-bg);
       cursor: pointer;
-      box-shadow: 0 0 20px var(--accent-color);
-      transition: box-shadow 0.3s ease;
+      font-weight: 700;
+      border-radius: 0 5px 5px 0;
+      transition: background var(--transition-fast), color var(--transition-fast);
     }
-    #astro-calculator button:hover {
-      box-shadow: 0 0 35px var(--accent-color);
+    .newsletter-form button:hover {
+      background: #ffedaa;
     }
-    #astro-result {
-      margin-top: 20px;
-      font-size: 1.15rem;
-      text-shadow: 0 0 12px var(--accent-color);
-      min-height: 28px;
-      color: #ffe57f;
+    .footer-bottom {
+      text-align: center;
+      padding-top: 30px;
+      border-top: 1px solid #333;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
     }
-
-    /* Responsive */
-    @media(max-width: 720px) {
-      .card-container {
-        flex-direction: column;
-      }
-      .card {
-        margin-bottom: 20px;
-      }
-      #weather form {
-        flex-direction: column;
-        gap: 15px;
-      }
-      #email-section form {
-        flex-direction: column;
-        gap: 12px;
-      }
-      #email-section input[type="email"] {
-        width: 100%;
-      }
-      #astro-calculator input {
-        font-size: 1rem;
-      }
+    .footer-bottom-links a {
+      color: #999;
+      text-decoration: none;
+      margin-left: 20px;
+      transition: color var(--transition-fast);
+    }
+    .footer-bottom-links a:hover {
+      color: var(--accent-color);
     }
 
-
-    .content-section {
-  position: relative;
-  z-index: 5;
-  max-width: 1200px;
-  margin: 100px auto;
-  padding: 40px;
-  background: rgba(10, 15, 25, 0.65);
-  border: 3px solid rgba(255, 255, 255, 0.9);
-  border-radius: 16px;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-}
-
-  </style>
+    @media (max-width: 1024px) {
+      .footer-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      }
+    }
+    @media (max-width: 600px) {
+        .footer-bottom {
+            flex-direction: column;
+            justify-content: center;
+        }
+    }
+    </style>
 </head>
 <body>
 
-  <video autoplay muted loop playsinline id="bg-video">
-    <source src="bg.mp4" type="video/mp4" />
-    Your browser does not support the video tag.
-  </video>
-  <canvas id="star-field"></canvas>
 
-  <nav class="navbar" role="navigation" aria-label="Primary Navigation">
-    <a href="#" class="navbar-logo" aria-label="Astrophysics Explorer Home">
-      <img src="logo.png" alt="Astrophysics Explorer Logo" />
-    </a>
+    <nav class="navbar">
+    <a href="#" class="navbar-logo"><img src="logo.png" alt="StellerAtlas Logo"></a>
     <div class="navbar-menu">
-      <a href="#home">HOME</a>
-      <a href="#blogs">BLOGS</a>
-      <a href="#astronomy">ASTRONOMY</a>
-      <a href="#resources">RESOURCES</a>
-      <a href="#community">COMMUNITY</a>
-      <a href="#missions">MISSIONS</a>
-      <a href="#about">ABOUT</a>
+<a href="homepage.html">HOME</a>
+<a href="blogpage.html">BLOGS</a>
+<a href="astronomy.html">ASTRONOMY</a>
+<a href="resources.html">RESOURCES</a>
+<a href="community.html">COMMUNITY</a>
+<a href="missions.html">MISSIONS</a>
+<a href="about.html">ABOUT</a>
     </div>
     <div class="navbar-special">
       <div class="dropdown">
-        <button class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">UPCOMING</button>
-        <span id="timer" aria-live="polite" aria-atomic="true">T-17:49:51</span>
-        <div class="dropdown-menu" role="menu" aria-label="Upcoming launches">
-          <div class="dropdown-item" role="menuitem" tabindex="0">
-            <img src="1.jpg" alt="Starlink Mission" />
-            <div>
-              <strong>Starlink Mission</strong><br/>
-              <span>October 14, 2025 11:53 India Time</span>
-            </div>
-          </div>
-          <a class="dropdown-link" href="#" role="menuitem">ALL UPCOMING LAUNCHES</a>
+        <button class="dropdown-toggle">UPCOMING</button><span id="timer">T-17:49:51</span>
+        <div class="dropdown-menu">
+          <div class="dropdown-item"><img src="1.jpg" alt="Starlink Mission" /><div><strong>Starlink Mission</strong><span>October 14, 2025 11:53 India Time</span></div></div>
+          <a href="#" class="dropdown-link">ALL UPCOMING LAUNCHES</a>
         </div>
       </div>
     </div>
   </nav>
 
-  <main>
+  
+    <div id="background-container">
+        <video id="bg-video" autoplay muted loop playsinline>
+            <source src="bg.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    <canvas id="starfield"></canvas>
+    
+    <main>
+        <header class="hero">
+            <div class="container">
+                <h1 id="hero-title">Explore the Cosmos with Us!</h1>
+                <p>Your gateway to understanding the universe, from your backyard to the farthest galaxies.</p>
+            </div>
+        </header>
 
-    <!-- Astronomy Header -->
-    <section id="astronomy-header" class="fade-up-section" aria-label="Astronomy Header">
-      <h1>Explore the Cosmos with Astrophysics Explorer</h1>
-    </section>
+        <section id="weather" class="fade-in-section">
+            <div class="container">
+                <h2>Tonight's Stargazing Forecast</h2>
+                <div class="glass-card">
+                    <p>Enter your city to get real-time astronomical conditions, including cloud cover, air quality, and moon phase, to determine if it's a good night to look up.</p>
+                    <div class="form-group">
+                        <input type="text" id="city-input" class="form-input" placeholder="Enter city name (e.g., London)">
+                        <button id="check-weather-btn" class="btn">Check Conditions</button>
+                    </div>
+                    <div id="weather-loader" style="text-align: center; display: none;">Loading forecast...</div>
+                    <div id="weather-error" style="text-align: center; color: var(--error-color); display: none;"></div>
+                    <div id="weather-results">
+                        <h3 id="location-name" style="text-align: center; margin-bottom: 2rem;"></h3>
+                        <div class="weather-grid">
+                            </div>
+                        <div id="stargazing-score">
+                            <h3>Stargazing Conditions</h3>
+                            <p class="score-text" id="score-value">Excellent</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="how-to" class="fade-in-section">
+            <div class="container">
+                <h2>How to Stargaze for the First Time</h2>
+                <div class="glass-card">
+                    <h3>Your First Night Under the Stars</h3>
+                    <p>Stargazing is an ancient and awe-inspiring hobby that connects us to the cosmos. Getting started is easier than you think. You don't need expensive equipment, just a clear night and a little patience. Here's a guide to make your first experience unforgettable.</p>
+                    
+                    <h3>1. Find a Dark Sky</h3>
+                    <p>The biggest enemy of stargazing is light pollution from cities. For the best views, travel away from city lights. National parks, rural areas, or designated "Dark Sky Parks" are ideal. Even a local park or golf course can be a significant improvement over your backyard.</p>
 
-    <!-- Weather -->
-    <section id="weather" class="fade-up-section" aria-label="Astronomy Weather">
-      <h2>Local Astronomy Weather</h2>
-      <form id="weather-form" aria-label="Check local astronomy weather">
-        <input type="text" id="location" name="location" placeholder="Enter city or GPS coordinates" required aria-required="true" />
-        <button type="submit" aria-label="Check weather">Check</button>
-      </form>
-      <div id="weather-result" aria-live="polite" role="status"></div>
-    </section>
+                    <h3>2. Let Your Eyes Adapt</h3>
+                    <p>Your eyes need about 20-30 minutes to fully adapt to the darkness. This "dark adaptation" is crucial for seeing faint objects like nebulae and distant galaxies. Avoid looking at your bright phone screen, which will instantly ruin your night vision. Use a red flashlight if you need light, as red light has the least impact on dark adaptation.</p>
 
-    <!-- How to Stargaze for First Time -->
-    <section id="first-stargaze" class="fade-up-section" aria-label="How to Stargaze">
-      <h2>How to Stargaze for the First Time</h2>
-      <p>
-        Start by finding a dark, clear night away from city lights. Let your eyes adjust to the darkness for at least 20 minutes to see faint stars. Use a star map or smartphone app to learn the constellations.
-        Dress warmly and bring a comfortable chair and red flashlight. Be patient – the night sky reveals more wonders the longer you observe.
-      </p>
-    </section>
+                    <h3>3. Essential (But Simple) Gear</h3>
+                    <ul>
+                        <li><strong>Binoculars:</strong> A standard pair of 7x50 or 10x50 binoculars are a fantastic starting point. They are perfect for scanning the Milky Way, viewing star clusters, and getting a closer look at the Moon.</li>
+                        <li><strong>Star Chart or App:</strong> Use a planisphere (a physical star chart) or a mobile app like Stellarium, SkyView, or Star Walk to identify constellations, planets, and other celestial objects.</li>
+                        <li><strong>Comfort:</strong> A comfortable reclining chair or a blanket on the ground will save your neck. Dress in warm layers, as even summer nights can get chilly when you're sitting still.</li>
+                    </ul>
 
-    <!-- Telescopes Budget Types -->
-    <section id="telescopes" class="fade-up-section" aria-label="Types of Telescopes and Budgets">
-      <h2>Different Types of Telescopes</h2>
-      <div class="card-container" role="list">
-        <article class="card" role="listitem" tabindex="0">
-          <h3>Budget: Entry Level (Under $200)</h3>
-          <p>Refractors and small reflectors ideal for beginners. Portable and easy to use but limited in aperture. Great for lunar and bright object viewing.</p>
-        </article>
-        <article class="card" role="listitem" tabindex="0">
-          <h3>Budget: Mid Range ($200 - $800)</h3>
-          <p>Medium-aperture reflectors or compound telescopes. Better light-gathering and detail, suitable for planets, star clusters, and some deep sky objects.</p>
-        </article>
-        <article class="card" role="listitem" tabindex="0">
-          <h3>Budget: Advanced ($800 and above)</h3>
-          <p>Large aperture reflectors, computerized mounts, and advanced optics. Capable of serious astrophotography and deep space exploration.</p>
-        </article>
+                    <h3>4. What to Look For</h3>
+                    <p>On your first night, start with the easy targets. Locate the Moon and observe its craters and seas. Look for the brightest "stars"—they are often planets like Jupiter, Saturn, Mars, or Venus. Learn to identify a few major constellations like Ursa Major (containing the Big Dipper), Orion (in the winter), or Cygnus (in the summer).</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="telescopes" class="fade-in-section">
+            <div class="container">
+                <h2>Choosing Your Window to the Universe</h2>
+                <div class="telescope-grid">
+                    <div class="telescope-card">
+                        <img src="refractorTeles.png" alt="Refractor Telescope">
+                        <h3>Refractor Telescopes</h3>
+                        <p>These are the classic telescopes that use lenses to gather and focus light. Light passes through a large objective lens at the front and is bent to a focal point at the back.</p>
+                        <ul class="pros">
+                            <li>Sharp, high-contrast images.</li>
+                            <li>Durable and low-maintenance.</li>
+                            <li>Excellent for viewing the Moon and planets.</li>
+                        </ul>
+                        <ul class="cons">
+                            <li>Can suffer from chromatic aberration (color fringing).</li>
+                            <li>Most expensive per inch of aperture.</li>
+                        </ul>
+                    </div>
+
+                    <div class="telescope-card">
+                        <img src="refrlectorTeles.jpg" alt="Reflector Telescope">
+                        <h3>Reflector Telescopes</h3>
+                        <p>Invented by Isaac Newton, these telescopes use a large primary mirror at the back to collect light and a smaller secondary mirror to direct it to an eyepiece on the side.</p>
+                         <ul class="pros">
+                            <li>Best value for aperture size; great for deep-sky objects.</li>
+                            <li>No chromatic aberration.</li>
+                        </ul>
+                        <ul class="cons">
+                            <li>Requires occasional mirror alignment (collimation).</li>
+                            <li>Open tube can collect dust.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="telescope-card">
+                        <img src="catadioTelesc.jpg" alt="Catadioptric Telescope">
+                        <h3>Catadioptric Telescopes</h3>
+                        <p>Also known as compound telescopes, these use a combination of mirrors and lenses to fold a long optical path into a compact tube, offering the best of both worlds.</p>
+                        <ul class="pros">
+                            <li>Highly portable and compact design.</li>
+                            <li>Versatile for both planetary and deep-sky viewing.</li>
+                        </ul>
+                        <ul class="cons">
+                            <li>More expensive than reflectors of similar aperture.</li>
+                            <li>Secondary mirror obstruction slightly reduces image contrast.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="accessories" class="fade-in-section">
+            <div class="container">
+                <h2>Enhance Your Viewing: Key Accessories</h2>
+                <div class="glass-card">
+                    <div class="accordion">
+                        <div class="accordion-item">
+                            <div class="accordion-header"><h3>Eyepieces</h3></div>
+                            <div class="accordion-content">
+                                <p>Eyepieces are the lenses you look through. They determine the telescope's magnification. Magnification is calculated by dividing the telescope's focal length by the eyepiece's focal length (e.g., a 1000mm telescope with a 10mm eyepiece gives 100x magnification). It's best to have a range of eyepieces: low power (e.g., 25mm) for finding objects and wide views, and high power (e.g., 9mm) for detailed views of planets.</p>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <div class="accordion-header"><h3>Barlow Lens</h3></div>
+                            <div class="accordion-content">
+                                <p>A Barlow lens is a simple but powerful accessory placed between the telescope and the eyepiece. It typically doubles or triples the magnification of any given eyepiece, effectively doubling your eyepiece collection. A 2x Barlow turns a 100x magnification into 200x.</p>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <div class="accordion-header"><h3>Finderscope</h3></div>
+                            <div class="accordion-content">
+                                <p>A telescope's high magnification provides a very narrow field of view, making it hard to aim at specific objects. A finderscope is a small, low-power scope attached to the main telescope that has a wider field of view and crosshairs, allowing you to easily center your target before viewing it through the main eyepiece.</p>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <div class="accordion-header"><h3>Filters</h3></div>
+                            <div class="accordion-content">
+                                <p>Filters screw onto the bottom of your eyepiece to enhance the view. A Moon filter reduces the overwhelming glare of the Moon, revealing more surface detail. Light pollution filters block specific wavelengths of light from streetlamps, increasing contrast on nebulae. Color filters can bring out details on planets, like Jupiter's cloud bands or Mars' polar caps.</p>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <div class="accordion-header"><h3>Mounts</h3></div>
+                            <div class="accordion-content">
+                                <p>The mount is the foundation of your telescope, providing stability and allowing you to track objects. <strong>Alt-Azimuth (Alt-Az)</strong> mounts move up-down (altitude) and left-right (azimuth), and are simple and intuitive. <strong>Equatorial (EQ)</strong> mounts are aligned with the Earth's axis of rotation, allowing you to track celestial objects by turning just one knob, which is essential for astrophotography.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="tips" class="fade-in-section">
+            <div class="container">
+                <h2>Quick Tips for a Great Session</h2>
+                <div class="glass-card">
+                     <ul>
+                        <li><strong>Check the Weather & Moon Phase:</strong> A clear sky and a New Moon (or when the moon is not visible) provide the darkest skies.</li>
+                        <li><strong>Plan Your Observations:</strong> Know what you want to see before you go out. Is Jupiter visible? Is a meteor shower happening?</li>
+                        <li><strong>Dress Warmer Than You Think:</strong> You'll be sitting still for long periods. It's better to have extra layers you can remove.</li>
+                        <li><strong>Use a Red Flashlight:</strong> Preserve your night vision. You can make one by covering a regular flashlight with red cellophane.</li>
+                        <li><strong>Be Patient:</strong> It takes time to find objects and for your eyes to adjust. The rewards are worth the wait.</li>
+                        <li><strong>Join a Club:</strong> Local astronomy clubs are a fantastic resource for learning from experienced observers and trying out different equipment.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="guide-email" class="fade-in-section">
+            <div class="container">
+                <h2>Ready to Dive Deeper?</h2>
+                <div class="glass-card">
+                    <p>Get our complete, beautifully illustrated "Beginner's Stargazing Guide" delivered straight to your inbox. It's an offline-ready PDF packed with star charts, checklists, and more.</p>
+                    <div class="form-group">
+                        <input type="email" id="email-input" class="form-input" placeholder="your.email@example.com">
+                        <button id="send-guide-btn" class="btn">Send Guide</button>
+                    </div>
+                    <div id="email-feedback" style="text-align: center; margin-top: 1rem;"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="sun-locator" class="fade-in-section">
+            <div class="container">
+                <h2>Sun Locator & Golden Hour Calculator</h2>
+                <div class="glass-card">
+                    <p>Plan your daytime and twilight photography or observations by calculating key sun times for any location and date.</p>
+                    <div id="sun-locator-form">
+                        <div class="form-group">
+                            <label for="latitude">Latitude</label>
+                            <input type="number" id="latitude" class="form-input" placeholder="e.g., 34.0522">
+                        </div>
+                        <div class="form-group">
+                            <label for="longitude">Longitude</label>
+                            <input type="number" id="longitude" class="form-input" placeholder="e.g., -118.2437">
+                        </div>
+                        <div class="form-group">
+                            <label for="date">Date</label>
+                            <input type="date" id="date" class="form-input">
+                        </div>
+                        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                            <button id="calc-sun-btn" class="btn">Calculate</button>
+                            <button id="use-location-btn" class="btn btn-secondary">Use My Location</button>
+                        </div>
+                    </div>
+                    <div id="sun-locator-results">
+                        </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="calendar" class="fade-in-section">
+            <div class="container">
+                <h2>Upcoming Astronomical Events</h2>
+                <div class="calendar-list" id="calendar-list">
+                    </div>
+            </div>
+        </section>
+        
+    </main>
+    <footer class="fade-up-section">
+    <div class="footer-container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <img src="logo.png" alt="StellerAtlas Logo" class="logo-footer">
+          <p>Your one-stop platform for all things space, astrophysics, and astronomy. Explore the cosmos with us.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Explore</h4>
+          <ul>
+            <li><a href="#missions">Missions</a></li>
+            <li><a href="#solar-system">Solar System</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#news">News</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Learn</h4>
+          <ul>
+            <li><a href="#blogs">Blogs</a></li>
+            <li><a href="#astronomy">Astronomy 101</a></li>
+            <li><a href="#resources">Resources</a></li>
+            <li><a href="#">Glossary</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>About</h4>
+          <ul>
+            <li><a href="#about">About StellerAtlas</a></li>
+            <li><a href="#">Our Team</a></li>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#community">Community</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Connect</h4>
+          <div class="social-icons">
+            <a href="#" aria-label="X (formerly Twitter)"><img src="x.png"></img></a>
+            <a href="#" aria-label="Instagram"><img src="insta.png"></img></a>
+            <a href="#" aria-label="YouTube"><img src="yt.png"></img></a>
+            <a href="#" aria-label="Facebook"><img src="fb.png"></img></a>
+          </div>
+          <h4 style="margin-top: 30px;">Newsletter</h4>
+          <form class="newsletter-form">
+            <input type="email" placeholder="your.email@example.com" required>
+            <button type="submit">SUB</button>
+          </form>
+        </div>
       </div>
-    </section>
+      <div class="footer-bottom">
+        <p>&copy; 2025 StellerAtlas. All Rights Reserved.</p>
+        <div class="footer-bottom-links">
+            <a href="#">Terms of Service</a>
+            <a href="#">Privacy Policy</a>
+        </div>
+      </div>
+    </div>
+  </footer>
 
-    <!-- Accessories -->
-    <section id="accessories" class="fade-up-section" aria-label="Telescope Accessories and Functions">
-      <h2>Telescope Accessories and Their Functions</h2>
-      <ul>
-        <li><strong>Barlow Lens:</strong> Magnifies the image, usually 2x or 3x, allowing more detail.</li>
-        <li><strong>Finderscope:</strong> Helps to locate objects more easily in the sky.</li>
-        <li><strong>Eyepieces:</strong> Different focal lengths for varying magnifications.</li>
-        <li><strong>Star Diagonal:</strong> Allows comfortable viewing angle, especially for refractors.</li>
-        <li><strong>Filters:</strong> Enhance contrast for planets, moon, or reduce light pollution.</li>
-      </ul>
-    </section>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
 
-    <!-- Tips -->
-    <section id="tips" class="fade-up-section" aria-label="Tips for Stargazing">
-      <h2>Tips for Stargazing</h2>
-      <ul>
-        <li>Avoid looking at any white light for 30 minutes before stargazing.</li>
-        <li>Use red light flashlights to preserve night vision.</li>
-        <li>Bring warm clothing even in summer nights.</li>
-        <li>Keep your eyes scanning, don’t stare at one spot too long.</li>
-        <li>Plan your session around moon phases; darker skies are better.</li>
-      </ul>
-    </section>
+        /* ---------------------------------- */
+        /* --- 1. Starfield Canvas Animation --- */
+        /* ---------------------------------- */
+        const canvas = document.getElementById('starfield');
+        const ctx = canvas.getContext('2d');
 
-    <!-- Email subscription -->
-    <section id="email-section" class="fade-up-section" aria-label="Request Stargazing Guide">
-      <h2>Get a Complete Offline Stargazing Guide via Email</h2>
-      <form id="email-form" aria-label="Subscribe to download the stargazing guide">
-        <input type="email" id="email" name="email" placeholder="Your email address" required aria-required="true" />
-        <button type="submit" aria-label="Subscribe and get guide">Send Guide</button>
-      </form>
-      <p id="email-msg" role="alert" aria-live="assertive"></p>
-    </section>
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
 
-    <!-- Astronomical Calculator -->
-    <section id="astro-calculator" class="fade-up-section" aria-label="Astronomical Calculator">
-      <h2>Astronomical Calculator</h2>
-      <label for="calc-date">Select Date</label>
-      <input type="date" id="calc-date" value="" />
-      <label for="calc-lat">Latitude (°)</label>
-      <input type="text" id="calc-lat" placeholder="e.g. 28.6139" />
-      <label for="calc-lon">Longitude (°)</label>
-      <input type="text" id="calc-lon" placeholder="e.g. 77.2090" />
-      <button id="calc-btn">Calculate Sunrise & Sunset</button>
-      <div id="astro-result" aria-live="polite"></div>
-    </section>
+        const stars = [];
+        const numStars = 200;
 
-  </main>
+        for (let i = 0; i < numStars; i++) {
+            stars.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 1.5,
+                alpha: Math.random(),
+                speed: Math.random() * 0.1 + 0.05
+            });
+        }
 
-  <script src="https://cdn.jsdelivr.net/npm/suncalc@1.9.0/suncalc.js"></script>
+        function drawStars() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+            stars.forEach(star => {
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                ctx.globalAlpha = star.alpha;
+                ctx.fill();
 
-  <script>
-    // Navbar countdown timer mimic
-    let timerSec = 64500;
-    const timerEl = document.getElementById('timer');
-    setInterval(() => {
-      let h = Math.floor(timerSec/3600);
-      let m = Math.floor((timerSec%3600)/60);
-      let s = timerSec%60;
-      timerEl.textContent = `T-${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-      if(timerSec>0) timerSec--;
-    },1000);
-
-    // Starfield Canvas animation (same as your theme)
-    const canvas = document.getElementById('star-field');
-    const ctx = canvas.getContext('2d');
-    let w, h, stars = [];
-
-    function initStars(){
-      w = window.innerWidth;
-      h = window.innerHeight;
-      canvas.width = w;
-      canvas.height = h;
-      stars = [];
-      for(let i=0; i<150; i++) {
-        stars.push({
-          x: Math.random()*w,
-          y: Math.random()*h,
-          r: Math.random()*1.5+0.5,
-          alpha: Math.random(),
-          decreasing: Math.random() > 0.5,
-          vx: (Math.random()-0.5)*0.1,
-          vy: (Math.random()-0.5)*0.1
+                star.y -= star.speed;
+                if (star.y < 0) {
+                    star.y = canvas.height;
+                }
+            });
+            requestAnimationFrame(drawStars);
+        }
+        drawStars();
+        
+        /* ---------------------------------- */
+        /* --- 2. Hero Title Animation --- */
+        /* ---------------------------------- */
+        const heroTitle = document.getElementById('hero-title');
+        const text = heroTitle.textContent;
+        heroTitle.innerHTML = '';
+        text.split('').forEach((char, index) => {
+            const span = document.createElement('span');
+            span.textContent = char === ' ' ? '\u00A0' : char;
+            span.style.animationDelay = `${index * 0.05}s`;
+            heroTitle.appendChild(span);
         });
-      }
-    }
 
-    function drawStars(){
-      ctx.clearRect(0,0,w,h);
-      stars.forEach(star=>{
-        if(star.decreasing){
-          star.alpha-=0.007;
-          if(star.alpha<=0.1) star.decreasing=false;
-        } else {
-          star.alpha+=0.007;
-          if(star.alpha>=1) star.decreasing=true;
+        /* ---------------------------------- */
+        /* --- 3. On-Scroll Fade-In Animation --- */
+        /* ---------------------------------- */
+        const sections = document.querySelectorAll('.fade-in-section');
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        /* ---------------------------------- */
+        /* --- 4. Accordion Functionality --- */
+        /* ---------------------------------- */
+        const accordionItems = document.querySelectorAll('.accordion-item');
+        accordionItems.forEach(item => {
+            const header = item.querySelector('.accordion-header');
+            const content = item.querySelector('.accordion-content');
+            header.addEventListener('click', () => {
+                // Close other open accordions
+                accordionItems.forEach(otherItem => {
+                    if (otherItem !== item && otherItem.classList.contains('active')) {
+                        otherItem.classList.remove('active');
+                        otherItem.querySelector('.accordion-content').style.maxHeight = null;
+                    }
+                });
+                
+                // Toggle current accordion
+                item.classList.toggle('active');
+                if (item.classList.contains('active')) {
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                } else {
+                    content.style.maxHeight = null;
+                }
+            });
+        });
+        
+        /* ---------------------------------- */
+        /* --- 5. Astronomy Weather Logic --- */
+        /* ---------------------------------- */
+        const cityInput = document.getElementById('city-input');
+        const checkWeatherBtn = document.getElementById('check-weather-btn');
+        const weatherLoader = document.getElementById('weather-loader');
+        const weatherError = document.getElementById('weather-error');
+        const weatherResults = document.getElementById('weather-results');
+        
+        // HACKATHON HELPER NOTE: Use your own free API key from OpenWeatherMap.
+        const weatherApiKey = 'YOUR_API_KEY'; 
+
+        checkWeatherBtn.addEventListener('click', () => {
+            const city = cityInput.value.trim();
+            if (!city) {
+                showWeatherError('Please enter a city name.');
+                return;
+            }
+            fetchWeatherData(city);
+        });
+
+        async function fetchWeatherData(city) {
+            weatherLoader.style.display = 'block';
+            weatherError.style.display = 'none';
+            weatherResults.style.display = 'none';
+            
+            if (weatherApiKey === 'YOUR_API_KEY') {
+                showWeatherError('API Key not configured. Please add your OpenWeatherMap API key in the script.');
+                weatherLoader.style.display = 'none';
+                return;
+            }
+
+            try {
+                // Fetch current weather and air pollution data
+                const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${weatherApiKey}&units=metric`;
+                const weatherResponse = await fetch(weatherUrl);
+                if (!weatherResponse.ok) throw new Error(`City not found or API error.`);
+                const weatherData = await weatherResponse.json();
+                
+                const { lat, lon } = weatherData.coord;
+                const pollutionUrl = `https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${weatherApiKey}`;
+                const pollutionResponse = await fetch(pollutionUrl);
+                const pollutionData = await pollutionResponse.json();
+                
+                displayWeatherData(weatherData, pollutionData);
+
+            } catch (error) {
+                showWeatherError(error.message);
+            } finally {
+                weatherLoader.style.display = 'none';
+            }
         }
-        star.x+=star.vx;
-        star.y+=star.vy;
-        if(star.x<0 || star.x>w) star.vx=-star.vx;
-        if(star.y<0 || star.y>h) star.vy=-star.vy;
-        ctx.beginPath();
-        ctx.arc(star.x,star.y,star.r,0,2*Math.PI);
-        ctx.fillStyle = `rgba(255,255,255,${star.alpha})`;
-        ctx.fill();
-      });
-    }
-    window.addEventListener('resize', initStars);
-    function animate(){
-      drawStars();
-      requestAnimationFrame(animate);
-    }
-    initStars();
-    animate();
+        
+        function displayWeatherData(weather, pollution) {
+            weatherResults.style.display = 'block';
+            document.getElementById('location-name').textContent = `Forecast for ${weather.name}, ${weather.sys.country}`;
+            
+            const weatherGrid = weatherResults.querySelector('.weather-grid');
+            const aqi = pollution.list[0].main.aqi;
+            const moonPhase = calculateMoonPhase(new Date());
 
-    // Scroll fade animation
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if(entry.isIntersecting){
-          entry.target.classList.add('visible');
+            weatherGrid.innerHTML = `
+                <div class="weather-item">
+                    <svg viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M12.5,7V12.5L17,14.92L16.25,16.15L11,13V7H12.5Z" /></svg>
+                    <div class="label">Temperature</div>
+                    <div class="value">${Math.round(weather.main.temp)}°C</div>
+                </div>
+                <div class="weather-item">
+                    <svg viewBox="0 0 24 24"><path d="M17.5,21A4.5,4.5 0 0,1 13,16.5A4.5,4.5 0 0,1 17.5,12A4.5,4.5 0 0,1 22,16.5A4.5,4.5 0 0,1 17.5,21M5,20V18H11V20H5M5,16V14H11V16H5M3,12V10H18.5C18.14,9.45 17.84,8.93 17.59,8.44L3,8V6H17.21C16.5,4.24 14.9,3 13,3C10.79,3 9,4.31 8.23,6H3V4H8C8.63,2.75 9.71,1.73 11,1.21V1H13V1.21C14.29,1.73 15.37,2.75 16,4H21V6H19.53C19.82,6.58 20.03,7.21 20.17,7.88L21,8V10H19.06A6.45,6.45 0 0,0 19,12H3Z" /></svg>
+                    <div class="label">Wind Speed</div>
+                    <div class="value">${weather.wind.speed} m/s</div>
+                </div>
+                <div class="weather-item">
+                    <svg viewBox="0 0 24 24"><path d="M19.36,10.04C18.67,6.59 15.64,4 12,4C9.11,4 6.6,5.64 5.35,8.04C2.34,8.36 0,10.91 0,14C0,17.31 2.69,20 6,20H19C21.76,20 24,17.76 24,15C24,12.36 21.95,10.22 19.36,10.04Z" /></svg>
+                    <div class="label">Cloud Cover</div>
+                    <div class="value">${weather.clouds.all}%</div>
+                </div>
+                <div class="weather-item">
+                    <svg viewBox="0 0 24 24"><path d="M12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22C6.47,22 2,17.5 2,12A10,10 0 0,1 12,2Z" /></svg>
+                    <div class="label">Moon Phase</div>
+                    <div class="value">${moonPhase.phaseName}</div>
+                </div>
+                <div class="weather-item">
+                    <svg viewBox="0 0 24 24"><path d="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12C20,9.79 19.1,7.8 17.65,6.35M12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6A6,6 0 0,1 18,12A6,6 0 0,1 12,18M12,8V12L15,15L16,13.7L13.5,11.5V8H12Z" /></svg>
+                    <div class="label">Humidity</div>
+                    <div class="value">${weather.main.humidity}%</div>
+                </div>
+                 <div class="weather-item">
+                    <svg viewBox="0 0 24 24"><path d="M14,14H16V16H14M14,10H16V12H14M10,14H12V16H10M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M8,10H10V12H8M10,6H12V8H10M14,6H16V8H14M8,14H10V16H8M10,18H12V20H10M14,18H16V20H14Z" /></svg>
+                    <div class="label">Air Quality (AQI)</div>
+                    <div class="value">${aqi} (${getAqiText(aqi)})</div>
+                </div>
+            `;
+            
+            // Calculate and display stargazing score
+            const { scoreText, scoreClass } = calculateStargazingScore(weather.clouds.all, moonPhase.value, aqi);
+            const scoreValue = document.getElementById('score-value');
+            scoreValue.textContent = scoreText;
+            scoreValue.className = `score-text ${scoreClass}`;
         }
-      });
-    }, {threshold:0.15});
-    document.querySelectorAll('section').forEach(section => observer.observe(section));
+        
+        function showWeatherError(message) {
+            weatherError.textContent = `Error: ${message}`;
+            weatherError.style.display = 'block';
+            weatherResults.style.display = 'none';
+        }
 
-    // Weather API
-    const weatherForm = document.getElementById('weather-form');
-    const weatherResult = document.getElementById('weather-result');
-    weatherForm.addEventListener('submit', e=>{
-      e.preventDefault();
-      const location = document.getElementById('location').value.trim();
-      if(!location) {
-        weatherResult.textContent = 'Enter a city or coordinates.';
-        return;
-      }
-      weatherResult.textContent = 'Loading weather...';
-      fetch(`https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(location)}&appid=YOUR_API_KEY&units=metric`)
-        .then(res=>res.json())
-        .then(data=>{
-          if(data.cod !== 200){
-            weatherResult.textContent = 'Location not found.';
-            return;
-          }
-          weatherResult.innerHTML = `
-            <strong>${data.name}, ${data.sys.country}</strong><br/>
-            Temperature: ${data.main.temp} °C<br/>
-            Weather: ${data.weather[0].description}<br/>
-            Humidity: ${data.main.humidity}%<br/>
-            Wind Speed: ${data.wind.speed} m/s
-          `;
-        })
-        .catch(() => weatherResult.textContent = 'Failed to get weather.');
-    });
+        function getAqiText(aqi) {
+            switch (aqi) {
+                case 1: return 'Good';
+                case 2: return 'Fair';
+                case 3: return 'Moderate';
+                case 4: return 'Poor';
+                case 5: return 'Very Poor';
+                default: return 'Unknown';
+            }
+        }
+        
+        function calculateMoonPhase(date) {
+            // Simplified moon phase calculation for demonstration purposes
+            const day = date.getDate();
+            const month = date.getMonth() + 1;
+            const year = date.getFullYear();
+            const age = ((((year - 2000) * 12.37) + month + day) % 30);
+            
+            if (age < 1.84566) return { phaseName: "New Moon", value: 0 };
+            if (age < 5.53699) return { phaseName: "Waxing Crescent", value: 0.25 };
+            if (age < 9.22831) return { phaseName: "First Quarter", value: 0.5 };
+            if (age < 12.91963) return { phaseName: "Waxing Gibbous", value: 0.75 };
+            if (age < 16.61096) return { phaseName: "Full Moon", value: 1 };
+            if (age < 20.30228) return { phaseName: "Waning Gibbous", value: 0.75 };
+            if (age < 23.99361) return { phaseName: "Last Quarter", value: 0.5 };
+            if (age < 27.68493) return { phaseName: "Waning Crescent", value: 0.25 };
+            return { phaseName: "New Moon", value: 0 };
+        }
+        
+        function calculateStargazingScore(cloudCover, moonPhaseValue, aqi) {
+            let score = 0;
 
-    // Email subscription form
-    const emailForm = document.getElementById('email-form');
-    const emailMsg = document.getElementById('email-msg');
-    emailForm.addEventListener('submit', e=>{
-      e.preventDefault();
-      const email = document.getElementById('email').value.trim();
-      if(!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
-        emailMsg.textContent = 'Please enter a valid email.';
-        return;
-      }
-      emailMsg.textContent = 'Sending guide...';
-      // Replace with your backend API call
-      setTimeout(() => {
-        emailMsg.textContent = `Guide sent to ${email}! Check your inbox.`;
-        emailForm.reset();
-      }, 1800);
-    });
+            // Cloud cover score (up to 50 points)
+            score += Math.max(0, 50 - cloudCover * 0.5);
+            // Moon phase score (up to 30 points)
+            score += (1 - moonPhaseValue) * 30;
+            // AQI score (up to 20 points)
+            score += Math.max(0, (5 - aqi) * 4);
+            
+            if (score > 85) return { scoreText: 'Excellent', scoreClass: 'score-Excellent' };
+            if (score > 65) return { scoreText: 'Good', scoreClass: 'score-Good' };
+            if (score > 40) return { scoreText: 'Fair', scoreClass: 'score-Fair' };
+            return { scoreText: 'Poor', scoreClass: 'score-Poor' };
+        }
 
-    // Astronomical calculator - simple sunrise / sunset using SunCalc
-    const calcBtn = document.getElementById('calc-btn');
-    const calcDate = document.getElementById('calc-date');
-    const calcLat = document.getElementById('calc-lat');
-    const calcLon = document.getElementById('calc-lon');
-    const resultDiv = document.getElementById('astro-result');
+        /* ---------------------------------- */
+        /* --- 6. Email Guide Form Logic --- */
+        /* ---------------------------------- */
+        const emailInput = document.getElementById('email-input');
+        const sendGuideBtn = document.getElementById('send-guide-btn');
+        const emailFeedback = document.getElementById('email-feedback');
+        
+        sendGuideBtn.addEventListener('click', () => {
+            const email = emailInput.value;
+            const originalText = sendGuideBtn.textContent;
+            
+            // Simple email validation
+            if (!/^\S+@\S+\.\S+$/.test(email)) {
+                emailFeedback.textContent = 'Please enter a valid email address.';
+                emailFeedback.style.color = 'var(--error-color)';
+                return;
+            }
+            
+            // Simulate API call
+            sendGuideBtn.textContent = 'Sending...';
+            sendGuideBtn.disabled = true;
+            emailFeedback.textContent = '';
+            
+            setTimeout(() => {
+                sendGuideBtn.textContent = '✓ Sent!';
+                sendGuideBtn.style.backgroundColor = 'var(--success-color)';
+                emailFeedback.textContent = 'Success! Your guide is on its way.';
+                emailFeedback.style.color = 'var(--success-color)';
 
-    // Set date input default to today
-    calcDate.valueAsDate = new Date();
+                // Revert button after a few seconds
+                setTimeout(() => {
+                    sendGuideBtn.textContent = originalText;
+                    sendGuideBtn.disabled = false;
+                    sendGuideBtn.style.backgroundColor = '';
+                    emailFeedback.textContent = '';
+                    emailInput.value = '';
+                }, 4000);
 
-    calcBtn.addEventListener('click', e => {
-      e.preventDefault();
-      const dateVal = new Date(calcDate.value);
-      const latVal = parseFloat(calcLat.value);
-      const lonVal = parseFloat(calcLon.value);
-      if(isNaN(latVal) || isNaN(lonVal)){
-        resultDiv.textContent = 'Enter valid latitude and longitude.';
-        return;
-      }
-      const times = SunCalc.getTimes(dateVal, latVal, lonVal);
+            }, 1500);
+        });
 
-      function formatTime(date){
-        if(!date) return 'N/A';
-        return date.toLocaleTimeString(undefined, {hour: '2-digit', minute: '2-digit'});
-      }
+        /* ---------------------------------- */
+        /* --- 7. Sun Locator Logic --- */
+        /* ---------------------------------- */
+        const latInput = document.getElementById('latitude');
+        const lonInput = document.getElementById('longitude');
+        const dateInput = document.getElementById('date');
+        const calcSunBtn = document.getElementById('calc-sun-btn');
+        const useLocationBtn = document.getElementById('use-location-btn');
+        const sunResults = document.getElementById('sun-locator-results');
+        
+        // Set default date to today
+        dateInput.valueAsDate = new Date();
 
-      resultDiv.innerHTML = `
-        Sunrise: ${formatTime(times.sunrise)}<br/>
-        Sunset: ${formatTime(times.sunset)}<br/>
-        Solar Noon: ${formatTime(times.solarNoon)}<br/>
-        Golden Hour Start: ${formatTime(times.goldenHourStart)}<br/>
-        Golden Hour End: ${formatTime(times.goldenHourEnd)}
-      `;
-    });
+        useLocationBtn.addEventListener('click', () => {
+            if (navigator.geolocation) {
+                useLocationBtn.textContent = 'Locating...';
+                navigator.geolocation.getCurrentPosition(position => {
+                    latInput.value = position.coords.latitude.toFixed(4);
+                    lonInput.value = position.coords.longitude.toFixed(4);
+                    useLocationBtn.textContent = 'Use My Location';
+                    calculateSunTimes();
+                }, () => {
+                    alert('Unable to retrieve your location.');
+                    useLocationBtn.textContent = 'Use My Location';
+                });
+            } else {
+                alert('Geolocation is not supported by your browser.');
+            }
+        });
+        
+        calcSunBtn.addEventListener('click', calculateSunTimes);
+        
+        function calculateSunTimes() {
+            const lat = parseFloat(latInput.value);
+            const lon = parseFloat(lonInput.value);
+            const date = new Date(dateInput.value);
+            
+            if (isNaN(lat) || isNaN(lon)) {
+                alert('Please enter valid latitude and longitude.');
+                return;
+            }
+            
+            const times = SunCalc.getTimes(date, lat, lon);
+            
+            const formatTime = (dateObj) => dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            
+            sunResults.style.display = 'grid';
+            sunResults.innerHTML = `
+                <div class="result-item"><div class="label">Sunrise</div><div class="value">${formatTime(times.sunrise)}</div></div>
+                <div class="result-item"><div class="label">Sunset</div><div class="value">${formatTime(times.sunset)}</div></div>
+                <div class="result-item"><div class="label">Solar Noon</div><div class="value">${formatTime(times.solarNoon)}</div></div>
+                <div class="result-item"><div class="label">Dawn</div><div class="value">${formatTime(times.dawn)}</div></div>
+                <div class="result-item"><div class="label">Dusk</div><div class="value">${formatTime(times.dusk)}</div></div>
+                <div class="result-item"><div class="label">Golden Hour End</div><div class="value">${formatTime(times.goldenHour)}</div></div>
+            `;
+        }
 
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/suncalc@1.9.0/suncalc.min.js"></script>
+        /* ---------------------------------- */
+        /* --- 8. Astronomical Calendar --- */
+        /* ---------------------------------- */
+        const calendarData = [
+            { date: '2025-10-17', title: 'Orionid Meteor Shower Peak', description: 'The Orionids are known for their bright and fast meteors. Look towards the constellation of Orion after midnight.' },
+            { date: '2025-11-06', title: 'Full Beaver Moon', description: 'The November full moon, named after beavers preparing for winter. A great opportunity for moon photography.' },
+            { date: '2025-11-17', title: 'Leonid Meteor Shower Peak', description: 'The Leonids are a major shower that can produce spectacular meteor storms in rare peak years.' },
+            { date: '2025-12-14', title: 'Geminid Meteor Shower Peak', description: 'Often the best meteor shower of the year, the Geminids are bright and plentiful, visible all night long.' },
+            { date: '2025-12-21', title: 'December Solstice', description: 'The shortest day of the year in the Northern Hemisphere, marking the official start of winter.' },
+            { date: '2026-01-03', title: 'Quadrantid Meteor Shower Peak', description: 'A short but intense meteor shower, best viewed from the Northern Hemisphere in the dark hours before dawn.' }
+        ];
+
+        const calendarList = document.getElementById('calendar-list');
+        calendarData.forEach(event => {
+            const eventDate = new Date(event.date);
+            const month = eventDate.toLocaleString('default', { month: 'short' }).toUpperCase();
+            const day = eventDate.getDate();
+            
+            const eventElement = document.createElement('div');
+            eventElement.className = 'calendar-event';
+            eventElement.innerHTML = `
+                <div class="event-date">
+                    <div class="month">${month}</div>
+                    <div class="day">${day}</div>
+                </div>
+                <div class="event-details">
+                    <h3>${event.title}</h3>
+                    <p>${event.description}</p>
+                </div>
+            `;
+            calendarList.appendChild(eventElement);
+        });
+        
+    }); // End DOMContentLoaded
+    </script>
+    
+    <script>
+    /*
+     SunCalc is a tiny BSD-licensed JavaScript library for calculating sun position,
+     sunlight phases (times for sunrise, sunset, dusk, etc.),
+     moon position and lunar phase for the given location and time,
+     created by Vladimir Agafonkin (@mourner) as a part of the SunCalc.net project.
+    */
+    (function(){'use strict';function f(a,b){return a-"number"===typeof a?a:new Date(a,b||0,1,-a.getTimezoneOffset()/60)}var g="undefined"!==typeof exports&&"undefined"!==typeof module,k=Math.PI,t=k/180,w=Math.sin,D=Math.cos,E=Math.tan,u=Math.asin,B=Math.atan2,F=Math.acos,G={};f.prototype={set:function(a,b){var c=this.valueOf();for(b=b?b.split(" "):"FullYear Month Date Hours Minutes Seconds Milliseconds".split(" ");a&&b.length;)c["set"+b.shift()](a.shift());return this},add:function(a,b){var c=this.valueOf();for(b=b?b.split(" "):"Milliseconds Seconds Minutes Hours Date Month FullYear".split(" ");a&&b.length;)c["set"+b.shift()](c["get"+b.shift()]()+a.shift());return this}};g?(module.exports=G,G.version="1.8.0"):"function"===typeof define&&define.amd?define(G):window.SunCalc=G;var n=G.times=[[-.833,"sunrise","sunset"],[-.3,"sunriseEnd","sunsetStart"],[-6,"dawn","dusk"],[-12,"nauticalDawn","nauticalDusk"],[-18,"nightEnd","night"],
+    [6,"goldenHourEnd","goldenHour"]],e=G.positions={sunrise:0,sunset:0},I=G.moontimes=[];G.addTime=function(a,b,c){n.push([a,b,c])};G.addMoonTime=function(a,b,c){I.push([a,b,c])};var v=2451545,y=t*23.4397;G.getPosition=function(a,b,c){var l=a-new Date("2000/1/1 12:00 UTC")|0,m=(v-2451545-.5+l)/-25505.5,e=t*(280.46+360.98564737*l);l=t*(357.5291+356.04712*m);var p=e+t*1.9148*w(l)+t*.02*w(2*l),h=y,q=t*b;b=t*c;c=p-t*102.9372;e=u(w(h)*w(p));h=B(D(h)*w(p),D(p));c=B(w(c),
+    D(c)*D(b)-E(q)*w(b));return{azimuth:B(w(h),D(h)*w(q)-E(e)*D(q)),altitude:u(w(q)*w(e)+D(q)*D(e)*D(h))}};G.getTimes=function(a,b,c){a=new f(a);a.set([0,0,0,0],"h m s ms");var l=a.valueOf(),m=t*b,p=t*c,h=Math.round((l-(v-2451545-.5))/864E5),q=function(a,b,c){return t*(357.5291+.98560028*a)},g=function(a,b){var c=t*(1.9148*w(b)+.02*w(2*b)+3.6E-4*w(3*b));return a+c},x=function(a,b){return a-t*102.9372},k=function(a,b){return u(w(y)*w(b))},H=function(a,b,c){return t*((a-2451545.5-.0009-
+    c/360)/.999999015-h)},C=function(a,b){var c=a+(.0028-5.9E-7*h)*w(b);return c-=(.0014-4.4E-7*h)*w(2*y*2451545.5);c=x(c,y);var e=k(c,y);e=y;var l=E(m)*w(e);c=F((w(t*-.833)-l)/(D(m)*D(e)));return H(v+.0009+(h+c/(2*Math.PI))* .999999015,q(h,p),g(t*(280.4608+.98564736*h),q(h,p)))},r=q(h,p),A=g(t*(280.4608+.98564736*h),r),z=x(A,y),J=k(z,y),r=J;for(var d=C(m,r),s=0;s<n.length;s++){var K=n[s],z=K[0],J=F((w(z*t)-w(m)*w(r))/(D(m)*D(r)));J=d+(J/k)*.999999015;e={};e[K[1]]=
+    new f(l);e[K[2]]=new f(l);e[K[1]].add([Math.round(24*60*(-d-J))],["m"]);e[K[2]].add([Math.round(24*60*(-d+J))],["m"]);G[K[1]]=e[K[1]];G[K[2]]=e[K[2]]}return G};G.getMoonPosition=function(a,b,c){a=a-(new Date("2000/1/1 12:00 UTC")|0);var l=t*b,m=t*c,p=a/25505.5;b=t*(218.316+13.176396*p);var h=t*(134.963+13.064993*p),q=t*(93.272+.0529539*p);a=t*(357.5291+.98560028*p);var g=b+t*6.289*w(h)-t*1.274*w(h-2*a)+t*.658*w(2*h)-t*.214*w(2*h-2*a)-t*.11*w(q);b=u(w(g)*
+    D(y)+D(g)*w(y)*w(q));h=B(w(g)*w(y)-D(g)*D(y)*w(q),D(g)*D(y)*D(q));g=h+a;var k=B(w(g),D(g)*w(l)-E(b)*D(l));return{azimuth:k,altitude:u(w(l)*w(b)+D(l)*D(b)*D(g)),distance:22.25/(3600*u(t*.5181)),parallacticAngle:B(w(k-h),E(l)*D(b)-w(b)*D(k-h))}};G.getMoonIllumination=function(a){a||(a=new Date);var b=G.getPosition(a),c=G.getMoonPosition(a),l=(new Date(a-24E5)-new Date("2000/1/1 12:00 UTC")|0)/25505.5;a=c.distance;b=b.azimuth-c.azimuth;c.altitude-=t*.5181*
+    a/384408;var e=B(D(b),E(c.altitude)),m=F(D(b)*D(c.altitude)),p=1-D(m);return{fraction:p,phase:.5+.5*m*(0>b?-1:1)/k,angle:B(D(b.altitude)*w(c.azimuth-b.azimuth),w(c.altitude)*D(b.altitude)-D(c.altitude)*w(b.altitude)*D(c.azimuth-b.azimuth))}};G.getMoonTimes=function(a,b,c,e){a=new f(a);e||a.set([0,0,0,0],"h m s ms");var l=G.getMoonPosition(a,b,c),m=l.altitude-t*-.125,p,h=m,q=0,g=0,k=0;do p=h,h=(G.getMoonPosition(a.add([q],["h"]),b,c).altitude-t*-.125-m)/
+    q,q=(t*-.125-m)/(h-p),k++,a.add([-q],["h"]);while(2<Math.abs(q)&&24>k);e||(G.moonrise=k<24?a:void 0,G.moonset=void 0,a.add([12],["h"]),l=G.getMoonPosition(a,b,c),m=l.altitude-t*-.125,p=h=m,q=0,g=0,k=0,do p=h,h=(G.getMoonPosition(a.add([q],["h"]),b,c).altitude-t*-.125-m)/q,q=(t*-.125-m)/(h-p),k++,a.add([-q],["h"]);while(2<Math.abs(q)&&24>k),G.moonset=k<24?a:void 0);return G}})();
+    </script>
 </body>
 </html>

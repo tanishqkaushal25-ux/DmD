@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Astrophysics Explorer - Homepage</title>
+  <title>Homepage - StellerAtlas</title>
   <style>
     /* --- GLOBAL STYLES & VARIABLES --- */
     :root {
@@ -18,7 +18,9 @@
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap');
 
     body {
-      margin: 0; padding: 0; height: 100%;
+      margin: 0;
+      padding: 0;
+      height: 100%;
       font-family: var(--font-primary);
       background: var(--dark-bg);
       color: var(--primary-color);
@@ -26,37 +28,61 @@
       position: relative;
     }
 
+    /* NEW: Prevent scrolling when modal is open */
+    body.modal-open {
+        overflow: hidden;
+    }
+
     /* --- BACKGROUND ELEMENTS --- */
     video#bg-video {
-      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-      object-fit: cover; z-index: -2; pointer-events: none; filter: brightness(0.6);
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: -2;
+      pointer-events: none;
+      filter: brightness(0.6);
     }
+
     canvas#star-field {
-      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-      z-index: -1; pointer-events: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      pointer-events: none;
     }
 
     /* --- NAVIGATION BAR --- */
     nav.navbar {
-      position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
       min-height: 100px;
       display: flex;
       align-items: center;
       padding: 0 40px;
-      background: rgba(0,0,0,0.5);
+      background: rgba(0, 0, 0, 0.5);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       user-select: none;
       transition: background 0.3s ease;
-      gap: 40px; /* <-- ADD THIS LINE */
+      gap: 40px;
     }
 
     .navbar-logo img {
-      height: 80px;
+      height: 60px;
       width: auto;
       transition: transform var(--transition-fast), filter var(--transition-fast);
+      border-radius: 28%;
     }
+
     .navbar-logo img:hover {
       transform: scale(1.08);
       filter: drop-shadow(0 0 8px var(--accent-color));
@@ -66,18 +92,38 @@
       display: flex;
       gap: 38 px;
     }
+
     .navbar-menu a {
-      color: #ececec; text-decoration: none; font-weight: 600; font-size: 1.04rem;
-      letter-spacing: 0.03em; padding: 8px 15px; transition: color var(--transition-fast);
+      color: #ececec;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.04rem;
+      letter-spacing: 0.03em;
+      padding: 8px 15px;
+      transition: color var(--transition-fast);
       position: relative;
     }
+
     .navbar-menu a::after {
-      content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px;
-      background-color: var(--accent-color); transform: scaleX(0);
-      transform-origin: center; transition: transform var(--transition-fast);
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: var(--accent-color);
+      transform: scaleX(0);
+      transform-origin: center;
+      transition: transform var(--transition-fast);
     }
-    .navbar-menu a:hover { color: var(--primary-color); }
-    .navbar-menu a:hover::after { transform: scaleX(1); }
+
+    .navbar-menu a:hover {
+      color: var(--primary-color);
+    }
+
+    .navbar-menu a:hover::after {
+      transform: scaleX(1);
+    }
 
     .navbar-special {
       display: flex;
@@ -85,83 +131,192 @@
       white-space: nowrap;
       position: relative;
     }
+
     .dropdown {
-      display: flex; align-items: center; position: relative;
+      display: flex;
+      align-items: center;
+      position: relative;
     }
+
     .dropdown-toggle {
-      font-size: 1rem; font-weight: 600; color: var(--primary-color); background: none;
-      border: 1px solid var(--primary-color); border-radius: 9px; padding: 10px 26px;
-      margin-right: 18px; cursor: pointer; letter-spacing: 0.08em; outline: none;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--primary-color);
+      background: none;
+      border: 1px solid var(--primary-color);
+      border-radius: 9px;
+      padding: 10px 26px;
+      margin-right: 18px;
+      cursor: pointer;
+      letter-spacing: 0.08em;
+      outline: none;
       transition: border-color 0.2s, color 0.2s;
     }
+
     .dropdown-toggle:hover {
-      border-color: var(--accent-color); color: var(--accent-color);
+      border-color: var(--accent-color);
+      color: var(--accent-color);
     }
+
     #timer {
-      font-family: monospace; font-size: 1.1rem; font-weight: 600;
-      letter-spacing: 0.12em; color: var(--primary-color); margin-left: 8px; user-select: none;
+      font-family: monospace;
+      font-size: 1.1rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      color: var(--primary-color);
+      margin-left: 8px;
+      user-select: none;
     }
+
     .dropdown-menu {
-      display: none; position: absolute; top: calc(100% + 15px); right: 0;
-      background: #111; border-radius: 8px; min-width: 320px; padding: 16px;
-      box-shadow: 0 4px 18px #000a; z-index: 100; flex-direction: column;
+      display: none;
+      position: absolute;
+      top: calc(100% + 15px);
+      right: 0;
+      background: #111;
+      border-radius: 8px;
+      min-width: 320px;
+      padding: 16px;
+      box-shadow: 0 4px 18px #000a;
+      z-index: 100;
+      flex-direction: column;
       border: 1px solid rgba(255, 255, 255, 0.1);
     }
+
     .dropdown:hover .dropdown-menu,
-    .dropdown:focus-within .dropdown-menu { display: flex; }
+    .dropdown:focus-within .dropdown-menu {
+      display: flex;
+    }
+
     .dropdown-item {
-      display: flex; align-items: center; margin-bottom: 14px; color: #eee;
+      display: flex;
+      align-items: center;
+      margin-bottom: 14px;
+      color: #eee;
     }
+
     .dropdown-item img {
-      width: 60px; height: 60px; border-radius: 9px; margin-right: 16px; object-fit: cover;
+      width: 60px;
+      height: 60px;
+      border-radius: 9px;
+      margin-right: 16px;
+      object-fit: cover;
     }
-    .dropdown-item strong { font-weight: 700; display: block; margin-bottom: 4px; }
-    .dropdown-item span { font-size: 0.9rem; color: #ccc; }
+
+    .dropdown-item strong {
+      font-weight: 700;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .dropdown-item span {
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+
     .dropdown-link {
-      text-align: center; color: var(--accent-color); font-weight: 700; text-decoration: none;
-      margin-top: 12px; cursor: pointer;
+      text-align: center;
+      color: var(--accent-color);
+      font-weight: 700;
+      text-decoration: none;
+      margin-top: 12px;
+      cursor: pointer;
     }
-    .dropdown-link:hover { text-decoration: underline; }
+
+    .dropdown-link:hover {
+      text-decoration: underline;
+    }
 
     /* --- HERO SECTION --- */
     .hero {
-  position: relative;
-  z-index: 5;
-  min-height: 70vh;
-  display: flex;
-  flex-direction: column;
-  max-width: 1100px;
-  margin: 140px auto 0 auto; /* add top margin */
-  padding: 140px 40px 0 40px; /* add top padding to push content down */
-  padding: 0 40px;
-  text-align: left;
-}
+      position: relative;
+      z-index: 5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 40px;
+      text-align: left;
+    }
 
     .hero h1 {
-      font-size: 4.5rem; font-weight: 900; line-height: 1.1; margin-bottom: 24px;
-      color: var(--primary-color); text-shadow: 0 0 12px rgba(255, 216, 96, 0.5);
+      font-size: 4.5rem;
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 24px;
+      color: var(--primary-color);
     }
+    
     .hero p {
-      font-size: 1.4rem; max-width: 700px; margin-bottom: 42px; line-height: 1.6;
-      color: #ddd; text-shadow: 0 0 6px rgba(0,0,0,0.8);
+      font-size: 1.4rem;
+      max-width: 700px;
+      margin-bottom: 42px;
+      line-height: 1.6;
+      color: #ddd;
+      text-shadow: 0 0 6px rgba(0, 0, 0, 0.8);
     }
+
     .hero button {
-      padding: 16px 40px; font-size: 1.1rem; letter-spacing: 0.1em; font-weight: 700;
-      border: 2px solid var(--primary-color); background: transparent; color: var(--primary-color);
-      cursor: pointer; border-radius: 7px;
+      padding: 16px 40px;
+      font-size: 1.1rem;
+      letter-spacing: 0.1em;
+      font-weight: 700;
+      border: 2px solid var(--primary-color);
+      background: transparent;
+      color: var(--primary-color);
+      cursor: pointer;
+      border-radius: 7px;
       transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
-      text-shadow: 0 0 4px rgba(0,0,0,0.7); display: inline-flex; align-items: center; gap: 12px;
+      text-shadow: 0 0 4px rgba(0, 0, 0, 0.7);
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
     }
-    .hero button .arrow { display: inline-block; transition: transform var(--transition-fast); }
+
+    .hero button .arrow {
+      display: inline-block;
+      transition: transform var(--transition-fast);
+    }
+
     .hero button:hover {
-      background: var(--accent-color); color: var(--dark-bg); border-color: var(--accent-color);
+      background: var(--accent-color);
+      color: var(--dark-bg);
+      border-color: var(--accent-color);
     }
-    .hero button:hover .arrow { transform: translateX(8px); }
+
+    .hero button:hover .arrow {
+      transform: translateX(8px);
+    }
+    
+    /* TYPEWRITER EFFECT STYLES */
+    .hero p.dynamic-subheading {
+      min-height: 1.6em;
+      font-size: 1.4rem;
+      color: whitesmoke;
+    }
+
+    .hero p.dynamic-subheading span::after {
+      content: '|';
+      margin-left: 8px;
+      font-weight: 700;
+      animation: blink-cursor 1s infinite;
+    }
+
+    @keyframes blink-cursor {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
 
     /* --- GENERAL CONTENT & SECTIONS --- */
     .content-section {
-        position: relative; z-index: 5; max-width: 1200px; margin: 100px auto;
+      position: relative;
+      z-index: 5;
+      max-width: 1200px;
+      margin: 100px auto;
     }
+
     .content-box {
       background: rgba(10, 15, 25, 0.65);
       border: 3px solid rgba(255, 255, 255, 0.9);
@@ -173,39 +328,27 @@
     }
 
     .content-section h2 {
-        color: var(--accent-color); font-weight: 700; font-size: 2.5rem;
-        margin-top: 7; margin-bottom: 40px; text-shadow: 0 0 8px rgba(0,0,0,0.7); text-align: center;
+      color: var(--accent-color);
+      font-weight: 700;
+      font-size: 2.5rem;
+      margin-top: 0;
+      margin-bottom: 40px;
+      text-shadow: 0 0 8px rgba(0, 0, 0, 0.7);
+      text-align: center;
     }
 
     /* --- QUOTE SECTION --- */
     .quote-section {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
-      gap: 30px;
+      display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 30px;
     }
     .author-image {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 3px solid var(--accent-color);
-      box-shadow: 0 0 15px rgba(255, 216, 96, 0.5);
+      width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 3px solid var(--accent-color); box-shadow: 0 0 15px rgba(255, 216, 96, 0.5);
     }
     #quote-text {
-      font-size: 1.5rem;
-      font-style: italic;
-      color: #fff;
-      margin: 0 0 10px 0;
-      text-shadow: none;
-      text-align: left;
+      font-size: 1.5rem; font-style: italic; color: #fff; margin: 0 0 10px 0; text-shadow: none; text-align: left;
     }
     #author-name {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--accent-color);
-      text-align: right;
+      font-size: 1.1rem; font-weight: 700; color: var(--accent-color); text-align: right;
     }
 
     /* --- LATEST NEWS SECTION --- */
@@ -213,23 +356,35 @@
       list-style: none; padding: 0; margin: 0; color: #eee; font-size: 1.1rem; line-height: 1.5;
     }
     .news-list li {
-      margin-bottom: 14px; border-bottom: 1px solid rgba(255, 216, 96, 0.3); padding-bottom: 10px;
+      margin-bottom: 14px; border-bottom: 1px solid rgba(255, 216, 96, 0.3); padding-bottom: 10px; 
     }
     .news-list li:last-child { border: none; margin-bottom: 0; padding-bottom: 0; }
     .news-list time { font-size: 0.85rem; color: #ccc; float: right; font-style: italic; }
 
+    /* ==================================================================
+      NEW CODE: STYLING FOR NEWS LINKS
+    ================================================================== */
+    .news-list a {
+        color: var(--primary-color); /* Make link text white */
+        text-decoration: none; /* Remove underline */
+        transition: color var(--transition-fast), text-shadow var(--transition-fast); /* Add smooth transition */
+    }
+
+    .news-list a:hover {
+        color: var(--accent-color); /* Change color to yellow on hover */
+        text-shadow: 0 0 8px var(--accent-color); /* Add a yellow glow effect */
+    }
+    /* ================================================================ */
+
     /* --- FEATURED MISSIONS --- */
     .missions-grid {
-        display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px;
     }
     .mission-card {
-        background: var(--semi-dark-bg); border-radius: 12px; overflow: hidden;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+      background: var(--semi-dark-bg); border-radius: 12px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.1); transition: transform var(--transition-fast), box-shadow var(--transition-fast);
     }
     .mission-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px var(--accent-color);
+      transform: translateY(-10px); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px var(--accent-color);
     }
     .mission-card .card-image-wrapper { overflow: hidden; height: 220px; }
     .mission-card img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--transition-med); }
@@ -238,9 +393,7 @@
     .mission-card h3 { margin: 0 0 10px 0; font-size: 1.5rem; color: var(--primary-color); }
     .mission-card p { margin: 0 0 20px 0; color: #ccc; line-height: 1.6; }
     .mission-card button {
-      padding: 10px 24px; font-size: 0.9rem; letter-spacing: 0.1em; font-weight: 700;
-      border: 2px solid var(--primary-color); background: transparent; color: var(--primary-color);
-      cursor: pointer; border-radius: 7px; transition: all var(--transition-fast);
+      padding: 10px 24px; font-size: 0.9rem; letter-spacing: 0.1em; font-weight: 700; border: 2px solid var(--primary-color); background: transparent; color: var(--primary-color); cursor: pointer; border-radius: 7px; transition: all var(--transition-fast);
     }
     .mission-card button:hover {
       background: var(--accent-color); color: var(--dark-bg); border-color: var(--accent-color);
@@ -248,43 +401,35 @@
 
     /* --- EXPLORE OUR SOLAR SYSTEM --- */
     .planets-container {
-      display: flex; gap: 40px; overflow-x: auto; padding: 20px 10px;
-      scrollbar-width: thin; scrollbar-color: var(--accent-color) var(--dark-bg);
+      display: flex; gap: 40px; overflow-x: auto; padding: 20px 10px; scrollbar-width: thin; scrollbar-color: var(--accent-color) var(--dark-bg);
     }
     .planets-container::-webkit-scrollbar { height: 8px; }
     .planets-container::-webkit-scrollbar-track { background: var(--dark-bg); }
     .planets-container::-webkit-scrollbar-thumb { background-color: var(--accent-color); border-radius: 10px; }
     .planet-card {
-      flex: 0 0 200px; height: 200px; position: relative; cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
+      flex: 0 0 200px; height: 200px; position: relative; cursor: pointer; display: flex; align-items: center; justify-content: center;
     }
     .planet-card .planet-img {
-      width: 100%; height: 100%; border-radius: 50%; object-fit: cover;
-      transition: all var(--transition-med); box-shadow: inset 0 0 20px rgba(0,0,0,0.7);
+      width: 100%; height: 100%; border-radius: 50%; object-fit: cover; transition: all var(--transition-med); box-shadow: inset 0 0 20px rgba(0,0,0,0.7);
     }
     .planet-card .planet-name {
-      position: absolute; bottom: 10px; color: var(--primary-color); background: rgba(0,0,0,0.6);
-      padding: 5px 15px; border-radius: 20px; font-weight: 600; transition: all var(--transition-fast);
+      position: absolute; bottom: 10px; color: var(--primary-color); background: rgba(0,0,0,0.6); padding: 5px 15px; border-radius: 20px; font-weight: 600; transition: all var(--transition-fast);
     }
     .planet-card:hover .planet-img {
-      transform: rotate(15deg) scale(1.05);
-      box-shadow: 0 0 30px 5px var(--accent-color), inset 0 0 20px rgba(0,0,0,0.7);
+      transform: rotate(15deg) scale(1.05); box-shadow: 0 0 30px 5px var(--accent-color), inset 0 0 20px rgba(0,0,0,0.7);
     }
     .planet-card:hover .planet-name { color: var(--accent-color); transform: translateY(-10px); }
 
     /* --- FROM OUR GALLERY --- */
     .gallery-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 20px; grid-auto-rows: 250px;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; grid-auto-rows: 250px;
     }
     .gallery-item { position: relative; overflow: hidden; border-radius: 12px; cursor: pointer; }
     .gallery-item:nth-child(2), .gallery-item:nth-child(7) { grid-row: span 2; height: 520px; }
     .gallery-item:nth-child(4), .gallery-item:nth-child(9) { grid-column: span 2; width: 100%; }
     .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--transition-med); }
     .gallery-item .gallery-overlay {
-      position: absolute; bottom: 0; left: 0; width: 100%; padding: 40px 20px 20px;
-      color: var(--primary-color); background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
-      opacity: 0; transform: translateY(20%); transition: all var(--transition-med);
+      position: absolute; bottom: 0; left: 0; width: 100%; padding: 40px 20px 20px; color: var(--primary-color); background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); opacity: 0; transform: translateY(20%); transition: all var(--transition-med);
     }
     .gallery-item .gallery-overlay h4, .gallery-item .gallery-overlay p { margin: 0; }
     .gallery-item .gallery-overlay h4 { margin-bottom: 5px; font-size: 1.2rem; }
@@ -293,43 +438,209 @@
     .gallery-item:hover img { transform: scale(1.05); }
     .gallery-item:hover .gallery-overlay { opacity: 1; transform: translateY(0); }
 
-    /* --- FOOTER --- */
+    /* PLANET INFO MODAL STYLES */
+    #planet-modal {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      transition: opacity var(--transition-fast), visibility var(--transition-fast);
+    }
+    #planet-modal.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    #planet-modal .modal-overlay {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      cursor: pointer;
+    }
+    #planet-modal .modal-content {
+      position: relative;
+      z-index: 2001;
+      background: #0d0d1a;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      max-width: 900px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      display: flex;
+      gap: 30px;
+      padding: 40px;
+      box-shadow: 0 10px 50px rgba(0,0,0,0.5);
+      transform: scale(0.95);
+      transition: transform var(--transition-fast);
+    }
+    #planet-modal:not(.hidden) .modal-content {
+      transform: scale(1);
+    }
+    #planet-modal .modal-image-container { flex: 0 0 300px; text-align: center; }
+    #planet-modal .modal-planet-image { max-width: 80%; animation: spin 60s linear infinite; }
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    
+    #planet-modal .modal-info { flex-grow: 1; }
+    #planet-modal h2 { font-size: 3rem; margin: 0 0 15px; color: var(--accent-color); }
+    #planet-modal .modal-description { font-size: 1.1rem; line-height: 1.7; color: #ddd; margin-bottom: 25px; }
+    
+    #planet-modal .stats-table { width: 100%; border-collapse: collapse; margin-bottom: 25px; }
+    #planet-modal .stats-table td { padding: 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+    #planet-modal .stats-table td:first-child { font-weight: 700; color: #fff; }
+    #planet-modal .stats-table td:last-child { color: #ccc; }
+
+    #planet-modal .fun-fact { font-style: italic; background: rgba(255, 216, 96, 0.1); padding: 15px; border-left: 4px solid var(--accent-color); border-radius: 4px; }
+    #planet-modal .fun-fact strong { color: var(--accent-color); }
+    
+    #planet-modal .close-modal {
+      position: absolute; top: 20px; right: 20px; background: none; border: none; color: #fff; font-size: 2rem; cursor: pointer; line-height: 1; transition: transform var(--transition-fast), color var(--transition-fast);
+    }
+    #planet-modal .close-modal:hover { color: var(--accent-color); transform: rotate(90deg); }
+    
+    @media (max-width: 800px) {
+      #planet-modal .modal-content { flex-direction: column; padding: 25px; }
+      #planet-modal .modal-image-container { flex-basis: auto; width: 200px; margin: 0 auto; }
+      #planet-modal h2 { font-size: 2.2rem; text-align: center; }
+    }
+
+    /* PROFESSIONAL FOOTER STYLES */
     footer {
-      position: relative; z-index: 5; background: #0A0A0A; padding: 60px 40px;
-      border-top: 2px solid var(--accent-color);
+      position: relative;
+      z-index: 5;
+      background: #050505;
+      padding: 80px 40px 20px 40px;
+      border-top: 4px solid var(--accent-color);
+      color: #999;
+    }
+    .footer-container {
+      max-width: 1300px;
+      margin: 0 auto;
     }
     .footer-grid {
-      max-width: 1200px; margin: 0 auto; display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px;
+      display: grid;
+      grid-template-columns: 2fr repeat(4, 1fr);
+      gap: 50px;
+      margin-bottom: 60px;
     }
-    .footer-col h4 { font-size: 1.3rem; margin-bottom: 20px; color: var(--primary-color); }
-    .footer-col p, .footer-col ul, .footer-col a { color: #aaa; line-height: 1.7; }
-    .footer-col .logo-footer { height: 40px; margin-bottom: 15px; }
-    .footer-col ul { list-style: none; padding: 0; }
-    .footer-col ul li { margin-bottom: 10px; }
-    .footer-col a { text-decoration: none; transition: color var(--transition-fast); }
-    .footer-col a:hover { color: var(--accent-color); }
-    .social-icons a { margin-right: 15px; font-size: 1.5rem; }
-    .newsletter-form { display: flex; margin-top: 10px; }
+    .footer-col .logo-footer {
+      height: 50px;
+      margin-bottom: 20px;
+    }
+    .footer-col p {
+      line-height: 1.7;
+      max-width: 300px;
+    }
+    .footer-col h4 {
+      font-size: 1.1rem;
+      margin-bottom: 25px;
+      color: var(--primary-color);
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+    .footer-col ul {
+      list-style: none;
+      padding: 0;
+    }
+    .footer-col ul li {
+      margin-bottom: 15px;
+    }
+    .footer-col a {
+      text-decoration: none;
+      color: #999;
+      transition: color var(--transition-fast);
+    }
+    .footer-col a:hover {
+      color: var(--accent-color);
+    }
+    .social-icons {
+      display: flex;
+      gap: 15px;
+    }
+    .social-icons a {
+      font-size: 1.2rem;
+      color: #999;
+      background-color: #222;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      transition: background-color var(--transition-fast), color var(--transition-fast);
+    }
+    .social-icons a:hover {
+      background-color: var(--accent-color);
+      color: #000;
+    }
+
+    .newsletter-form {
+      display: flex;
+      margin-top: 10px;
+      max-width: 250px;
+    }
     .newsletter-form input {
-      flex-grow: 1; padding: 12px; border: 1px solid #444; background: #222;
-      color: var(--primary-color); border-radius: 5px 0 0 5px; outline: none;
+      flex-grow: 1;
+      padding: 12px;
+      border: 1px solid #444;
+      background: #222;
+      color: var(--primary-color);
+      border-radius: 5px 0 0 5px;
+      outline: none;
     }
     .newsletter-form button {
-      padding: 12px 20px; border: 1px solid var(--accent-color); background: var(--accent-color);
-      color: var(--dark-bg); cursor: pointer; font-weight: 700; border-radius: 0 5px 5px 0;
+      padding: 12px 20px;
+      border: 1px solid var(--accent-color);
+      background: var(--accent-color);
+      color: var(--dark-bg);
+      cursor: pointer;
+      font-weight: 700;
+      border-radius: 0 5px 5px 0;
       transition: background var(--transition-fast), color var(--transition-fast);
     }
-    .newsletter-form button:hover { background: #ffedaa; }
+    .newsletter-form button:hover {
+      background: #ffedaa;
+    }
     .footer-bottom {
-      text-align: center; margin-top: 50px; padding-top: 20px;
-      border-top: 1px solid #333; color: #777; font-size: 0.9rem;
+      text-align: center;
+      padding-top: 30px;
+      border-top: 1px solid #333;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .footer-bottom-links a {
+      color: #999;
+      text-decoration: none;
+      margin-left: 20px;
+      transition: color var(--transition-fast);
+    }
+    .footer-bottom-links a:hover {
+      color: var(--accent-color);
+    }
+
+    @media (max-width: 1024px) {
+      .footer-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      }
+    }
+    @media (max-width: 600px) {
+        .footer-bottom {
+            flex-direction: column;
+            justify-content: center;
+        }
     }
 
     /* --- SCROLL ANIMATION --- */
     .fade-up-section {
-      opacity: 0; transform: translateY(40px);
-      transition: opacity 0.8s cubic-bezier(0.65, 0, 0.35, 1), transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+      opacity: 0; transform: translateY(40px); transition: opacity 0.8s cubic-bezier(0.65, 0, 0.35, 1), transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
     }
     .fade-up-section.is-visible { opacity: 1; transform: translateY(0); }
 
@@ -338,18 +649,14 @@
       .navbar-menu { gap: 20px; }
     }
     @media (max-width: 920px) {
-      nav.navbar {
-        flex-wrap: wrap; justify-content: center; min-height: auto; padding: 20px;
-      }
+      nav.navbar { flex-wrap: wrap; justify-content: center; min-height: auto; padding: 20px; }
       .navbar-menu { width: 100%; justify-content: center; margin: 20px 0; order: 3; }
       .navbar-special { order: 2; margin-top: 10px; }
       .navbar-logo { order: 1; }
       .hero { margin-top: 180px; }
     }
     @media (max-width: 840px) {
-      .quote-section {
-        flex-direction: column;
-      }
+      .quote-section { flex-direction: column; }
     }
     @media (max-width: 600px) {
       .hero h1 { font-size: 2.5rem; }
@@ -357,205 +664,197 @@
       .missions-grid { grid-template-columns: 1fr; }
       .gallery-item:nth-child(4), .gallery-item:nth-child(9) { grid-column: span 1; }
     }
-
-.news-list a {
-  color: #ffffff; /* white */
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-.news-list a:hover {
-  color: #ffd860; /* yellow accent color */
-  text-decoration: underline;
-}
-.hero p {
-  margin-bottom: 20px;
-}
-
-#news.content-section {
-  margin-top: 50px;
-}
-
-main {
-  margin: 0;
-  padding: 0;
-}
-
-.hero {
-  margin-bottom: 10px !important;
-  padding-bottom: 0 !important;
-}
-
-#news.content-section {
-  margin-top: 20px !important;
-  padding-top: 0 !important;
-}
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   </style>
 </head>
-<body>
-  <video autoplay muted loop playsinline id="bg-video">
+<body class=""> <video autoplay muted loop playsinline id="bg-video">
     <source src="bg.mp4" type="video/mp4">
-    Your browser does not support the video tag.
   </video>
   <canvas id="star-field"></canvas>
 
   <nav class="navbar">
-    <a href="#" class="navbar-logo">
-      <img src="logo.png" alt="Astrophysics Explorer Logo">
-    </a>
+    <a href="#" class="navbar-logo"><img src="logo.png" alt="StellerAtlas Logo"></a>
     <div class="navbar-menu">
-        <a href="#home">HOME</a>
-        <a href="#blogs">BLOGS</a>
-        <a href="#astronomy">ASTRONOMY</a>
-        <a href="#resources">RESOURCES</a>
-        <a href="#community">COMMUNITY</a>
-        <a href="#missions">MISSIONS</a>
-        <a href="#about">ABOUT</a>
+      <a href="">HOME</a><a href="#blogs">BLOGS</a><a href="#astronomy">ASTRONOMY</a><a href="#resources">RESOURCES</a><a href="#community">COMMUNITY</a><a href="#missions">MISSIONS</a><a href="#about">ABOUT</a>
     </div>
     <div class="navbar-special">
-        <div class="dropdown">
-            <button class="dropdown-toggle">UPCOMING</button>
-            <span id="timer">T-17:49:51</span>
-            <div class="dropdown-menu">
-                <div class="dropdown-item">
-                    <img src="1.jpg" alt="Starlink Mission" />
-                    <div><strong>Starlink Mission</strong><span>October 14, 2025 11:53 India Time</span></div>
-                     
-                </div>
-                <a href="#" class="dropdown-link">ALL UPCOMING LAUNCHES</a>
-            </div>
+      <div class="dropdown">
+        <button class="dropdown-toggle">UPCOMING</button><span id="timer">T-17:49:51</span>
+        <div class="dropdown-menu">
+          <div class="dropdown-item"><img src="1.jpg" alt="Starlink Mission" /><div><strong>Starlink Mission</strong><span>October 14, 2025 11:53 India Time</span></div></div>
+          <a href="#" class="dropdown-link">ALL UPCOMING LAUNCHES</a>
         </div>
+      </div>
     </div>
   </nav>
 
   <main>
     <section class="hero">
-      <h1>MAKING LIFE MULTIPLANETARY</h1>
-      <p>Our mission is to be the ultimate gateway to the cosmos, providing a one-stop platform for enthusiasts and experts alike to explore, learn, and connect with the universe.</p>
+      <h1>Welcome to StellerAtlas</h1>
+      <p class="dynamic-subheading"><span id="dynamic-text-target"></span></p>
       <button>EXPLORE NOW <span class="arrow">→</span></button>
     </section>
 
     <section id="news" class="content-section content-box fade-up-section" aria-label="Latest astrophysics news">
-  <h2>Latest Space News</h2>
-  <ul class="news-list">
-    <li>
-      <a href="https://www.nasa.gov/news-release/nasa-says-mars-rover-discovered-potential-biosignature-last-year/" target="_blank" rel="noopener noreferrer">
-        Mars Rover Discovers Ancient River Valley
-      </a>
-      <time datetime="2025-09-20">Sep 20, 2025</time>
-    </li>
-    <li>
-      <a href="https://science.nasa.gov/universe/exoplanets/discovery-alert-a-super-earth-in-the-habitable-zone/" target="_blank" rel="noopener noreferrer">
-        New Exoplanet Found in Habitable Zone
-      </a>
-      <time datetime="2025-09-18">Sep 18, 2025</time>
-    </li>
-    <li>
-      <a href="https://scitechdaily.com/nasa-and-spacex-are-building-the-most-advanced-space-station-ever-in-lunar-orbit/" rel="noopener noreferrer">
-        SpaceX Preps Mission for Lunar Base Setup
-      </a>
-      <time datetime="2025-09-14">Sep 14, 2025</time>
-    </li>
-    <li>
-      <a href="https://www.jpl.nasa.gov/news/nasas-juno-finds-jupiters-winds-penetrate-in-cylindrical-layers/" rel="noopener noreferrer">
-        Juno Probe Reveals New Insights into Jupiter's Core
-      </a>
-      <time datetime="2025-09-25">Sep 25, 2025</time>
-    </li>
-    <li>
-      <a href="https://www.esa.int/Science_Exploration/Space_Science/Solar_Orbiter/Zooming_into_the_Sun_with_Solar_Orbiter"noopener noreferrer">
-        ESA's Solar Orbiter Captures Unprecedented Solar Corona Details
-      </a>
-      <time datetime="2025-09-23">Sep 23, 2025</time>
-    </li>
-    <li>
-      <a href="https://scitechdaily.com/jwst-detects-steam-on-distant-exoplanets-could-exotic-water-worlds-rewrite-the-search-for-life/" target="_blank" rel="noopener noreferrer">
-        New Telescope Detects Water Vapor on Distant Exoplanet
-      </a>
-      <time datetime="2025-09-21">Sep 21, 2025</time>
-    </li>
-  </ul>
-</section>
-
-
+      <h2>Latest Space News</h2>
+      <ul class="news-list">
+        <li>
+          <a href="https://www.nasa.gov/news-release/nasa-says-mars-rover-discovered-potential-biosignature-last-year/" target="_blank" rel="noopener noreferrer">
+            Mars Rover Discovers Ancient River Valley
+          </a>
+          <time datetime="2025-09-20">Sep 20, 2025</time>
+        </li>
+        <li>
+          <a href="https://science.nasa.gov/universe/exoplanets/discovery-alert-a-super-earth-in-the-habitable-zone/" target="_blank" rel="noopener noreferrer">
+            New Exoplanet Found in Habitable Zone
+          </a>
+          <time datetime="2025-09-18">Sep 18, 2025</time>
+        </li>
+        <li>
+          <a href="https://scitechdaily.com/nasa-and-spacex-are-building-the-most-advanced-space-station-ever-in-lunar-orbit/" target="_blank" rel="noopener noreferrer">
+            SpaceX Preps Mission for Lunar Base Setup
+          </a>
+          <time datetime="2025-09-14">Sep 14, 2025</time>
+        </li>
+        <li>
+          <a href="https://www.jpl.nasa.gov/news/nasas-juno-finds-jupiters-winds-penetrate-in-cylindrical-layers/" target="_blank" rel="noopener noreferrer">
+            Juno Probe Reveals New Insights into Jupiter's Core
+          </a>
+          <time datetime="2025-09-25">Sep 25, 2025</time>
+        </li>
+        <li>
+          <a href="https://www.esa.int/Science_Exploration/Space_Science/Solar_Orbiter/Zooming_into_the_Sun_with_Solar_Orbiter" target="_blank" rel="noopener noreferrer">
+            ESA's Solar Orbiter Captures Unprecedented Solar Corona Details
+          </a>
+          <time datetime="2025-09-23">Sep 23, 2025</time>
+        </li>
+        <li>
+          <a href="https://scitechdaily.com/jwst-detects-steam-on-distant-exoplanets-could-exotic-water-worlds-rewrite-the-search-for-life/" target="_blank" rel="noopener noreferrer">
+            New Telescope Detects Water Vapor on Distant Exoplanet
+          </a>
+          <time datetime="2025-09-21">Sep 21, 2025</time>
+        </li>
+      </ul>
+    </section>
     <section class="quote-section content-section content-box fade-up-section" aria-live="polite" aria-atomic="true" role="region">
-        <img src="" alt="Photo of the author" class="author-image" id="author-image">
-        <div class="quote-content">
-          <blockquote id="quote-text"></blockquote>
-          <figcaption id="author-name"></figcaption>
-        </div>
+      <img src="" alt="Photo of the author" class="author-image" id="author-image">
+      <div class="quote-content">
+        <blockquote id="quote-text"></blockquote><figcaption id="author-name"></figcaption>
+      </div>
     </section>
 
     <section id="missions" class="content-section content-box fade-up-section">
-        <h2>Featured Missions</h2>
-        <div class="missions-grid">
-            <div class="mission-card">
-                <div class="card-image-wrapper"><img src="artemis.png" alt="Artemis Mission"></div>
-                <div class="card-content"><h3>Artemis Mission</h3><p>Returning humanity to the Moon, establishing a sustainable presence, and preparing for the next giant leap to Mars.</p><button>Learn More</button></div>
-            </div>
-            <div class="mission-card">
-                <div class="card-image-wrapper"><img src="jwst.png" alt="James Webb Space Telescope"></div>
-                <div class="card-content"><h3>James Webb Telescope</h3><p>The world's premier space science observatory, peering back over 13.5 billion years to see the first stars and galaxies.</p><button>Learn More</button></div>
-            </div>
-            <div class="mission-card">
-                <div class="card-image-wrapper"><img src="pres.png" alt="Mars Perseverance Rover"></div>
-                <div class="card-content"><h3>Mars Perseverance Rover</h3><p>Seeking signs of ancient life and collecting rock and soil samples for possible return to Earth.</p><button>Learn More</button></div>
-            </div>
-        </div>
+      <h2>Featured Missions</h2>
+      <div class="missions-grid">
+        <div class="mission-card"><div class="card-image-wrapper"><img src="artemis.png" alt="Artemis Mission"></div><div class="card-content"><h3>Artemis Mission</h3><p>Returning humanity to the Moon, establishing a sustainable presence, and preparing for the next giant leap to Mars.</p><button>Learn More</button></div></div>
+        <div class="mission-card"><div class="card-image-wrapper"><img src="jwst.png" alt="James Webb Space Telescope"></div><div class="card-content"><h3>James Webb Telescope</h3><p>The world's premier space science observatory, peering back over 13.5 billion years to see the first stars and galaxies.</p><button>Learn More</button></div></div>
+        <div class="mission-card"><div class="card-image-wrapper"><img src="pre.png" alt="Mars Perseverance Rover"></div><div class="card-content"><h3>Mars Perseverance Rover</h3><p>Seeking signs of ancient life and collecting rock and soil samples for possible return to Earth.</p><button>Learn More</button></div></div>
+      </div>
     </section>
 
     <section id="solar-system" class="content-section content-box fade-up-section">
-        <h2>Explore Our Solar System</h2>
-        <div class="planets-container">
-            <div class="planet-card"><img class="planet-img" src="sun.png" alt="Sun"><span class="planet-name">Sun</span></div>
-            <div class="planet-card"><img class="planet-img" src="mercury.png" alt="Mercury"><span class="planet-name">Mercury</span></div>
-            <div class="planet-card"><img class="planet-img" src="venus.png" alt="Venus"><span class="planet-name">Venus</span></div>
-            <div class="planet-card"><img class="planet-img" src="earth.png" alt="Earth"><span class="planet-name">Earth</span></div>
-            <div class="planet-card"><img class="planet-img" src="mars.png" alt="Mars"><span class="planet-name">Mars</span></div>
-            <div class="planet-card"><img class="planet-img" src="jupiter.png" alt="Jupiter"><span class="planet-name">Jupiter</span></div>
-            <div class="planet-card"><img class="planet-img" src="saturn.png" alt="Saturn"><span class="planet-name">Saturn</span></div>
-            <div class="planet-card"><img class="planet-img" src="uranus.png" alt="Uranus"><span class="planet-name">Uranus</span></div>
-            <div class="planet-card"><img class="planet-img" src="neptune.png" alt="Neptune"><span class="planet-name">Neptune</span></div>
-        </div>
+      <h2>Explore Our Solar System</h2>
+      <div class="planets-container">
+        <div class="planet-card" data-planet="Sun"><img class="planet-img" src="sun.png" alt="Sun"><span class="planet-name">Sun</span></div>
+        <div class="planet-card" data-planet="Mercury"><img class="planet-img" src="mercury.png" alt="Mercury"><span class="planet-name">Mercury</span></div>
+        <div class="planet-card" data-planet="Venus"><img class="planet-img" src="venus.png" alt="Venus"><span class="planet-name">Venus</span></div>
+        <div class="planet-card" data-planet="Earth"><img class="planet-img" src="earth.png" alt="Earth"><span class="planet-name">Earth</span></div>
+        <div class="planet-card" data-planet="Mars"><img class="planet-img" src="mars.png" alt="Mars"><span class="planet-name">Mars</span></div>
+        <div class="planet-card" data-planet="Jupiter"><img class="planet-img" src="jupiter.png" alt="Jupiter"><span class="planet-name">Jupiter</span></div>
+        <div class="planet-card" data-planet="Saturn"><img class="planet-img" src="saturn.png" alt="Saturn"><span class="planet-name">Saturn</span></div>
+        <div class="planet-card" data-planet="Uranus"><img class="planet-img" src="uranus.png" alt="Uranus"><span class="planet-name">Uranus</span></div>
+        <div class="planet-card" data-planet="Neptune"><img class="planet-img" src="neptune.png" alt="Neptune"><span class="planet-name">Neptune</span></div>
+      </div>
     </section>
 
     <section id="gallery" class="content-section content-box fade-up-section">
-        <h2>From Our Gallery</h2>
-        <div class="gallery-grid">
-            <div class="gallery-item"><img src="nebula.png" alt="A colorful nebula"><div class="gallery-overlay"><h4>Pillars of Creation</h4><p>Eagle Nebula</p></div></div>
-            <div class="gallery-item"><img src="galaxy.png" alt="A spiral galaxy"><div class="gallery-overlay"><h4>Andromeda Galaxy</h4><p>Our cosmic neighbor</p></div></div>
-            <div class="gallery-item"><img src="rings.jpg" alt="A ringed planet"><div class="gallery-overlay"><h4>Saturn's Rings</h4><p>Cassini Division</p></div></div>
-            <div class="gallery-item"><img src="aurora.png" alt="Aurora Borealis"><div class="gallery-overlay"><h4>Aurora Borealis</h4><p>Earth's Light Show</p></div></div>
-            <div class="gallery-item"><img src="cluster.png" alt="A star cluster"><div class="gallery-overlay"><h4>Star Cluster</h4><p>Pleiades</p></div></div>
-            <div class="gallery-item"><img src="surface.png" alt="The surface of Mars"><div class="gallery-overlay"><h4>Jezero Crater</h4><p>Mars Landscape</p></div></div>
-        </div>
+      <h2>From Our Gallery</h2>
+      <div class="gallery-grid">
+        <div class="gallery-item"><img src="nebula.png" alt="A colorful nebula"><div class="gallery-overlay"><h4>Pillars of Creation</h4><p>Eagle Nebula</p></div></div>
+        <div class="gallery-item"><img src="galaxy.png" alt="A spiral galaxy"><div class="gallery-overlay"><h4>Andromeda Galaxy</h4><p>Our cosmic neighbor</p></div></div>
+        <div class="gallery-item"><img src="rings.jpg" alt="A ringed planet"><div class="gallery-overlay"><h4>Saturn's Rings</h4><p>Cassini Division</p></div></div>
+        <div class="gallery-item"><img src="aurora.png" alt="Aurora Borealis"><div class="gallery-overlay"><h4>Aurora Borealis</h4><p>Earth's Light Show</p></div></div>
+        <div class="gallery-item"><img src="cluster.png" alt="A star cluster"><div class="gallery-overlay"><h4>Pleiades</h4><p>Star Cluster</p></div></div>
+        <div class="gallery-item"><img src="surface.png" alt="The surface of Mars"><div class="gallery-overlay"><h4>Jezero Crater</h4><p>Mars Landscape</p></div></div>
+      </div>
     </section>
   </main>
 
-    <footer class="fade-up-section">
-        <div class="footer-grid">
-            <div class="footer-col"><img src="logo.png" alt="Astrophysics Explorer Logo" class="logo-footer"><p>Your one-stop platform for all things space, astrophysics, and astronomy. Explore the cosmos with us.</p></div>
-            <div class="footer-col"><h4>Quick Links</h4><ul><li><a href="#missions">Missions</a></li><li><a href="#solar-system">Solar System</a></li><li><a href="#gallery">Gallery</a></li><li><a href="#news">News</a></li></ul></div>
-            <div class="footer-col"><h4>Follow Us</h4><div class="social-icons"><a href="#" aria-label="Twitter">T</a><a href="#" aria-label="Instagram">I</a><a href="#" aria-label="YouTube">Y</a></div><h4 style="margin-top: 20px;">Newsletter</h4><form class="newsletter-form"><input type="email" placeholder="your.email@example.com" required><button type="submit">SUB</button></form></div>
+  <footer class="fade-up-section">
+    <div class="footer-container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <img src="logo.png" alt="StellerAtlas Logo" class="logo-footer">
+          <p>Your one-stop platform for all things space, astrophysics, and astronomy. Explore the cosmos with us.</p>
         </div>
-        <div class="footer-bottom"><p>&copy; 2025 Stellar Atlas. All Rights Reserved. For educational and research purposes.</p></div>
-    </footer>
-
+        <div class="footer-col">
+          <h4>Explore</h4>
+          <ul>
+            <li><a href="#missions">Missions</a></li>
+            <li><a href="#solar-system">Solar System</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#news">News</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Learn</h4>
+          <ul>
+            <li><a href="#blogs">Blogs</a></li>
+            <li><a href="#astronomy">Astronomy 101</a></li>
+            <li><a href="#resources">Resources</a></li>
+            <li><a href="#">Glossary</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>About</h4>
+          <ul>
+            <li><a href="#about">About StellerAtlas</a></li>
+            <li><a href="#">Our Team</a></li>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#community">Community</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Connect</h4>
+          <div class="social-icons">
+            <a href="#" aria-label="X (formerly Twitter)"><img src="x.png"></img></a>
+            <a href="#" aria-label="Instagram"><img src="insta.png"></img></a>
+            <a href="#" aria-label="YouTube"><img src="yt.png"></img></a>
+            <a href="#" aria-label="Facebook"><img src="fb.png"></img></a>
+          </div>
+          <h4 style="margin-top: 30px;">Newsletter</h4>
+          <form class="newsletter-form">
+            <input type="email" placeholder="your.email@example.com" required>
+            <button type="submit">SUB</button>
+          </form>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 StellerAtlas. All Rights Reserved.</p>
+        <div class="footer-bottom-links">
+            <a href="#">Terms of Service</a>
+            <a href="#">Privacy Policy</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <div id="planet-modal" class="hidden">
+    <div class="modal-overlay"></div>
+    <div class="modal-content">
+      <button class="close-modal">&times;</button>
+      <div class="modal-image-container">
+        <img src="earth.png" alt="Planet Image" class="modal-planet-image" id="modal-planet-img">
+      </div>
+      <div class="modal-info">
+        <h2 id="modal-planet-name">Planet Name</h2>
+        <p class="modal-description" id="modal-planet-description">Description goes here.</p>
+        <table class="stats-table" id="modal-planet-stats">
+          </table>
+        <p class="fun-fact" id="modal-planet-fact">
+          <strong>Did you know?</strong> Fun fact goes here.
+        </p>
+      </div>
+    </div>
+  </div>
   <script>
     // Countdown timer for the upcoming events button
     function startCountdown(seconds) {
@@ -572,25 +871,14 @@ main {
     const authorImageEl = document.getElementById('author-image');
     const quoteTextEl = document.getElementById('quote-text');
     const authorNameEl = document.getElementById('author-name');
-    const quotesData = [
-      { quote: "The universe is under no obligation to make sense to you.", author: "– Neil deGrasse Tyson", imageSrc: "ndt.png" },
-      { quote: "Somewhere, something incredible is waiting to be known.", author: "– Albert Einstien", imageSrc: "ae.png" },
-      { quote: "Equipped with his five senses, man explores the universe around him.", author: "– Edwin Hubble", imageSrc: "eh.png" },
-      { quote: "We are all made of star stuff.", author: "– Carl Sagan", imageSrc: "cs.png" },
-      { quote: "Look up at the stars and not down at your feet.", author: "– Stephen Hawking", imageSrc: "sh.png" }
-    ];
+    const quotesData = [ { quote: "The universe is under no obligation to make sense to you.", author: "– Neil deGrasse Tyson", imageSrc: "ndt.png" }, { quote: "Somewhere, something incredible is waiting to be known.", author: "– Albert Einstien", imageSrc: "ae.png" }, { quote: "Equipped with his five senses, man explores the universe around him.", author: "– Edwin Hubble", imageSrc: "eh.png" }, { quote: "We are all made of star stuff.", author: "– Carl Sagan", imageSrc: "cs.png" }, { quote: "Look up at the stars and not down at your feet.", author: "– Stephen Hawking", imageSrc: "sh.png" } ];
     let quoteIndex = 0;
     function updateQuote() {
       if(authorImageEl && quoteTextEl && authorNameEl) {
-        const currentQuote = quotesData[quoteIndex];
-        authorImageEl.src = currentQuote.imageSrc;
-        quoteTextEl.textContent = `“${currentQuote.quote}”`;
-        authorNameEl.textContent = currentQuote.author;
-        quoteIndex = (quoteIndex + 1) % quotesData.length;
+        const currentQuote = quotesData[quoteIndex]; authorImageEl.src = currentQuote.imageSrc; quoteTextEl.textContent = `“${currentQuote.quote}”`; authorNameEl.textContent = currentQuote.author; quoteIndex = (quoteIndex + 1) % quotesData.length;
       }
     }
-    updateQuote(); 
-    setInterval(updateQuote, 8000);
+    updateQuote(); setInterval(updateQuote, 8000);
 
     // Starfield canvas background animation
     const canvas = document.getElementById('star-field'); const ctx = canvas.getContext('2d');
@@ -598,9 +886,7 @@ main {
     function initCanvas() {
       width = window.innerWidth; height = window.innerHeight; canvas.width = width; canvas.height = height;
       stars = [];
-      for(let i = 0; i < 150; i++) {
-        stars.push({ x: Math.random() * width, y: Math.random() * height, radius: Math.random() * 1.5 + 0.5, alpha: Math.random(), decreasing: Math.random() > 0.5, vx: (Math.random() - 0.5) * 0.1, vy: (Math.random() - 0.5) * 0.1 });
-      }
+      for(let i = 0; i < 150; i++) { stars.push({ x: Math.random() * width, y: Math.random() * height, radius: Math.random() * 1.5 + 0.5, alpha: Math.random(), decreasing: Math.random() > 0.5, vx: (Math.random() - 0.5) * 0.1, vy: (Math.random() - 0.5) * 0.1 }); }
     }
     function drawStars() {
       ctx.clearRect(0, 0, width, height);
@@ -619,12 +905,154 @@ main {
     // Animate sections on scroll
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('is-visible'); } });
-    }, { 
-        rootMargin: '0px',
-        threshold: 0.15 
-    });
+    }, { rootMargin: '0px', threshold: 0.15 });
     const sectionsToAnimate = document.querySelectorAll('.fade-up-section');
     sectionsToAnimate.forEach(section => { observer.observe(section); });
+
+    /* FASTER TYPEWRITER EFFECT */
+    (function typewriterEffect() {
+      const targetElement = document.getElementById("dynamic-text-target");
+      const phrases = [ "Your one stop platform for entering the world of astrophysics", "Your gateway to the world of astrophysics, science, space and astronomy", "The definitive platform for exploring the cosmos — from fundamental concepts to cutting-edge discoveries", "Your comprehensive portal to astrophysics, astronomy, and space science—where curiosity meets knowledge", "Stay informed with real-time updates on space missions, breakthrough discoveries, and astronomical events—past, present, and future" ];
+      
+      const typingSpeed = 50;
+      const deletingSpeed = 25;
+      const fullTextPause = 2000;
+      const interStringPause = 500;
+
+      let phraseIndex = 0; let charIndex = 0; let isDeleting = false;
+      if (!targetElement) { console.error("Typewriter target element not found!"); return; }
+
+      function animateText() {
+        const currentPhrase = phrases[phraseIndex];
+        let timeout = isDeleting ? deletingSpeed : typingSpeed;
+        if (!isDeleting && charIndex < currentPhrase.length) {
+          targetElement.textContent += currentPhrase.charAt(charIndex); charIndex++;
+        } else if (isDeleting && charIndex > 0) {
+          targetElement.textContent = currentPhrase.substring(0, charIndex - 1); charIndex--;
+        } else if (!isDeleting && charIndex === currentPhrase.length) {
+          isDeleting = true; timeout = fullTextPause;
+        } else if (isDeleting && charIndex === 0) {
+          isDeleting = false; phraseIndex = (phraseIndex + 1) % phrases.length; timeout = interStringPause;
+        }
+        setTimeout(animateText, timeout);
+      }
+      animateText();
+    })();
+
+    /* PLANET INFO MODAL SCRIPT */
+    (function interactiveSolarSystem() {
+        // --- 1. DATA STORE ---
+        const planetData = {
+            "Sun": {
+                image: "sun.png",
+                description: "The Sun is the star at the center of the Solar System. It is a nearly perfect sphere of hot plasma, heated to incandescence by nuclear fusion reactions in its core, radiating the energy mainly as light, ultraviolet, and infrared radiation.",
+                stats: { "Type": "G-type main-sequence star (G2V)", "Diameter": "1.39 million km", "Mass": "1.989 × 10^30 kg", "Surface Temp.": "5,505 °C" },
+                fact: "The Sun accounts for about 99.86% of the total mass of the Solar System."
+            },
+            "Mercury": {
+                image: "mercury.png",
+                description: "Mercury is the smallest planet in the Solar System and nearest to the Sun. Its orbit takes 87.97 Earth days, the shortest of all the Sun's planets. It is named after the Roman god Mercurius, god of commerce and messenger of the gods.",
+                stats: { "Diameter": "4,879 km", "Day Length": "59 Earth days", "Orbital Period": "88 Earth days", "Moons": "0" },
+                fact: "Despite being closest to the Sun, Mercury is not the hottest planet; Venus is hotter due to its runaway greenhouse effect."
+            },
+            "Venus": {
+                image: "venus.png",
+                description: "Venus is the second planet from the Sun. It is named after the Roman goddess of love and beauty. As the second-brightest natural object in Earth's night sky after the Moon, Venus can cast shadows and can be, on rare occasion, visible to the naked eye in broad daylight.",
+                stats: { "Diameter": "12,104 km", "Day Length": "243 Earth days", "Orbital Period": "225 Earth days", "Surface Temp.": "462 °C" },
+                fact: "Venus rotates on its axis backwards compared to most other planets in the Solar System. A day on Venus is longer than its year."
+            },
+            "Earth": {
+                image: "earth.png",
+                description: "Our home planet is the third planet from the Sun and the only astronomical object known to harbor life. About 29.2% of Earth's surface is land consisting of continents and islands. The remaining 70.8% is covered with water, mostly by oceans, seas, gulfs, and other salt-water bodies.",
+                stats: { "Diameter": "12,742 km", "Day Length": "24 hours", "Orbital Period": "365.25 days", "Moons": "1" },
+                fact: "Earth is the only planet in our solar system not named after a Greek or Roman deity."
+            },
+            "Mars": {
+                image: "mars.png",
+                description: "Mars is the fourth planet from the Sun and the second-smallest planet in the Solar System, being larger than only Mercury. In English, Mars carries the name of the Roman god of war and is often referred to as the 'Red Planet'.",
+                stats: { "Diameter": "6,779 km", "Day Length": "24.6 hours", "Orbital Period": "687 Earth days", "Moons": "2" },
+                fact: "Mars has the tallest volcano and the deepest, longest canyon in the solar system: Olympus Mons (22km high) and Valles Marineris."
+            },
+            "Jupiter": {
+                image: "jupiter.png",
+                description: "Jupiter is the fifth planet from the Sun and the largest in the Solar System. It is a gas giant with a mass more than two and a half times that of all the other planets in the Solar System combined, but slightly less than one-thousandth the mass of the Sun.",
+                stats: { "Diameter": "139,820 km", "Day Length": "9.9 hours", "Orbital Period": "11.9 Earth years", "Moons": "95 (known)" },
+                fact: "The Great Red Spot on Jupiter is a gigantic storm, larger than Earth, that has raged for hundreds of years."
+            },
+            "Saturn": {
+                image: "saturn.png",
+                description: "Saturn is the sixth planet from the Sun and the second-largest in the Solar System, after Jupiter. It is a gas giant with an average radius of about nine and a half times that of Earth. It only has one-eighth the average density of Earth; however, with its larger volume, Saturn is over 95 times more massive.",
+                stats: { "Diameter": "116,460 km", "Day Length": "10.7 hours", "Orbital Period": "29.5 Earth years", "Moons": "146 (known)" },
+                fact: "Saturn's rings are made mostly of ice crystals, with some rocky debris and dust. Some particles are as small as grains of sugar, while others are as large as houses."
+            },
+            "Uranus": {
+                image: "uranus.png",
+                description: "Uranus is the seventh planet from the Sun. It has the third-largest planetary radius and fourth-largest planetary mass in the Solar System. Uranus is similar in composition to Neptune, and both have bulk chemical compositions which differ from that of the larger gas giants Jupiter and Saturn.",
+                stats: { "Diameter": "50,724 km", "Day Length": "17.2 hours", "Orbital Period": "84 Earth years", "Moons": "27 (known)" },
+                fact: "Uranus is the only planet that spins on its side, with its axis of rotation tilted by nearly 98 degrees."
+            },
+            "Neptune": {
+                image: "neptune.png",
+                description: "Neptune is the eighth and farthest-known Solar planet from the Sun. In the Solar System, it is the fourth-largest planet by diameter, the third-most-massive planet, and the densest giant planet. It is 17 times the mass of Earth, and slightly more massive than its near-twin Uranus.",
+                stats: { "Diameter": "49,244 km", "Day Length": "16.1 hours", "Orbital Period": "164.8 Earth years", "Moons": "14 (known)" },
+                fact: "Neptune experiences the strongest winds in the Solar System, with speeds that can reach up to 2,100 km/h."
+            },
+        };
+
+        // --- 2. DOM ELEMENT REFERENCES ---
+        const modal = document.getElementById('planet-modal');
+        const modalOverlay = modal.querySelector('.modal-overlay');
+        const closeModalBtn = modal.querySelector('.close-modal');
+        const planetCards = document.querySelectorAll('.planet-card');
+
+        // --- 3. FUNCTIONS ---
+        function populateModal(planetName) {
+            const data = planetData[planetName];
+            if (!data) return;
+
+            document.getElementById('modal-planet-img').src = data.image;
+            document.getElementById('modal-planet-name').textContent = planetName;
+            document.getElementById('modal-planet-description').textContent = data.description;
+            document.getElementById('modal-planet-fact').innerHTML = `<strong>Did you know?</strong> ${data.fact}`;
+
+            const statsTable = document.getElementById('modal-planet-stats');
+            statsTable.innerHTML = ''; // Clear previous stats
+            for (const [key, value] of Object.entries(data.stats)) {
+                const row = statsTable.insertRow();
+                row.innerHTML = `<td>${key}</td><td>${value}</td>`;
+            }
+        }
+        
+        function showModal() {
+            document.body.classList.add('modal-open');
+            modal.classList.remove('hidden');
+        }
+
+        function hideModal() {
+            document.body.classList.remove('modal-open');
+            modal.classList.add('hidden');
+        }
+
+        // --- 4. EVENT LISTENERS ---
+        planetCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const planetName = card.dataset.planet;
+                populateModal(planetName);
+                showModal();
+            });
+        });
+
+        closeModalBtn.addEventListener('click', hideModal);
+        modalOverlay.addEventListener('click', hideModal);
+        
+        // Optional: Close modal with escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === "Escape" && !modal.classList.contains('hidden')) {
+                hideModal();
+            }
+        });
+
+    })();
   </script>
 
 </body>

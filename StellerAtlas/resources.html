@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AstroHack 2025 - The Resources Page</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <style>
+        /* ==========================================================================
+           1. GLOBAL STYLES & VARIABLES (Stellar Gold & Glassmorphism Theme)
+           ========================================================================== */
+
+        :root {
+            --primary-bg: #000000;
+            --glass-bg: rgba(10, 10, 20, 0.55);
+            --border-color: rgba(255, 216, 96, 0.2);
+            --primary-text: #E0E0E0;
+            --heading-text: #FFFFFF;
+            --accent-color: #FFD860; /* A stellar gold */
+            --accent-glow: rgba(255, 216, 96, 0.2);
+            --font-family: 'Montserrat', sans-serif;
+            --max-width: 1200px;
+            --border-radius: 12px;
+            --transition-speed: 0.4s;
+        }
+
+        /* Basic Reset & Defaults */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--primary-bg);
+            color: var(--primary-text);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+        
+        /* Animated Starfield Background */
+        #starfield {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+/* --- NAVIGATION BAR --- */
+    nav.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  padding: 0 40px;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  user-select: none;
+  transition: background 0.3s ease;
+  gap: 40px;
+}
+.navbar-logo img {
+  height: 80px;
+  width: auto;
+  transition: transform var(--transition-fast), filter var(--transition-fast);
+}
+.navbar-logo img:hover {
+  transform: scale(1.08);
+  filter: drop-shadow(0 0 8px var(--accent-color));
+}
+.navbar-menu {
+  display: flex;
+  gap: 38 px;
+}
+.navbar-menu a {
+  color: #ececec;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.04rem;
+  letter-spacing: 0.03em;
+  padding: 8px 15px;
+  transition: color var(--transition-fast);
+  position: relative;
+}
+.navbar-menu a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--accent-color);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform var(--transition-fast);
+}
+.navbar-menu a:hover {
+  color: var(--primary-color);
+}
+.navbar-menu a:hover::after {
+  transform: scaleX(1);
+}
+.navbar-special {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  position: relative;
+}
+.dropdown {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.dropdown-toggle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  background: none;
+  border: 1px solid var(--primary-color);
+  border-radius: 9px;
+  padding: 10px 26px;
+  margin-right: 18px;
+  cursor: pointer;
+  letter-spacing: 0.08em;
+  outline: none;
+  transition: border-color 0.2s, color 0.2s;
+}
+.dropdown-toggle:hover {
+  border-color: var(--accent-color);
+  color: var(--accent-color);
+}
+#timer {
+  font-family: monospace;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--primary-color);
+  margin-left: 8px;
+  user-select: none;
+}
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 15px);
+  right: 0;
+  background: #111;
+  border-radius: 8px;
+  min-width: 320px;
+  padding: 16px;
+  box-shadow: 0 4px 18px #000a;
+  z-index: 100;
+  flex-direction: column;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.dropdown:hover .dropdown-menu,
+.dropdown:focus-within .dropdown-menu {
+  display: flex;
+}
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 14px;
+  color: #eee;
+}
+.dropdown-item img {
+  width: 60px;
+  height: 60px;
+  border-radius: 9px;
+  margin-right: 16px;
+  object-fit: cover;
+}
+.dropdown-item strong {
+  font-weight: 700;
+  display: block;
+  margin-bottom: 4px;
+}
+.dropdown-item span {
+  font-size: 0.9rem;
+  color: #ccc;
+}
+.dropdown-link {
+  text-align: center;
+  color: var(--accent-color);
+  font-weight: 700;
+  text-decoration: none;
+  margin-top: 12px;
+  cursor: pointer;
+}
+.dropdown-link:hover {
+  text-decoration: underline;
+}
+
+
+/* PROFESSIONAL FOOTER STYLES */
+    footer {
+      position: relative;
+      z-index: 5;
+      background: #050505;
+      padding: 80px 40px 20px 40px;
+      border-top: 4px solid var(--accent-color);
+      color: #999;
+    }
+    .footer-container {
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr repeat(4, 1fr);
+      gap: 50px;
+      margin-bottom: 60px;
+    }
+    .footer-col .logo-footer {
+      height: 50px;
+      margin-bottom: 20px;
+    }
+    .footer-col p {
+      line-height: 1.7;
+      max-width: 300px;
+    }
+    .footer-col h4 {
+      font-size: 1.1rem;
+      margin-bottom: 25px;
+      color: var(--primary-color);
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+    .footer-col ul {
+      list-style: none;
+      padding: 0;
+    }
+    .footer-col ul li {
+      margin-bottom: 15px;
+    }
+    .footer-col a {
+      text-decoration: none;
+      color: #999;
+      transition: color var(--transition-fast);
+    }
+    .footer-col a:hover {
+      color: var(--accent-color);
+    }
+    .social-icons {
+      display: flex;
+      gap: 15px;
+    }
+    .social-icons a {
+      font-size: 1.2rem;
+      color: #999;
+      background-color: #222;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      transition: background-color var(--transition-fast), color var(--transition-fast);
+    }
+    .social-icons a:hover {
+      background-color: var(--accent-color);
+      color: #000;
+    }
+
+    .newsletter-form {
+      display: flex;
+      margin-top: 10px;
+      max-width: 250px;
+    }
+    .newsletter-form input {
+      flex-grow: 1;
+      padding: 12px;
+      border: 1px solid #444;
+      background: #222;
+      color: var(--primary-color);
+      border-radius: 5px 0 0 5px;
+      outline: none;
+    }
+    .newsletter-form button {
+      padding: 12px 20px;
+      border: 1px solid var(--accent-color);
+      background: var(--accent-color);
+      color: var(--dark-bg);
+      cursor: pointer;
+      font-weight: 700;
+      border-radius: 0 5px 5px 0;
+      transition: background var(--transition-fast), color var(--transition-fast);
+    }
+    .newsletter-form button:hover {
+      background: #ffedaa;
+    }
+    .footer-bottom {
+      text-align: center;
+      padding-top: 30px;
+      border-top: 1px solid #333;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .footer-bottom-links a {
+      color: #999;
+      text-decoration: none;
+      margin-left: 20px;
+      transition: color var(--transition-fast);
+    }
+    .footer-bottom-links a:hover {
+      color: var(--accent-color);
+    }
+
+    @media (max-width: 1024px) {
+      .footer-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      }
+    }
+    @media (max-width: 600px) {
+        .footer-bottom {
+            flex-direction: column;
+            justify-content: center;
+        }
+    }
+
+
+
+        /* Responsive Typography & Spacing */
+        h1, h2, h3, h4 {
+            line-height: 1.2;
+            font-weight: 600;
+            color: var(--heading-text);
+            text-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); }
+        h2 { font-size: clamp(2rem, 5vw, 2.8rem); text-align: center; margin-bottom: 3rem; color: var(--accent-color); }
+        h3 { font-size: 1.5rem; margin-bottom: 1rem; color: var(--accent-color); }
+        h4 { font-size: clamp(1rem, 2vw, 1.25rem); color: var(--primary-text); font-weight: 400; }
+
+        section {
+            padding: clamp(4rem, 8vw, 6rem) clamp(1rem, 5vw, 5rem);
+            position: relative;
+        }
+        
+        /* On-scroll reveal animation */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+        }
+
+        /* ==========================================================================
+           2. THE LAUNCHPAD: AI-POWERED SEARCH
+           ========================================================================== */
+        
+        #launchpad {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 1rem;
+        }
+        
+        #launchpad h1 span {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(20px) scale(0.9);
+            animation: fadeInChar 0.5s forwards;
+        }
+
+        @keyframes fadeInChar {
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        #launchpad h4 {
+            margin: 1.5rem 0 2.5rem;
+            max-width: 500px;
+        }
+        
+        .ai-search-form {
+            display: flex;
+            gap: 1rem;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        #ai-search-input {
+            width: 100%;
+            padding: 0.8rem 1.2rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--primary-text);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all var(--transition-speed) ease;
+        }
+        #ai-search-input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+        
+        #ai-search-btn {
+            display: inline-block;
+            background: var(--accent-color);
+            color: var(--primary-bg);
+            padding: 0.8rem 1.8rem;
+            border: 2px solid var(--accent-color);
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-speed) ease;
+            white-space: nowrap;
+        }
+        #ai-search-btn:hover {
+            background: transparent;
+            color: var(--accent-color);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px var(--accent-glow);
+        }
+
+        #ai-results {
+            margin-top: 3rem;
+            width: 100%;
+            max-width: 700px;
+        }
+
+        .briefing-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 2.5rem;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            text-align: left;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        
+        #ai-results.visible .briefing-card {
+             opacity: 1;
+             transform: translateY(0);
+        }
+        
+        .briefing-card ul { list-style: none; margin-top: 1.5rem; padding-left: 0; }
+        .briefing-card li { display: flex; align-items: center; padding: 0.75rem 0; border-bottom: 1px solid var(--border-color); }
+        .briefing-card li:last-child { border-bottom: none; }
+        .briefing-card .icon { margin-right: 1rem; color: var(--accent-color); font-size: 1.2rem; }
+
+        /* ==========================================================================
+           3. RESOURCE GRIDS (GLASSMORPHISM STYLE)
+           ========================================================================== */
+
+        .resource-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .resource-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            overflow: hidden;
+            cursor: pointer;
+            transition: all var(--transition-speed) ease;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px var(--accent-glow);
+            border-color: var(--accent-color);
+        }
+
+        .card-img {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            opacity: 0.8;
+            transition: opacity var(--transition-speed) ease;
+        }
+        
+        .resource-card:hover .card-img {
+            opacity: 1;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+        
+        .card-content h3 {
+            color: var(--heading-text);
+            font-size: 1.2rem;
+            margin: 0;
+        }
+
+        /* ==========================================================================
+           4. MODAL STYLES
+           ========================================================================== */
+        
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0s 0.4s;
+            z-index: 1000;
+        }
+        
+        .modal.active { opacity: 1; visibility: visible; transition: opacity 0.4s ease; }
+        
+        .modal-content {
+            background: var(--glass-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            position: relative;
+            width: 90%;
+            height: 90%;
+            max-width: 1000px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            transform: scale(0.9);
+            transition: transform 0.4s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .modal.active .modal-content { transform: scale(1); }
+
+        .modal-close {
+            position: absolute; top: 15px; right: 20px; font-size: 2.5rem; color: var(--primary-text); cursor: pointer;
+            transition: color 0.3s ease, transform 0.3s ease; z-index: 1001;
+        }
+        .modal-close:hover { color: var(--accent-color); transform: rotate(90deg); }
+        
+        #pdf-viewer-content { flex-grow: 1; padding: 2rem; padding-top: 4rem; }
+        #pdf-viewer-content iframe { width: 100%; height: calc(100% - 70px); border: none; border-radius: 6px; }
+        #pdf-download-btn {
+            display: inline-block; background: var(--accent-color); color: var(--primary-bg); padding: 0.8rem 1.8rem;
+            border: 2px solid var(--accent-color); border-radius: 50px; font-weight: 600; transition: all var(--transition-speed) ease;
+            margin-top: 1rem; width: 100%; text-align: center;
+        }
+         #pdf-download-btn:hover { background: transparent; color: var(--accent-color); }
+        
+        #book-modal-content { display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 3rem; }
+        #book-modal-title { font-size: clamp(1.5rem, 3vw, 2.5rem); margin-bottom: 2rem; text-align: center; }
+        .purchase-buttons { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+        .purchase-btn {
+            display: inline-flex; align-items: center; gap: 0.75rem; padding: 0.8rem 1.5rem;
+            border: 1px solid var(--border-color); border-radius: 8px; background-color: rgba(0,0,0,0.3);
+            color: var(--primary-text); font-size: 1rem; font-weight: 500; transition: all 0.3s ease;
+        }
+        .purchase-btn:hover { background-color: var(--border-color); color: var(--accent-color); transform: translateY(-3px); }
+        .purchase-btn svg { height: 24px; width: auto; fill: currentColor; }
+
+        /* ==========================================================================
+           5. YOUTUBE CHANNELS
+           ========================================================================== */
+        
+        .youtube-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem;
+        }
+        
+        .channel-card {
+            background: var(--glass-bg); border-radius: var(--border-radius); padding: 2rem;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            gap: 1rem; text-align: center; border: 1px solid var(--border-color);
+            transition: all var(--transition-speed) ease;
+        }
+        
+        .channel-card:hover {
+            transform: translateY(-10px); box-shadow: 0 10px 20px var(--accent-glow); border-color: var(--accent-color);
+        }
+        
+        .channel-logo { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; }
+        .channel-card h4 { color: var(--heading-text); font-weight: 500; }
+        
+        /* ==========================================================================
+           6. COSMIC CHRONICLE TIMELINE (REFINED & IMPROVED)
+           ========================================================================== */
+
+        #cosmic-chronicle { overflow: hidden; }
+        #cosmic-chronicle .container { max-width: 100%; position: relative; }
+
+        /* A subtle line in the center of the viewport to mark the active event */
+        .timeline-centerline {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            height: 100%;
+            width: 2px;
+            background: linear-gradient(to bottom, transparent, var(--accent-color), transparent);
+            opacity: 0.5;
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+
+        .timeline-wrapper { height: 100vh; position: relative; width: 100%; }
+        .parallax-bg {
+            position: absolute; top: 0; left: 0; width: 150%; height: 100%;
+            background-image: url('https://www.nasa.gov/wp-content/uploads/2023/12/j2m-shareable.jpg');
+            background-size: cover; background-position: center center; z-index: 0; opacity: 0.7;
+        }
+        .timeline {
+            display: flex; align-items: center; position: relative; height: 70%;
+            padding: 0 50vw; width: max-content; z-index: 2;
+        }
+        .timeline-track {
+            position: absolute; top: 50%; left: 0; width: 100%; height: 2px;
+            background: var(--border-color); transform: translateY(-50%);
+        }
+        .timeline-event {
+            display: flex; flex-direction: column; align-items: center; margin: 0 15vw; position: relative;
+        }
+
+        .event-marker {
+            width: 24px; height: 24px; background-color: var(--primary-bg);
+            border-radius: 50%; border: 3px solid var(--border-color);
+            transition: transform 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
+            position: relative;
+        }
+        
+        .timeline-event.is-active .event-marker {
+            border-color: var(--accent-color);
+            transform: scale(1.5);
+            box-shadow: 0 0 20px var(--accent-glow);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 20px rgba(255, 216, 96, 0.2); }
+            50% { box-shadow: 0 0 35px rgba(255, 216, 96, 0.6); }
+            100% { box-shadow: 0 0 20px rgba(255, 216, 96, 0.2); }
+        }
+
+        .event-content {
+            position: absolute; width: 300px; text-align: center;
+            opacity: 0; transform: translateY(10px);
+            transition: opacity 0.5s ease 0.2s, transform 0.5s ease 0.2s;
+        }
+
+        .timeline-event.is-active .event-content { opacity: 1; transform: translateY(0); }
+        .timeline-event:nth-child(odd) .event-content { bottom: 60px; }
+        .timeline-event:nth-child(even) .event-content { top: 60px; }
+        
+        .event-date { font-size: 1.5rem; font-weight: 700; color: var(--accent-color); }
+        .event-title { font-size: 1.2rem; font-weight: 600; margin: 0.5rem 0; color: var(--heading-text); }
+        .event-description { font-size: 0.9rem; color: var(--primary-text); }
+        
+        /* ==========================================================================
+           7. MEDIA QUERIES (RESPONSIVENESS)
+           ========================================================================== */
+        @media (max-width: 768px) {
+            .ai-search-form { flex-direction: column; }
+            .timeline-event { margin: 0 25vw; }
+            .event-content { width: 250px; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="starfield"></canvas>
+
+    <nav class="navbar">
+    <a href="#" class="navbar-logo"><img src="logo.png" alt="StellerAtlas Logo"></a>
+    <div class="navbar-menu">
+<a href="homepage.html">HOME</a>
+<a href="blogpage.html">BLOGS</a>
+<a href="astronomy.html">ASTRONOMY</a>
+<a href="resources.html">RESOURCES</a>
+<a href="community.html">COMMUNITY</a>
+<a href="missions.html">MISSIONS</a>
+<a href="about.html">ABOUT</a>
+    </div>
+    <div class="navbar-special">
+      <div class="dropdown">
+        <button class="dropdown-toggle">UPCOMING</button><span id="timer">T-17:49:51</span>
+        <div class="dropdown-menu">
+          <div class="dropdown-item"><img src="1.jpg" alt="Starlink Mission" /><div><strong>Starlink Mission</strong><span>October 14, 2025 11:53 India Time</span></div></div>
+          <a href="#" class="dropdown-link">ALL UPCOMING LAUNCHES</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+
+
+    <section id="launchpad">
+        <h1 id="hero-title">The Resources Launchpad</h1>
+        <h4>Short, concise answers for your cosmic questions.</h4>
+        <form class="ai-search-form" id="ai-search-form">
+            <input type="text" id="ai-search-input" placeholder="e.g., How do black holes form?" autocomplete="off">
+            <button type="submit" id="ai-search-btn">Brief Me</button>
+        </form>
+        <div id="ai-results">
+            </div>
+    </section>
+
+    <main>
+        <section id="research-papers" class="fade-in-section">
+            <div class="container">
+                <h2>Research Papers Archives</h2>
+                <div class="resource-grid" id="papers-grid"></div>
+            </div>
+        </section>
+
+        <section id="books-beginner" class="fade-in-section">
+            <div class="container">
+                <h2>Recommended Books for Beginners</h2>
+                <div class="resource-grid" id="beginner-books-grid"></div>
+            </div>
+        </section>
+
+        <section id="books-amateur" class="fade-in-section">
+            <div class="container">
+                <h2>Recommended Books for Amateur Physicists</h2>
+                <div class="resource-grid" id="amateur-books-grid"></div>
+            </div>
+        </section>
+        
+        <section id="youtube-channels" class="fade-in-section">
+            <div class="container">
+                <h2>Some Great YouTube Channels</h2>
+                <div class="youtube-grid" id="youtube-grid"></div>
+            </div>
+        </section>
+        
+        <section id="cosmic-chronicle" class="fade-in-section">
+            <div class="container">
+                 <h2>Cosmic Chronicle</h2>
+                 <div class="timeline-centerline"></div>
+                 <div class="timeline-wrapper">
+                     <div class="parallax-bg"></div>
+                     <div class="timeline">
+                         <div class="timeline-track"></div>
+                     </div>
+                 </div>
+            </div>
+        </section>
+    </main>
+    
+    <div class="modal" id="pdf-modal">
+        <div class="modal-content">
+            <span class="modal-close" id="pdf-modal-close">×</span>
+            <div id="pdf-viewer-content">
+                <iframe id="pdf-iframe" src="" frameborder="0"></iframe>
+                <a href="#" id="pdf-download-btn" download target="_blank">Download PDF</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="book-modal">
+        <div class="modal-content">
+            <span class="modal-close" id="book-modal-close">×</span>
+            <div id="book-modal-content">
+                <h3 id="book-modal-title">Book Title</h3>
+                <div class="purchase-buttons">
+                    <a href="#" id="amazon-link" target="_blank" class="purchase-btn">
+                         <svg viewBox="0 0 1024 1024"><path d="M512 0c-282.784 0-512 229.216-512 512s229.216 512 512 512 512-229.216 512-512-229.216-512-512-512zM731.648 843.2c-28.16 34.304-68.608 43.008-107.008 43.008-115.2 0-210.432-88.576-210.432-232.448 0-136.192 84.48-216.064 206.848-216.064 73.216 0 125.44 32.256 160.768 97.28l-87.552 55.808c-18.432-35.84-48.64-55.808-81.408-55.808-55.296 0-89.6 40.448-89.6 113.152s34.304 112.128 91.648 112.128c35.84 0 62.976-19.456 78.848-52.224l93.184 55.296zM960.512 590.848c0 11.264-1.024 23.04-1.024 34.304 0 152.576-130.048 243.712-320.512 243.712-192.512 0-321.536-93.184-321.536-244.736 0-10.24 0.512-20.48 1.536-30.72h-128v-97.28h187.904c10.752-69.632 60.416-121.344 140.8-121.344 135.168 0 240.64 108.032 240.64 246.784z"></path></svg>
+                        <span>Find on Amazon</span>
+                    </a>
+                    <a href="#" id="flipkart-link" target="_blank" class="purchase-btn">
+                         <svg viewBox="0 0 512 512"><path d="M432.25 128c-26.62 0-48.25 21.62-48.25 48.25S405.63 224.5 432.25 224.5s48.25-21.63 48.25-48.25S458.87 128 432.25 128zm0 0"></path><path d="M432.25 32c-63.15 0-114.25 51.1-114.25 114.25s51.1 114.25 114.25 114.25 114.25-51.1 114.25-114.25S495.4 32 432.25 32zm0 192.5c-43.19 0-78.25-35.06-78.25-78.25S389.06 68 432.25 68s78.25 35.06 78.25 78.25-35.06 78.25-78.25 78.25zm0 0"></path><path d="M128.25 240c-26.62 0-48.25 21.62-48.25 48.25S101.63 336.5 128.25 336.5s48.25-21.63 48.25-48.25S154.87 240 128.25 240zm0 0"></path><path d="M128.25 144c-63.15 0-114.25 51.1-114.25 114.25S65.1 372.5 128.25 372.5s114.25-51.1 114.25-114.25S191.4 144 128.25 144zm0 192.5c-43.19 0-78.25-35.06-78.25-78.25s35.06-78.25 78.25-78.25 78.25 35.06 78.25 78.25-35.06 78.25-78.25 78.25zm0 0"></path><path d="M280.25 352c-26.62 0-48.25 21.62-48.25 48.25S253.63 448.5 280.25 448.5s48.25-21.63 48.25-48.25S306.87 352 280.25 352zm0 0"></path><path d="M280.25 256c-63.15 0-114.25 51.1-114.25 114.25S217.1 484.5 280.25 484.5s114.25-51.1 114.25-114.25S343.4 256 280.25 256zm0 192.5c-43.19 0-78.25-35.06-78.25-78.25s35.06-78.25 78.25-78.25 78.25 35.06 78.25 78.25-35.06 78.25-78.25 78.25zm0 0"></path></svg>
+                        <span>Find on Flipkart</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <footer class="fade-up-section">
+    <div class="footer-container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <img src="logo.png" alt="StellerAtlas Logo" class="logo-footer">
+          <p>Your one-stop platform for all things space, astrophysics, and astronomy. Explore the cosmos with us.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Explore</h4>
+          <ul>
+            <li><a href="#missions">Missions</a></li>
+            <li><a href="#solar-system">Solar System</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#news">News</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Learn</h4>
+          <ul>
+            <li><a href="#blogs">Blogs</a></li>
+            <li><a href="#astronomy">Astronomy 101</a></li>
+            <li><a href="#resources">Resources</a></li>
+            <li><a href="#">Glossary</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>About</h4>
+          <ul>
+            <li><a href="#about">About StellerAtlas</a></li>
+            <li><a href="#">Our Team</a></li>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#community">Community</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Connect</h4>
+          <div class="social-icons">
+            <a href="#" aria-label="X (formerly Twitter)"><img src="x.png"></img></a>
+            <a href="#" aria-label="Instagram"><img src="insta.png"></img></a>
+            <a href="#" aria-label="YouTube"><img src="yt.png"></img></a>
+            <a href="#" aria-label="Facebook"><img src="fb.png"></img></a>
+          </div>
+          <h4 style="margin-top: 30px;">Newsletter</h4>
+          <form class="newsletter-form">
+            <input type="email" placeholder="your.email@example.com" required>
+            <button type="submit">SUB</button>
+          </form>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 StellerAtlas. All Rights Reserved.</p>
+        <div class="footer-bottom-links">
+            <a href="#">Terms of Service</a>
+            <a href="#">Privacy Policy</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        // ==========================================================================
+        // 1. STARFIELD CANVAS ANIMATION
+        // ==========================================================================
+        const canvas = document.getElementById('starfield');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        const stars = [];
+        const numStars = 250;
+
+        for (let i = 0; i < numStars; i++) {
+            stars.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 1.5 + 0.5,
+                alpha: Math.random(),
+                speed: Math.random() * 0.1 + 0.05
+            });
+        }
+
+        function drawStars() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = 'rgba(255, 216, 96, 0.8)'; // Golden stars
+            stars.forEach(star => {
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                ctx.globalAlpha = star.alpha;
+                ctx.fill();
+                
+                star.y -= star.speed;
+                if (star.y < 0) {
+                    star.y = canvas.height;
+                }
+            });
+            requestAnimationFrame(drawStars);
+        }
+        drawStars();
+        
+        // ==========================================================================
+        // 2. HERO TITLE ANIMATION
+        // ==========================================================================
+        const heroTitle = document.getElementById('hero-title');
+        const text = heroTitle.textContent;
+        heroTitle.innerHTML = '';
+        text.split('').forEach((char, index) => {
+            const span = document.createElement('span');
+            span.textContent = char === ' ' ? '\u00A0' : char; // Handle spaces
+            span.style.animationDelay = `${index * 0.05}s`;
+            heroTitle.appendChild(span);
+        });
+
+        // ==========================================================================
+        // 3. ON-SCROLL FADE-IN ANIMATION
+        // ==========================================================================
+        const sections = document.querySelectorAll('.fade-in-section');
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+        sections.forEach(section => { observer.observe(section); });
+
+
+        // ==========================================================================
+        // DATA FOR DYNAMIC CONTENT (FIXED: NOW INCLUDED)
+        // ==========================================================================
+        const mockAiResponses = {
+            'black hole': {
+                summary: "A black hole is a region of spacetime where gravity is so strong that nothing—no particles or even electromagnetic radiation such as light—can escape from it. The theory of general relativity predicts that a sufficiently compact mass can deform spacetime to form a black hole. The boundary of no escape is called the event horizon.",
+                resources: [
+                    { icon: '🎬', title: 'How Black Holes Work', source: 'NASA Science' },
+                    { icon: '📄', title: 'Black Holes and Time Warps', source: 'Kip Thorne' },
+                    { icon: '📖', title: 'A Brief History of Time', source: 'Stephen Hawking' }
+                ]
+            },
+            'star formation': {
+                summary: "Star formation is the process by which dense regions within molecular clouds in interstellar space, sometimes referred to as 'stellar nurseries' or 'star-forming regions', collapse and form stars. This process involves the interplay of gravity, gas pressure, magnetic fields, and turbulence.",
+                resources: [
+                    { icon: '🎬', title: 'Pillars of Creation', source: 'Hubble Space Telescope' },
+                    { icon: '📄', title: 'Star Formation in the Era of JWST', source: 'arXiv' },
+                    { icon: '🌐', title: 'Stellar Evolution', source: 'ESA' }
+                ]
+            },
+            'dark matter': {
+                summary: "Dark matter is a hypothetical form of matter thought to account for approximately 85% of the matter in the universe. Its presence is implied in a variety of astrophysical observations, including gravitational effects that cannot be explained by accepted theories of gravity unless more matter is present than can be seen.",
+                resources: [
+                    { icon: '🎬', title: 'The Search for Dark Matter', source: 'Veritasium' },
+                    { icon: '📄', title: 'Review of the Direct Detection of Dark Matter', source: 'Annual Review of Nuclear Science' },
+                    { icon: '🎙️', title: 'StarTalk: Cosmic Queries - Dark Matter', source: 'Neil deGrasse Tyson' }
+                ]
+            },
+             'artemis': {
+                summary: "The Artemis program is a U.S. government-funded international human spaceflight program that has the goal of landing 'the first woman and the next man' on the Moon, specifically at the lunar south pole region, by 2026. It is a stepping stone towards the long-term goal of establishing a sustainable presence on the Moon and eventually sending humans to Mars.",
+                resources: [
+                    { icon: '🌐', title: 'Official Artemis Program Page', source: 'NASA' },
+                    { icon: '🎬', title: 'Artemis I: We Are Going', source: 'NASA Official Video' },
+                    { icon: '📄', title: 'Artemis Program Architecture', source: 'NASA Publications' }
+                ]
+            }
+        };
+
+        const researchPapers = [
+            { title: "First Results from the James Webb Space Telescope", pdf: "https://arxiv.org/pdf/2207.05632.pdf", img: "https://placehold.co/400x600/000000/FFD860?text=JWST" },
+            { title: "Observation of Gravitational Waves from a Binary Black Hole Merger", pdf: "https://arxiv.org/pdf/1602.03837.pdf", img: "https://placehold.co/400x600/000000/FFD860?text=LIGO" },
+            { title: "A super-Earth-sized planet orbiting in or near the habitable zone of a Sun-like star", pdf: "https://arxiv.org/pdf/1404.7141.pdf", img: "https://placehold.co/400x600/000000/FFD860?text=Exoplanet" },
+            { title: "Evidence for a Distant Giant Planet in the Solar System", pdf: "https://arxiv.org/pdf/1601.05438.pdf", img: "https://placehold.co/400x600/000000/FFD860?text=Planet+IX" }
+        ];
+        
+        const beginnerBooks = [
+            { title: "Astrophysics for People in a Hurry", img: "https://placehold.co/400x600/0d1117/e6edf3?text=Astrophysics" },
+            { title: "Cosmos by Carl Sagan", img: "https://placehold.co/400x600/0d1117/e6edf3?text=Cosmos" },
+            { title: "The God Equation", img: "https://placehold.co/400x600/0d1117/e6edf3?text=The+God+Eq" },
+            { title: "Death by Black Hole", img: "https://placehold.co/400x600/0d1117/e6edf3?text=Death+by+BH" },
+            { title: "Welcome to the Universe", img: "https://placehold.co/400x600/0d1117/e6edf3?text=Universe" },
+            { title: "Brief Answers to the Big Questions", img: "https://placehold.co/400x600/0d1117/e6edf3?text=Big+Questions" },
+            { title: "The Theory of Everything", img: "https://placehold.co/400x600/0d1117/e6edf3?text=ToE" },
+            { title: "In Search of Schrödinger's Cat", img: "https://placehold.co/400x600/0d1117/e6edf3?text=Schrödinger" },
+            { title: "Relativity: The Special and General Theory", img: "https://placehold.co/400x600/0d1117/e6edf3?text=Relativity" },
+            { title: "Quantum Drama: The Bohr-Einstein Debate", img: "https://placehold.co/400x600/0d1117/e6edf3?text=Quantum" }
+        ];
+
+        const amateurBooks = [
+            { title: "Six Easy Pieces", img: "https://placehold.co/400x600/06090f/8b949e?text=Six+Easy" },
+            { title: "Six Not-So-Easy Pieces", img: "https://placehold.co/400x600/06090f/8b949e?text=Six+Not-So-Easy" },
+            { title: "Alex's Adventures in Numberland", img: "https://placehold.co/400x600/06090f/8b949e?text=Numberland" },
+            { title: "Physics of the Impossible", img: "https://placehold.co/400x600/06090f/8b949e?text=Impossible" },
+            { title: "Mathematical Methods for Physics and Engineering", img: "https://placehold.co/400x600/06090f/8b949e?text=Math+Methods" },
+            { title: "Fundamentals of Physics", img: "https://placehold.co/400x600/06090f/8b949e?text=Fundamentals" },
+            { title: "Concepts in Thermal Physics", img: "https://placehold.co/400x600/06090f/8b949e?text=Thermal" },
+            { title: "The Feynman Lectures on Physics (3-Book Series)", img: "https://placehold.co/400x600/06090f/8b949e?text=Feynman" }
+        ];
+
+        const youtubeChannels = [
+            { name: 'Veritasium', logo: 'https://yt3.googleusercontent.com/ytc/AIdro_k9_t4p_p42eBqZFPY_yAC03n9NQLyB1i7nh4h8=s176-c-k-c0x00ffffff-no-rj', link: 'https://www.youtube.com/@Veritasium' },
+            { name: 'Vsauce', logo: 'https://yt3.googleusercontent.com/ytc/AIdro_m9-pBDBVpre4p220dEAZ0aF__v7d_1p02k_QJjYw=s176-c-k-c0x00ffffff-no-rj', link: 'https://www.youtube.com/@Vsauce' },
+            { name: 'StarTalk', logo: 'https://yt3.googleusercontent.com/ytc/AIdro_l-r77jDbRB-f2_mw0w41p2vl9i2z_m3_2RRv2M=s176-c-k-c0x00ffffff-no-rj', link: 'https://www.youtube.com/@startalk' },
+            { name: 'Cleo Abram', logo: 'https://yt3.googleusercontent.com/ytc/AIdro_kCgf-3E7ad8ZE_YDtoVnuxuS93pPrD-e29yVVe=s176-c-k-c0x00ffffff-no-rj', link: 'https://www.youtube.com/@CleoAbram' },
+            { name: 'Astro Kobi', logo: 'https://yt3.googleusercontent.com/ytc/AIdro_nH1gQ-il-2H-L-FNj7qP-vjH3j7I8SRqTe-Q0W=s176-c-k-c0x00ffffff-no-rj', link: 'https://www.youtube.com/@astrokobi' },
+            { name: 'NASA', logo: 'https://yt3.googleusercontent.com/ytc/AIdro_kUe3Gz-2-pTFe1o-522ZW1V2-pQy0J-aLS-aJ6=s176-c-k-c0x00ffffff-no-rj', link: 'https://www.youtube.com/@NASA' },
+            { name: 'SpaceX', logo: 'https://yt3.googleusercontent.com/ytc/AIdro_lBOxS5-P1k82M-wBCp30G5_tpH2tJQCa_o527g5g=s176-c-k-c0x00ffffff-no-rj', link: 'https://www.youtube.com/@spacex' },
+            { name: 'ISRO', logo: 'https://yt3.googleusercontent.com/U1-2p-r0IeG1-D1h-U55Q-n8-e-eLXWYpsYAbx7sJk0-vQZJ-aJ-a-aJ-a-aJ-aJ-aJ=s176-c-k-c0x00ffffff-no-rj', link: 'https://www.youtube.com/@isroofficial5866' },
+            { name: 'Kurzgesagt', logo: 'https://yt3.googleusercontent.com/ytc/AIdro_lq93-Yw-rS-a-a-a-a-a-a-a-a-a-a-a-a-a-a-a-a=s176-c-k-c0x00ffffff-no-rj', link: 'https://www.youtube.com/@kurzgesagt' }
+        ];
+
+        const timelineEvents = [
+            { date: "13.8 BYA", title: "The Big Bang", description: "The universe begins from a hot, dense singularity. The start of spacetime itself." },
+            { date: "13.6 BYA", title: "First Stars & Galaxies", description: "Gravity pulls matter together, forming the first stars and infant galaxies." },
+            { date: "4.6 BYA", title: "Solar System Forms", description: "Our sun, Earth, and neighboring planets form from a rotating cloud of gas and dust." },
+            { date: "1687", title: "Newton's Principia", description: "Isaac Newton publishes his laws of motion and universal gravitation, revolutionizing physics." },
+            { date: "1915", title: "General Relativity", description: "Albert Einstein publishes his theory of general relativity, describing gravity as a curvature of spacetime." },
+            { date: "1957", title: "Sputnik 1", description: "The Soviet Union launches the first artificial satellite, kicking off the Space Race." },
+            { date: "1969", title: "Apollo 11", description: "NASA's Apollo 11 mission lands the first humans on the Moon." },
+            { date: "1977", title: "Voyager Probes Launch", description: "Voyagers 1 and 2 are launched to study the outer planets and interstellar space." },
+            { date: "1990", title: "Hubble Telescope", description: "The Hubble Space Telescope is deployed, providing unprecedented views of the cosmos." },
+            { date: "2021", title: "JWST Launch", description: "The James Webb Space Telescope, Hubble's successor, is launched to peer back toward the beginning of time." }
+        ];
+        
+
+        // ==========================================================================
+        // LAUNCHPAD AI SEARCH FUNCTIONALITY
+        // ==========================================================================
+        const searchForm = document.getElementById('ai-search-form');
+        const searchInput = document.getElementById('ai-search-input');
+        const resultsContainer = document.getElementById('ai-results');
+
+        searchForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const query = searchInput.value.toLowerCase();
+            resultsContainer.classList.remove('visible');
+
+            setTimeout(() => {
+                let response = null;
+                for (const key in mockAiResponses) {
+                    if (query.includes(key)) {
+                        response = mockAiResponses[key];
+                        break;
+                    }
+                }
+                displayResults(response);
+            }, 500);
+        });
+
+        function displayResults(data) {
+            let html = '';
+            if (data) {
+                html = `
+                    <div class="briefing-card">
+                        <h3>AI Summary</h3>
+                        <p>${data.summary}</p>
+                        <h3>Top Resources</h3>
+                        <ul>
+                            ${data.resources.map(res => `<li><span class="icon">${res.icon}</span> <span><strong>${res.title}</strong> - <i>${res.source}</i></span></li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            } else {
+                html = `
+                    <div class="briefing-card">
+                        <h3>No Results Found</h3>
+                        <p>Our AI could not find a direct answer. Please try rephrasing your question or exploring our resources below.</p>
+                    </div>
+                `;
+            }
+            resultsContainer.innerHTML = html;
+            resultsContainer.classList.add('visible');
+        }
+
+        // ==========================================================================
+        // DYNAMIC CONTENT POPULATION & MODAL LOGIC
+        // ==========================================================================
+        const papersGrid = document.getElementById('papers-grid');
+        const beginnerBooksGrid = document.getElementById('beginner-books-grid');
+        const amateurBooksGrid = document.getElementById('amateur-books-grid');
+        const youtubeGrid = document.getElementById('youtube-grid');
+        const timelineContainer = document.querySelector('.timeline');
+        
+        function populateGrid(container, items, type) {
+            items.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'resource-card';
+                card.innerHTML = `
+                    <img src="${item.img}" alt="${item.title}" class="card-img" loading="lazy">
+                    <div class="card-content">
+                        <h3>${item.title}</h3>
+                    </div>
+                `;
+                if (type === 'paper') {
+                    card.dataset.pdfSrc = item.pdf;
+                    card.dataset.title = item.title;
+                    card.addEventListener('click', openPdfModal);
+                } else if (type === 'book') {
+                    card.dataset.title = item.title;
+                    card.addEventListener('click', openBookModal);
+                }
+                container.appendChild(card);
+            });
+        }
+        
+        populateGrid(papersGrid, researchPapers, 'paper');
+        populateGrid(beginnerBooksGrid, beginnerBooks, 'book');
+        populateGrid(amateurBooksGrid, amateurBooks, 'book');
+        
+        youtubeChannels.forEach(channel => {
+            const link = document.createElement('a');
+            link.href = channel.link;
+            link.target = "_blank";
+            link.rel = "noopener noreferrer";
+            link.innerHTML = `
+                <div class="channel-card">
+                    <img src="${channel.logo}" alt="${channel.name} Logo" class="channel-logo" loading="lazy">
+                    <h4>${channel.name}</h4>
+                </div>
+            `;
+            youtubeGrid.appendChild(link);
+        });
+        
+        timelineEvents.forEach(event => {
+            const eventEl = document.createElement('div');
+            eventEl.className = 'timeline-event';
+            eventEl.innerHTML = `
+                <div class="event-marker"></div>
+                <div class="event-content">
+                    <div class="event-date">${event.date}</div>
+                    <div class="event-title">${event.title}</div>
+                    <p class="event-description">${event.description}</p>
+                </div>
+            `;
+            timelineContainer.appendChild(eventEl);
+        });
+
+        // --- Modal Functionality ---
+
+        const pdfModal = document.getElementById('pdf-modal');
+        const bookModal = document.getElementById('book-modal');
+        
+        function openPdfModal(e) {
+            const card = e.currentTarget;
+            document.getElementById('pdf-iframe').src = card.dataset.pdfSrc;
+            document.getElementById('pdf-download-btn').href = card.dataset.pdfSrc;
+            pdfModal.classList.add('active');
+        }
+
+        function openBookModal(e) {
+            const card = e.currentTarget;
+            const title = card.dataset.title;
+            document.getElementById('book-modal-title').textContent = title;
+            const amazonQuery = encodeURIComponent(`${title} book`);
+            const flipkartQuery = encodeURIComponent(`${title}`);
+            document.getElementById('amazon-link').href = `https://www.amazon.in/s?k=${amazonQuery}`;
+            document.getElementById('flipkart-link').href = `https://www.flipkart.com/search?q=${flipkartQuery}`;
+            bookModal.classList.add('active');
+        }
+        
+        document.querySelectorAll('.modal-close, .modal').forEach(el => {
+            el.addEventListener('click', (e) => {
+                if(e.target === e.currentTarget) {
+                    pdfModal.classList.remove('active');
+                    bookModal.classList.remove('active');
+                    document.getElementById('pdf-iframe').src = "";
+                }
+            });
+        });
+
+        // ==========================================================================
+        // GSAP COSMIC CHRONICLE TIMELINE ANIMATION
+        // ==========================================================================
+        gsap.registerPlugin(ScrollTrigger);
+        
+        // A brief delay to ensure all dynamic content has rendered and has a width
+        setTimeout(() => {
+            const timeline = document.querySelector('.timeline');
+            if (timeline.offsetWidth > window.innerWidth) { // Only run if timeline is scrollable
+                const timelineEventsArr = gsap.utils.toArray('.timeline-event');
+                
+                let tween = gsap.to(timeline, {
+                    xPercent: -100 * (timeline.offsetWidth - window.innerWidth) / timeline.offsetWidth,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: "#cosmic-chronicle",
+                        pin: true,
+                        scrub: 1,
+                        end: () => "+=" + (timeline.offsetWidth - window.innerWidth),
+                    }
+                });
+
+                gsap.to(".parallax-bg", {
+                    x: () => - (document.querySelector('.parallax-bg').offsetWidth - window.innerWidth),
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: "#cosmic-chronicle",
+                        scrub: 1.5,
+                        end: () => "+=" + (timeline.offsetWidth - window.innerWidth)
+                    }
+                });
+                
+                timelineEventsArr.forEach(event => {
+                    ScrollTrigger.create({
+                        trigger: event,
+                        containerAnimation: tween,
+                        start: "center center",
+                        end: "center 20%",
+                        toggleClass: { targets: event, className: "is-active" },
+                    });
+                });
+            }
+        }, 100); // 100ms delay is usually enough
+
+    });
+    </script>
+</body>
+</html>

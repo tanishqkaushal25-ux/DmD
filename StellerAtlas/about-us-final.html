@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | AstroVerse</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ============================================= */
+        /* =========== DESIGN SYSTEM & SETUP =========== */
+        /* ============================================= */
+
+        :root {
+            --color-background-dark: #01041a; /* Deep Space Blue */
+            --color-background-light: #0a0e27;
+            --color-primary-accent: #0abdc6;   /* Electric Cyan */
+            --color-secondary-accent: #4f0270; /* Nebula Purple */
+            --color-text-primary: #f0f0f0;     /* Off-white for readability */
+            --color-text-secondary: #a0a0a0;
+            
+            --font-family-title: 'VT323', monospace;
+            --font-family-body: 'Exo 2', sans-serif;
+
+            --border-radius-main: 12px;
+        }
+
+        /* Basic Reset & Body Styling */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--color-background-dark);
+            color: var(--color-text-primary);
+            font-family: var(--font-family-body);
+            line-height: 1.6;
+            overflow-x: hidden; /* Prevents horizontal scroll */
+        }
+
+
+         /* --- NAVIGATION BAR --- */
+    nav.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  padding: 0 40px;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  user-select: none;
+  transition: background 0.3s ease;
+  gap: 40px;
+}
+.navbar-logo img {
+  height: 80px;
+  width: auto;
+  transition: transform var(--transition-fast), filter var(--transition-fast);
+}
+.navbar-logo img:hover {
+  transform: scale(1.08);
+  filter: drop-shadow(0 0 8px var(--accent-color));
+}
+.navbar-menu {
+  display: flex;
+  gap: 38 px;
+}
+.navbar-menu a {
+  color: #ececec;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.04rem;
+  letter-spacing: 0.03em;
+  padding: 8px 15px;
+  transition: color var(--transition-fast);
+  position: relative;
+}
+.navbar-menu a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--accent-color);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform var(--transition-fast);
+}
+.navbar-menu a:hover {
+  color: var(--primary-color);
+}
+.navbar-menu a:hover::after {
+  transform: scaleX(1);
+}
+.navbar-special {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  position: relative;
+}
+.dropdown {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.dropdown-toggle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  background: none;
+  border: 1px solid var(--primary-color);
+  border-radius: 9px;
+  padding: 10px 26px;
+  margin-right: 18px;
+  cursor: pointer;
+  letter-spacing: 0.08em;
+  outline: none;
+  transition: border-color 0.2s, color 0.2s;
+}
+.dropdown-toggle:hover {
+  border-color: var(--accent-color);
+  color: var(--accent-color);
+}
+#timer {
+  font-family: monospace;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--primary-color);
+  margin-left: 8px;
+  user-select: none;
+}
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 15px);
+  right: 0;
+  background: #111;
+  border-radius: 8px;
+  min-width: 320px;
+  padding: 16px;
+  box-shadow: 0 4px 18px #000a;
+  z-index: 100;
+  flex-direction: column;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.dropdown:hover .dropdown-menu,
+.dropdown:focus-within .dropdown-menu {
+  display: flex;
+}
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 14px;
+  color: #eee;
+}
+.dropdown-item img {
+  width: 60px;
+  height: 60px;
+  border-radius: 9px;
+  margin-right: 16px;
+  object-fit: cover;
+}
+.dropdown-item strong {
+  font-weight: 700;
+  display: block;
+  margin-bottom: 4px;
+}
+.dropdown-item span {
+  font-size: 0.9rem;
+  color: #ccc;
+}
+.dropdown-link {
+  text-align: center;
+  color: var(--accent-color);
+  font-weight: 700;
+  text-decoration: none;
+  margin-top: 12px;
+  cursor: pointer;
+}
+.dropdown-link:hover {
+  text-decoration: underline;
+}
+
+
+
+
+
+        /* ============================================= */
+        /* =========== ANIMATED STARFIELD ============== */
+        /* ============================================= */
+
+        @keyframes move-stars {
+            from { transform: translateY(0px); }
+            to   { transform: translateY(-2000px); }
+        }
+
+        .stars-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 300%;
+            z-index: -1;
+            background-image: 
+                radial-gradient(1px 1px at 20px 30px, #eee, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 40px 70px, #fff, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 50px 160px, #ddd, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 90px 40px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 130px 80px, #fff, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 160px 120px, #ddd, rgba(0,0,0,0));
+            background-repeat: repeat;
+            background-size: 200px 200px;
+            animation: move-stars 200s linear infinite;
+        }
+
+        /* ============================================= */
+        /* ========== GENERAL LAYOUT & TITLES ========== */
+        /* ============================================= */
+
+        .content-wrapper {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .section-title {
+            font-family: var(--font-family-body);
+            font-weight: 600;
+            font-size: 2.5rem;
+            color: var(--color-primary-accent);
+            margin-bottom: 2rem;
+            text-align: center;
+            text-shadow: 0 0 10px var(--color-primary-accent);
+        }
+
+        /* ============================================= */
+        /* ============= HERO & TITLE ================== */
+        /* ============================================= */
+
+        .hero-section {
+            min-height: 42vh;
+            margin-bottom: -50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .main-title {
+            font-family: var(--font-family-title);
+            font-size: 6rem;
+            color: var(--color-text-primary);
+            text-shadow: 0 0 5px var(--color-primary-accent);
+        }
+
+        /* ============================================= */
+        /* ============== MISSION SECTION ============== */
+        /* ============================================= */
+
+        .mission-section {
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .mission-text {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.2rem;
+            color: var(--color-text-secondary);
+            font-weight: 300;
+        }
+
+        /* ============================================= */
+        /* ================ TEAM SECTION =============== */
+        /* ============================================= */
+
+        .team-section {
+            padding: 4rem 0;
+        }
+        
+        /* --- CSS MODIFICATION --- */
+        /* Changed from a vertical flex column to a responsive grid */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 5rem;
+        }
+
+        .team-member {
+            background: var(--color-background-light);
+            border: 1px solid rgba(10, 189, 198, 0.2);
+            border-radius: var(--border-radius-main);
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex; /* Added for better internal alignment */
+            flex-direction: column; /* Added for better internal alignment */
+        }
+
+        .team-member:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px var(--color-primary-accent);
+        }
+
+        .team-member-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            border: 3px solid var(--color-primary-accent);
+            transition: border-color 0.3s ease;
+            object-fit: cover;
+            background-color: var(--color-background-light);
+        }
+        
+        .team-member-info {
+            flex-grow: 1; /* Allows this container to grow, pushing content down */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .team-member-info h3 {
+            font-size: 1.7rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .team-member-role {
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--color-primary-accent);
+            margin-bottom: 1rem;
+        }
+
+        .team-member-bio {
+            font-size: 0.95rem;
+            color: var(--color-text-secondary);
+            line-height: 1.5;
+            margin-top: auto; /* Pushes the bio to the bottom if cards have uneven heights */
+        }
+
+        /* ============================================= */
+        /* ======== SCROLL ANIMATION CLASSES =========== */
+        /* ============================================= */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ============================================= */
+        /* ============= RESPONSIVENESS ================ */
+        /* ============================================= */
+
+        
+    </style>
+</head>
+<body>
+<nav class="navbar">
+    <a href="#" class="navbar-logo"><img src="logo.png" alt="StellerAtlas Logo"></a>
+    <div class="navbar-menu">
+<a href="homepage.html">HOME</a>
+<a href="blogpage.html">BLOGS</a>
+<a href="astronomy.html">ASTRONOMY</a>
+<a href="resources.html">RESOURCES</a>
+<a href="community.html">COMMUNITY</a>
+<a href="missions.html">MISSIONS</a>
+<a href="about.html">ABOUT</a>
+    </div>
+    <div class="navbar-special">
+      <div class="dropdown">
+        <button class="dropdown-toggle">UPCOMING</button><span id="timer">T-17:49:51</span>
+        <div class="dropdown-menu">
+          <div class="dropdown-item"><img src="1.jpg" alt="Starlink Mission" /><div><strong>Starlink Mission</strong><span>October 14, 2025 11:53 India Time</span></div></div>
+          <a href="#" class="dropdown-link">ALL UPCOMING LAUNCHES</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+    <div class="stars-background"></div>
+
+    <main class="content-wrapper">
+
+        <section class="hero-section">
+            <h1 class="main-title" id="decryption-title" data-value="Know About Us"></h1>
+        </section>
+
+        <section class="mission-section fade-in">
+            <h2 class="section-title">Our Mission</h2>
+            <p class="mission-text">
+                Our goal is to create a one-stop platform for everyone, from the casual stargazer to the dedicated astrophysicist. We aim to be the gateway to the cosmos, providing accessible knowledge, breaking news, engaging content, and a community hub for all who look up at the stars and wonder. We believe space is for everyone, and this is our contribution to that shared journey.
+            </p>
+        </section>
+
+        <section class="team-section fade-in">
+            <h2 class="section-title">Our Team</h2>
+            <div class="team-grid">
+
+                <div class="team-member">
+                    <img class="team-member-img" src="./images/member1.jpg" alt="Photo of Alex Carter">
+                    <div class="team-member-info">
+                        <h3>Anvay Ghare</h3>
+                        <h4 class="team-member-role">Lead Front-end Developer and content strategist</h4>
+                        <p class="team-member-bio">..</p>
+                    </div>
+                </div>
+
+                <div class="team-member">
+                    <img class="team-member-img" src="./images/member2.jpg" alt="Photo of Benita Sharma">
+                    <div class="team-member-info">
+                        <h3>Tanishq Kaushal</h3>
+                        <h4 class="team-member-role">Team-Leader, Expert in Back-end, Lead Full-stack developer</h4>
+                        <p class="team-member-bio">...</p>
+                    </div>
+                </div>
+
+                <div class="team-member">
+                    <img class="team-member-img" src="./images/member3.jpg" alt="Photo of Charles Lee">
+                    <div class="team-member-info">
+                        <h3>Akshat Upadhyay</h3>
+                        <h4 class="team-member-role">Front-End developer and UI/UX designer</h4>
+                        <p class="team-member-bio">..</p>
+                    </div>
+                </div>
+
+                <div class="team-member">
+                    <img class="team-member-img" src="./images/member4.jpg" alt="Photo of Diana Reed">
+                    <div class="team-member-info">
+                        <h3>Rishikesh Sharma</h3>
+                        <h4 class="team-member-role">Content planing and execution head</h4>
+                        <p class="team-member-bio">..</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // ============================================= //
+            // =========== TITLE DECRYPTION EFFECT ========= //
+            // ============================================= //
+            const titleElement = document.getElementById('decryption-title');
+            const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890*&^%$#@!";
+            const originalText = titleElement.dataset.value;
+            let interval = null;
+            let iteration = 0;
+
+            titleElement.innerText = "";
+
+            setTimeout(() => {
+                interval = setInterval(() => {
+                    titleElement.innerText = originalText
+                        .split("")
+                        .map((letter, index) => {
+                            if (index < iteration) {
+                                return originalText[index];
+                            }
+                            return letters[Math.floor(Math.random() * letters.length)];
+                        })
+                        .join("");
+
+                    if (iteration >= originalText.length) {
+                        clearInterval(interval);
+                    }
+                    
+                    if(originalText[iteration] !== ' '){
+                         iteration += 1 / 6;
+                    } else {
+                         iteration += 1;
+                    }
+
+                }, 40);
+            }, 500);
+
+            // ============================================= //
+            // ========= SCROLL FADE-IN ANIMATION ========== //
+            // ============================================= //
+            const faders = document.querySelectorAll('.fade-in');
+
+            const appearOptions = {
+                threshold: 0.3
+            };
+
+            const appearOnScroll = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | AstroVerse</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ============================================= */
+        /* =========== DESIGN SYSTEM & SETUP =========== */
+        /* ============================================= */
+
+        /* Using CSS variables for easy theme management */
+        :root {
+            --color-background-dark: #01041a; /* Deep Space Blue */
+            --color-background-light: #0a0e27;
+            --color-primary-accent: #0abdc6;   /* Electric Cyan */
+            --color-secondary-accent: #4f0270; /* Nebula Purple */
+            --color-text-primary: #f0f0f0;     /* Off-white for readability */
+            --color-text-secondary: #a0a0a0;
+            
+            --font-family-title: 'VT323', monospace;
+            --font-family-body: 'Exo 2', sans-serif;
+
+            --border-radius-main: 12px;
+        }
+
+        /* Basic Reset & Body Styling */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--color-background-dark);
+            color: var(--color-text-primary);
+            font-family: var(--font-family-body);
+            line-height: 1.6;
+            overflow-x: hidden; /* Prevents horizontal scroll */
+        }
+
+        /* ============================================= */
+        /* =========== ANIMATED STARFIELD ============== */
+        /* ============================================= */
+
+        @keyframes move-stars {
+            from { transform: translateY(0px); }
+            to   { transform: translateY(-2000px); }
+        }
+
+        .stars-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 300%; /* Making it taller allows for a long, slow scroll animation */
+            z-index: -1;
+            background-image: 
+                radial-gradient(1px 1px at 20px 30px, #eee, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 40px 70px, #fff, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 50px 160px, #ddd, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 90px 40px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 130px 80px, #fff, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 160px 120px, #ddd, rgba(0,0,0,0));
+            background-repeat: repeat;
+            background-size: 200px 200px;
+            animation: move-stars 200s linear infinite; /* A very slow animation for a subtle effect */
+        }
+
+        /* ============================================= */
+        /* ========== GENERAL LAYOUT & TITLES ========== */
+        /* ============================================= */
+
+        .content-wrapper {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .section-title {
+            font-family: var(--font-family-body);
+            font-weight: 600;
+            font-size: 2.5rem;
+            color: var(--color-primary-accent);
+            margin-bottom: 2rem;
+            text-align: center;
+            text-shadow: 0 0 10px var(--color-primary-accent);
+        }
+
+        /* ============================================= */
+        /* ============= HERO & TITLE ================== */
+        /* ============================================= */
+
+        .hero-section {
+            min-height: 50vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .main-title {
+            font-family: var(--font-family-title);
+            font-size: 6rem;
+            color: var(--color-text-primary);
+            text-shadow: 0 0 5px var(--color-primary-accent);
+        }
+
+        /* ============================================= */
+        /* ============== MISSION SECTION ============== */
+        /* ============================================= */
+
+        .mission-section {
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .mission-text {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.2rem;
+            color: var(--color-text-secondary);
+            font-weight: 300;
+        }
+
+        /* ============================================= */
+        /* ================ TEAM SECTION =============== */
+        /* ============================================= */
+
+        .team-section {
+            padding: 4rem 0;
+        }
+        
+        .team-grid {
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            gap: 2.5rem; 
+        }
+
+        .team-member {
+            background: var(--color-background-light);
+            border: 1px solid rgba(10, 189, 198, 0.2);
+            border-radius: var(--border-radius-main);
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            width: 100%; 
+            max-width: 500px; 
+        }
+
+        .team-member:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px var(--color-primary-accent);
+        }
+
+        .team-member-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            background-size: cover;
+            background-position: center;
+            border: 3px solid var(--color-primary-accent);
+            transition: border-color 0.3s ease;
+        }
+
+        .team-member-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .know-more-btn {
+            background-color: transparent;
+            border: 1px solid var(--color-primary-accent);
+            color: var(--color-primary-accent);
+            padding: 0.5rem 1.5rem;
+            font-family: var(--font-family-body);
+            font-size: 0.9rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .know-more-btn:hover {
+            background-color: var(--color-primary-accent);
+            color: var(--color-background-dark);
+        }
+
+        /* ============================================= */
+        /* ============== MODAL STYLING ================ */
+        /* ============================================= */
+
+        #modal-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            display: none; /* Hidden by default */
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        #modal-container.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background-color: rgba(10, 14, 39, 0.8); /* Semi-transparent background */
+            backdrop-filter: blur(10px); /* Frosted glass effect */
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(10, 189, 198, 0.4);
+            padding: 2.5rem;
+            border-radius: var(--border-radius-main);
+            max-width: 600px;
+            width: 90%;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.4s ease;
+        }
+
+        #modal-container.show .modal-content {
+            transform: scale(1);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-size: 2rem;
+            color: var(--color-text-secondary);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-btn:hover {
+            color: var(--color-primary-accent);
+        }
+
+        /* ============================================= */
+        /* ======== SCROLL ANIMATION CLASSES =========== */
+        /* ============================================= */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ============================================= */
+        /* ============= RESPONSIVENESS ================ */
+        /* ============================================= */
+
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 3.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="stars-background"></div>
+
+    <main class="content-wrapper">
+
+        <section class="hero-section">
+            <h1 class="main-title" id="decryption-title" data-value="Know About Us"></h1>
+        </section>
+
+        <section class="mission-section fade-in">
+            <h2 class="section-title">Our Mission</h2>
+            <p class="mission-text">
+                Our goal is to create a one-stop platform for everyone, from the casual stargazer to the dedicated astrophysicist. We aim to be the gateway to the cosmos, providing accessible knowledge, breaking news, engaging content, and a community hub for all who look up at the stars and wonder. We believe space is for everyone, and this is our contribution to that shared journey.
+            </p>
+        </section>
+
+        <section class="team-section fade-in">
+            <h2 class="section-title">Our Team</h2>
+            <div class="team-grid">
+
+                <div class="team-member">
+                    <div class="team-member-img" style="background-image: url('https://i.pravatar.cc/150?img=1');"></div>
+                    <div class="team-member-info">
+                        <h3>Anvay Ghare</h3>
+                        <button class="know-more-btn" data-member="1">Know More</button>
+                    </div>
+                </div>
+
+                <div class="team-member">
+                    <div class="team-member-img" style="background-image: url('https://i.pravatar.cc/150?img=2');"></div>
+                    <div class="team-member-info">
+                        <h3>Tanishq Kaushal</h3>
+                         <button class="know-more-btn" data-member="2">Know More</button>
+                    </div>
+                </div>
+
+                <div class="team-member">
+                    <div class="team-member-img" style="background-image: url('https://i.pravatar.cc/150?img=3');"></div>
+                    <div class="team-member-info">
+                        <h3>Akshat Upadhyay</h3>
+                         <button class="know-more-btn" data-member="3">Know More</button>
+                    </div>
+                </div>
+
+                <div class="team-member">
+                    <div class="team-member-img" style="background-image: url('https://i.pravatar.cc/150?img=4');"></div>
+                    <div class="team-member-info">
+                        <h3>Rishikesh Sharma</h3>
+                         <button class="know-more-btn" data-member="4">Know More</button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <div id="modal-container">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <div id="modal-body">
+                </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // ============================================= //
+            // =========== TITLE DECRYPTION EFFECT ========= //
+            // ============================================= //
+            const titleElement = document.getElementById('decryption-title');
+            const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890*&^%$#@!";
+            const originalText = titleElement.dataset.value;
+            let interval = null;
+            let iteration = 0;
+
+            titleElement.innerText = ""; // Clear initial text
+
+            setTimeout(() => { // Start effect after a brief delay
+                interval = setInterval(() => {
+                    titleElement.innerText = originalText
+                        .split("")
+                        .map((letter, index) => {
+                            if (index < iteration) {
+                                return originalText[index];
+                            }
+                            return letters[Math.floor(Math.random() * letters.length)];
+                        })
+                        .join("");
+
+                    if (iteration >= originalText.length) {
+                        clearInterval(interval);
+                    }
+                    
+                    if(originalText[iteration] !== ' '){
+                         iteration += 1 / 6; // Controls reveal speed (slower)
+                    } else {
+                         iteration += 1; // Skip spaces faster
+                    }
+
+                }, 40); // Controls flicker speed
+            }, 500);
+
+
+            // ============================================= //
+            // =============== TEAM MEMBER DATA ============ //
+            // ============================================= //
+            const teamData = {
+                1: {
+                    name: "Anvay Ghare",
+                    role: "Lead Front-end Developer and content strategist",
+                    bio: "Student of VIT Pune EnTC Department.",
+                    image: "" // TODO: Replace with actual image path
+                },
+                2: {
+                    name: "Tanishq Kaushal",
+                    role: "Team-Leader, Expert in Back-end, Lead Full-stack developer",
+                    bio: "Student of VU Pune Computer Science Department",
+                    image: "https://i.pravatar.cc/150?img=2" // TODO: Replace with actual image path
+                },
+                3: {
+                    name: "Akshat Upadhyay",
+                    role: "Front-End developer and UI/UX designer",
+                    bio: "Student of VU Pune Computer Science Department",
+                    image: "https://i.pravatar.cc/150?img=3" // TODO: Replace with actual image path
+                },
+                4: {
+                    name: "Rishikesh Sharma",
+                    role: "Content planing and execution head",
+                    bio: "Student of VU Pune Computer Science Department",
+                    image: "https://i.pravatar.cc/150?img=4" // TODO: Replace with actual image path
+                }
+            };
+
+            // ============================================= //
+            // ================ MODAL LOGIC ================ //
+            // ============================================= //
+            const modalContainer = document.getElementById('modal-container');
+            const modalBody = document.getElementById('modal-body');
+            const closeBtn = document.querySelector('.close-btn');
+            const teamGrid = document.querySelector('.team-grid');
+
+            teamGrid.addEventListener('click', (event) => {
+                if (event.target.classList.contains('know-more-btn')) {
+                    const memberId = event.target.dataset.member;
+                    const member = teamData[memberId];
+
+                    if (member) {
+                        modalBody.innerHTML = `
+                            <div style="text-align: center;">
+                                <img src="${member.image}" alt="${member.name}" style="width: 150px; height: 150px; border-radius: 50%; border: 3px solid var(--color-primary-accent); margin-bottom: 1rem;">
+                                <h2 style="font-size: 2rem; margin-bottom: 0.5rem;">${member.name}</h2>
+                                <h4 style="font-size: 1.1rem; color: var(--color-primary-accent); font-weight: 400; margin-bottom: 1.5rem;">${member.role}</h4>
+                                <p style="color: var(--color-text-secondary);">${member.bio}</p>
+                            </div>
+                        `;
+                        modalContainer.classList.add('show');
+                    }
+                }
+            });
+
+            const closeModal = () => {
+                modalContainer.classList.remove('show');
+            };
+
+            closeBtn.addEventListener('click', closeModal);
+            modalContainer.addEventListener('click', (event) => {
+                if (event.target === modalContainer) {
+                    closeModal();
+                }
+            });
+
+            // ============================================= //
+            // ========= SCROLL FADE-IN ANIMATION ========== //
+            // ============================================= //
+            const faders = document.querySelectorAll('.fade-in');
+
+            const appearOptions = {
+                threshold: 0.3
+            };
+
+            const appearOnScroll = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+
+        });
+    </script>
+</body>
+</html>

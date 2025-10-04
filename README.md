@@ -1,2 +1,0 @@
-# DmD
-A Hackathon project

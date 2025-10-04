@@ -181,23 +181,149 @@
     @media (max-width: 600px) {
         .navbar-special { display: none; } /* Hide special button on very small screens */
     }
+footer {
+  position: relative;
+  z-index: 5;
+  background: #050505;
+  padding: 80px 40px 20px 40px;
+  border-top: 4px solid var(--accent-color);
+  color: #999;
+}
+.footer-container {
+  max-width: 1300px;
+  margin: 0 auto;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr repeat(4, 1fr);
+  gap: 50px;
+  margin-bottom: 60px;
+}
+.footer-col .logo-footer {
+  height: 50px;
+  margin-bottom: 20px;
+}
+.footer-col p {
+  line-height: 1.7;
+  max-width: 300px;
+}
+.footer-col h4 {
+  font-size: 1.1rem;
+  margin-bottom: 25px;
+  color: var(--primary-color);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+.footer-col ul {
+  list-style: none;
+  padding: 0;
+}
+.footer-col ul li {
+  margin-bottom: 15px;
+}
+.footer-col a {
+  text-decoration: none;
+  color: #999;
+  transition: color var(--transition-fast);
+}
+.footer-col a:hover {
+  color: var(--accent-color);
+}
+.social-icons {
+  display: flex;
+  gap: 15px;
+}
+.social-icons a {
+  font-size: 1.2rem;
+  color: #999;
+  background-color: #222;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+.social-icons a:hover {
+  background-color: var(--accent-color);
+  color: #000;
+}
+.newsletter-form {
+  display: flex;
+  margin-top: 10px;
+  max-width: 250px;
+}
+.newsletter-form input {
+  flex-grow: 1;
+  padding: 12px;
+  border: 1px solid #444;
+  background: #222;
+  color: var(--primary-color);
+  border-radius: 5px 0 0 5px;
+  outline: none;
+}
+.newsletter-form button {
+  padding: 12px 20px;
+  border: 1px solid var(--accent-color);
+  background: var(--accent-color);
+  color: var(--dark-bg);
+  cursor: pointer;
+  font-weight: 700;
+  border-radius: 0 5px 5px 0;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+.newsletter-form button:hover {
+  background: #ffedaa;
+}
+.footer-bottom {
+  text-align: center;
+  padding-top: 30px;
+  border-top: 1px solid #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.footer-bottom-links a {
+  color: #999;
+  text-decoration: none;
+  margin-left: 20px;
+  transition: color var(--transition-fast);
+}
+.footer-bottom-links a:hover {
+  color: var(--accent-color);
+}
+/* Responsive footer adjustments can be added similarly */
+
+
+
+
+
+
+
+
+
+
+
   </style>
 </head>
 <body>
   <canvas id="star-field"></canvas>
 
   <nav class="navbar">
-    <a href="index.html" class="navbar-logo">
+    <a href="homepage.html" class="navbar-logo">
       <img src="logo.png" alt="Astrophysics Explorer Logo">
     </a>
     <div class="navbar-menu">
-        <a href="index.html#home">HOME</a>
-        <a href="blog.html" class="active-page">BLOGS</a>
-        <a href="index.html#astronomy">ASTRONOMY</a>
-        <a href="index.html#resources">RESOURCES</a>
-        <a href="index.html#community">COMMUNITY</a>
-        <a href="index.html#missions">MISSIONS</a>
-        <a href="index.html#about">ABOUT</a>
+        <a href="homepage.html">HOME</a>
+<a href="blogpage.html">BLOGS</a>
+<a href="astronomy.html">ASTRONOMY</a>
+<a href="resources.html">RESOURCES</a>
+<a href="community.html">COMMUNITY</a>
+<a href="missions.html">MISSIONS</a>
+<a href="about.html">ABOUT</a>
     </div>
     <div class="navbar-special">
         <div class="dropdown">
@@ -226,27 +352,27 @@
     </div>
 
     <div class="article-grid">
-      <a href="#" class="article-card-link"><div class="article-card" data-category="nasa discoveries"><img src="deepspace.png" alt="JWST Deep Field" class="thumbnail"><div class="card-header"><img src="nasa.png" alt="NASA Logo" class="source-logo"><h3>JWST Uncovers Oldest Galaxy Ever Observed</h3></div><div class="card-footer"><span class="date">Sep 28, 2025</span><span class="tags">#JWST #Discoveries</span></div></div></a>
-      <a href="#" class="article-card-link"><div class="article-card" data-category="spacex missions"><img src="starship.png" alt="Starship Launch" class="thumbnail"><div class="card-header"><img src="spacex.png" alt="SpaceX Logo" class="source-logo"><h3>Starship Completes First Manned Orbital Test Flight</h3></div><div class="card-footer"><span class="date">Sep 27, 2025</span><span class="tags">#Starship #Missions</span></div></div></a>
-      <a href="#" class="article-card-link"><div class="article-card" data-category="isro missions"><img src="gaganyaan.png" alt="Gaganyaan Module" class="thumbnail"><div class="card-header"><img src="isro.png" alt="ISRO Logo" class="source-logo"><h3>ISRO Announces Crew for Upcoming Gaganyaan-3 Mission</h3></div><div class="card-footer"><span class="date">Sep 25, 2025</span><span class="tags">#Gaganyaan #Missions</span></div></div></a>
-      <a href="#" class="article-card-link"><div class="article-card" data-category="esa discoveries"><img src="euclid.png" alt="Euclid Telescope Image" class="thumbnail"><div class="card-header"><img src="esa.png" alt="ESA Logo" class="source-logo"><h3>Euclid Telescope Delivers Stunning First Images of Dark Universe</h3></div><div class="card-footer"><span class="date">Sep 24, 2025</span><span class="tags">#Euclid #Discoveries</span></div></div></a>
-      <a href="#" class="article-card-link"><div class="article-card" data-category="esa missions"><img src="ariane.png" alt="Ariane 6 on launchpad" class="thumbnail"><div class="card-header"><img src="esa.png" alt="ESA Logo" class="source-logo"><h3>Ariane 6 Completes Full-Duration Engine Test Fire</h3></div><div class="card-footer"><span class="date">Sep 22, 2025</span><span class="tags">#Ariane6 #Missions</span></div></div></a>
-      <a href="#" class="article-card-link"><div class="article-card" data-category="esa missions"><img src="exomars.png" alt="Rosalind Franklin Rover" class="thumbnail"><div class="card-header"><img src="esa.png" alt="ESA Logo" class="source-logo"><h3>ExoMars Rover Rosalind Franklin Prepares for Martian Descent</h3></div><div class="card-footer"><span class="date">Sep 19, 2025</span><span class="tags">#ExoMars #Missions</span></div></div></a>
-      <a href="#" class="article-card-link"><div class="article-card" data-category="esa discoveries"><img src="juice.png" alt="JUICE at Jupiter" class="thumbnail"><div class="card-header"><img src="esa.png" alt="ESA Logo" class="source-logo"><h3>JUICE Mission Successfully Deploys Ice-Penetrating Radar Antenna</h3></div><div class="card-footer"><span class="date">Sep 16, 2025</span><span class="tags">#JUICE #Discoveries</span></div></div></a>
-      <a href="#" class="article-card-link"><div class="article-card" data-category="discoveries"><img src="blackhole.png" alt="Black Hole" class="thumbnail"><div class="card-header"><h3>New Evidence Suggests Primordial Black Holes Are Real</h3></div><div class="card-footer"><span class="date">Sep 22, 2025</span><span class="tags">#Cosmology #Discoveries</span></div></div></a>
-      <a href="#" class="article-card-link"><div class="article-card" data-category="nasa missions"><img src="artemis.png" alt="Artemis Moon Base" class="thumbnail"><div class="card-header"><img src="nasa.png" alt="NASA Logo" class="source-logo"><h3>NASA's Artemis Program Finalizes Location for Lunar Base</h3></div><div class="card-footer"><span class="date">Sep 20, 2025</span><span class="tags">#Artemis #Missions</span></div></div></a>
-      <a href="#" class="article-card-link"><div class="article-card" data-category="nasa missions"><img src="psyche.png" alt="Psyche spacecraft" class="thumbnail"><div class="card-header"><img src="nasa.png" alt="NASA Logo" class="source-logo"><h3>Psyche Mission Begins 2.2-Billion-Mile Journey to Metal Asteroid</h3></div><div class="card-footer"><span class="date">Sep 18, 2025</span><span class="tags">#Psyche #Missions</span></div></div></a>
-      <a href="#" class="article-card-link"><div class="article-card" data-category="nasa discoveries"><img src="superearth.png" alt="Exoplanet illustration" class="thumbnail"><div class="card-header"><img src="nasa.png" alt="NASA Logo" class="source-logo"><h3>'Super-Earth' with Potential for Liquid Water Found in Nearby System</h3></div><div class="card-footer"><span class="date">Sep 15, 2025</span><span class="tags">#Exoplanet #Discoveries</span></div></div></a>
-      <a href="#" class="article-card-link"><div class="article-card" data-category="nasa missions"><img src="lpe.png" alt="Lunar Gateway station" class="thumbnail"><div class="card-header"><img src="nasa.png" alt="NASA Logo" class="source-logo"><h3>First Modules for Lunar Gateway Space Station Begin Integration</h3></div><div class="card-footer"><span class="date">Sep 12, 2025</span><span class="tags">#Gateway #Missions</span></div></div></a>
-      <a href="#" class="article-card-link"><div class="article-card" data-category="nasa tech"><img src="sail.png" alt="Solar sail" class="thumbnail"><div class="card-header"><img src="nasa.png" alt="NASA Logo" class="source-logo"><h3>Advanced Solar Sail Mission Demonstrates Record-Breaking Propulsion</h3></div><div class="card-footer"><span class="date">Sep 10, 2025</span><span class="tags">#Propulsion #Tech</span></div></div></a>
-      <a href="#" class="article-card-link"><div class="article-card" data-category="spacex missions"><img src="dearmoon.png" alt="dearMoon crew" class="thumbnail"><div class="card-header"><img src="spacex.png" alt="SpaceX Logo" class="source-logo"><h3>dearMoon Announces Final Crew Roster for Lunar Flyby</h3></div><div class="card-footer"><span class="date">Sep 09, 2025</span><span class="tags">#dearMoon #Missions</span></div></div></a>
-      <a href="#" class="article-card-link"><div class="article-card" data-category="spacex tech"><img src="raptor.png" alt="Raptor engine test" class="thumbnail"><div class="card-header"><img src="spacex.png" alt="SpaceX Logo" class="source-logo"><h3>Next-Generation Raptor 3 Engine Achieves New Thrust Record</h3></div><div class="card-footer"><span class="date">Sep 07, 2025</span><span class="tags">#Raptor #Tech</span></div></div></a>
-      <a href="#" class="article-card-link"><div class="article-card" data-category="spacex missions"><img src="cargo.png" alt="Red Dragon on Mars" class="thumbnail"><div class="card-header"><img src="spacex.png" alt="SpaceX Logo" class="source-logo"><h3>SpaceX Awarded NASA Contract for Unmanned Mars Cargo Lander</h3></div><div class="card-footer"><span class="date">Sep 05, 2025</span><span class="tags">#Mars #Missions</span></div></div></a>
-      <a href="#" class="article-card-link"><div class="article-card" data-category="spacex"><img src="starlink.png" alt="Starlink v3 satellites" class="thumbnail"><div class="card-header"><img src="spacex.png" alt="SpaceX Logo" class="source-logo"><h3>Starlink V3 Satellites to Include Inter-Satellite Laser Links</h3></div><div class="card-footer"><span class="date">Sep 02, 2025</span><span class="tags">#Starlink #Tech</span></div></div></a>
-      <a href="#" class="article-card-link"><div class="article-card" data-category="isro missions"><img src="shukrayaan.png" alt="Shukrayaan orbiter" class="thumbnail"><div class="card-header"><img src="isro.png" alt="ISRO Logo" class="source-logo"><h3>Shukrayaan-1 Venus Orbiter Enters Final Testing Phase</h3></div><div class="card-footer"><span class="date">Aug 30, 2025</span><span class="tags">#Shukrayaan #Missions</span></div></div></a>
-      <a href="#" class="article-card-link"><div class="article-card" data-category="isro tech"><img src="scramjet.png" alt="Scramjet engine" class="thumbnail"><div class="card-header"><img src="isro.png" alt="ISRO Logo" class="source-logo"><h3>ISRO Successfully Tests Hypersonic Air-Breathing Scramjet Engine</h3></div><div class="card-footer"><span class="date">Aug 28, 2025</span><span class="tags">#Propulsion #Tech</span></div></div></a>
-      <a href="#" class="article-card-link"><div class="article-card" data-category="isro discoveries"><img src="aditya.png" alt="Aditya-L1 solar data" class="thumbnail"><div class="card-header"><img src="isro.png" alt="ISRO Logo" class="source-logo"><h3>Aditya-L1 Captures Highest Resolution Images of Solar Corona</h3></div><div class="card-footer"><span class="date">Aug 25, 2025</span><span class="tags">#AdityaL1 #Discoveries</span></div></div></a>
-      <a href="#" class="article-card-link"><div class="article-card" data-category="isro missions"><img src="rlv.png" alt="Reusable Launch Vehicle" class="thumbnail"><div class="card-header"><img src="isro.png" alt="ISRO Logo" class="source-logo"><h3>Reusable Launch Vehicle (RLV) Completes Autonomous Landing Test</h3></div><div class="card-footer"><span class="date">Aug 21, 2025</span><span class="tags">#RLV #Missions</span></div></div></a>
+      <a href="https://science.nasa.gov/blogs/webb/2024/05/30/nasas-james-webb-space-telescope-finds-most-distant-known-" class="article-card-link"><div class="article-card" data-category="nasa discoveries"><img src="deepspace.png" alt="JWST Deep Field" class="thumbnail"><div class="card-header"><img src="nasa.png" alt="NASA Logo" class="source-logo"><h3>JWST Uncovers Oldest Galaxy Ever Observed</h3></div><div class="card-footer"><span class="date">Sep 28, 2025</span><span class="tags">#JWST #Discoveries</span></div></div></a>
+      <a href="https://nss.org/the-national-space-society-cheers-spacex-starship-launch-test/" class="article-card-link"><div class="article-card" data-category="spacex missions"><img src="starship.png" alt="Starship Launch" class="thumbnail"><div class="card-header"><img src="spacex.png" alt="SpaceX Logo" class="source-logo"><h3>Starship Completes First Manned Orbital Test Flight</h3></div><div class="card-footer"><span class="date">Sep 27, 2025</span><span class="tags">#Starship #Missions</span></div></div></a>
+      <a href="https://space-india.com/indias-quest-for-crewed-space-flight-via-the-gaganyaan-mission/" class="article-card-link"><div class="article-card" data-category="isro missions"><img src="gaganyaan.png" alt="Gaganyaan Module" class="thumbnail"><div class="card-header"><img src="isro.png" alt="ISRO Logo" class="source-logo"><h3>ISRO Announces Crew for Upcoming Gaganyaan-3 Mission</h3></div><div class="card-footer"><span class="date">Sep 25, 2025</span><span class="tags">#Gaganyaan #Missions</span></div></div></a>
+      <a href="https://www.esa.int/Science_Exploration/Space_Science/Euclid/Euclid_s_first_images_the_dazzling_edge_of_darkness" class="article-card-link"><div class="article-card" data-category="esa discoveries"><img src="euclid.png" alt="Euclid Telescope Image" class="thumbnail"><div class="card-header"><img src="esa.png" alt="ESA Logo" class="source-logo"><h3>Euclid Telescope Delivers Stunning First Images of Dark Universe</h3></div><div class="card-footer"><span class="date">Sep 24, 2025</span><span class="tags">#Euclid #Discoveries</span></div></div></a>
+      <a href="https://blogs.esa.int/ariane6/blog/" class="article-card-link"><div class="article-card" data-category="esa missions"><img src="ariane.png" alt="Ariane 6 on launchpad" class="thumbnail"><div class="card-header"><img src="esa.png" alt="ESA Logo" class="source-logo"><h3>Ariane 6 Completes Full-Duration Engine Test Fire</h3></div><div class="card-footer"><span class="date">Sep 22, 2025</span><span class="tags">#Ariane6 #Missions</span></div></div></a>
+      <a href="https://blogs.esa.int/to-mars-and-back/2023/12/13/the-making-of-the-exomars-rover-movie/" class="article-card-link"><div class="article-card" data-category="esa missions"><img src="exomars.png" alt="Rosalind Franklin Rover" class="thumbnail"><div class="card-header"><img src="esa.png" alt="ESA Logo" class="source-logo"><h3>ExoMars Rover Rosalind Franklin Prepares for Martian Descent</h3></div><div class="card-footer"><span class="date">Sep 19, 2025</span><span class="tags">#ExoMars #Missions</span></div></div></a>
+      <a href="https://www.esa.int/Science_Exploration/Space_Science/Juice" class="article-card-link"><div class="article-card" data-category="esa discoveries"><img src="juice.png" alt="JUICE at Jupiter" class="thumbnail"><div class="card-header"><img src="esa.png" alt="ESA Logo" class="source-logo"><h3>JUICE Mission Successfully Deploys Ice-Penetrating Radar Antenna</h3></div><div class="card-footer"><span class="date">Sep 16, 2025</span><span class="tags">#JUICE #Discoveries</span></div></div></a>
+      <a href="https://aeon.co/essays/how-primordial-black-holes-might-explain-dark-matter" class="article-card-link"><div class="article-card" data-category="discoveries"><img src="blackhole.png" alt="Black Hole" class="thumbnail"><div class="card-header"><h3>New Evidence Suggests Primordial Black Holes Are Real</h3></div><div class="card-footer"><span class="date">Sep 22, 2025</span><span class="tags">#Cosmology #Discoveries</span></div></div></a>
+      <a href="https://science.nasa.gov/solar-system/moon/nasas-artemis-ii-lunar-science-operations-to-inform-future-missions/" class="article-card-link"><div class="article-card" data-category="nasa missions"><img src="artemis.png" alt="Artemis Moon Base" class="thumbnail"><div class="card-header"><img src="nasa.png" alt="NASA Logo" class="source-logo"><h3>NASA's Artemis Program Finalizes Location for Lunar Base</h3></div><div class="card-footer"><span class="date">Sep 20, 2025</span><span class="tags">#Artemis #Missions</span></div></div></a>
+      <a href="https://science.nasa.gov/blogs/psyche/2023/10/13/nasas-psyche-mission-first-to-a-metal-rich-asteroid/" class="article-card-link"><div class="article-card" data-category="nasa missions"><img src="psyche.png" alt="Psyche spacecraft" class="thumbnail"><div class="card-header"><img src="nasa.png" alt="NASA Logo" class="source-logo"><h3>Psyche Mission Begins 2.2-Billion-Mile Journey to Metal Asteroid</h3></div><div class="card-footer"><span class="date">Sep 18, 2025</span><span class="tags">#Psyche #Missions</span></div></div></a>
+      <a href="https://science.nasa.gov/universe/exoplanets/discovery-alert-a-super-earth-in-the-habitable-zone/" class="article-card-link"><div class="article-card" data-category="nasa discoveries"><img src="superearth.png" alt="Exoplanet illustration" class="thumbnail"><div class="card-header"><img src="nasa.png" alt="NASA Logo" class="source-logo"><h3>'Super-Earth' with Potential for Liquid Water Found in Nearby System</h3></div><div class="card-footer"><span class="date">Sep 15, 2025</span><span class="tags">#Exoplanet #Discoveries</span></div></div></a>
+      <a href="https://www.group.sener/en/insights/lunar-gateway-the-first-lunar-space-station-of-humanity/" class="article-card-link"><div class="article-card" data-category="nasa missions"><img src="lpe.png" alt="Lunar Gateway station" class="thumbnail"><div class="card-header"><img src="nasa.png" alt="NASA Logo" class="source-logo"><h3>First Modules for Lunar Gateway Space Station Begin Integration</h3></div><div class="card-footer"><span class="date">Sep 12, 2025</span><span class="tags">#Gateway #Missions</span></div></div></a>
+      <a href="https://science.nasa.gov/science-research/sail-along-with-nasas-solar-sail-tech-demo-in-real-time-simulation/" class="article-card-link"><div class="article-card" data-category="nasa tech"><img src="sail.png" alt="Solar sail" class="thumbnail"><div class="card-header"><img src="nasa.png" alt="NASA Logo" class="source-logo"><h3>Advanced Solar Sail Mission Demonstrates Record-Breaking Propulsion</h3></div><div class="card-footer"><span class="date">Sep 10, 2025</span><span class="tags">#Propulsion #Tech</span></div></div></a>
+      <a href="https://dearmoon.earth/" class="article-card-link"><div class="article-card" data-category="spacex missions"><img src="dearmoon.png" alt="dearMoon crew" class="thumbnail"><div class="card-header"><img src="spacex.png" alt="SpaceX Logo" class="source-logo"><h3>dearMoon Announces Final Crew Roster for Lunar Flyby</h3></div><div class="card-footer"><span class="date">Sep 09, 2025</span><span class="tags">#dearMoon #Missions</span></div></div></a>
+      <a href="https://eureka.patsnap.com/blog/raptor-3-engine-specs-performance/" class="article-card-link"><div class="article-card" data-category="spacex tech"><img src="raptor.png" alt="Raptor engine test" class="thumbnail"><div class="card-header"><img src="spacex.png" alt="SpaceX Logo" class="source-logo"><h3>Next-Generation Raptor 3 Engine Achieves New Thrust Record</h3></div><div class="card-footer"><span class="date">Sep 07, 2025</span><span class="tags">#Raptor #Tech</span></div></div></a>
+      <a href="https://www.nasa.gov/directorates/esdmd/artemis-campaign-development-division/human-landing-system-program/work-underway-on-large-cargo-landers-for-nasas-artemis-moon-missions/" class="article-card-link"><div class="article-card" data-category="spacex missions"><img src="cargo.png" alt="Red Dragon on Mars" class="thumbnail"><div class="card-header"><img src="spacex.png" alt="SpaceX Logo" class="source-logo"><h3>SpaceX Awarded NASA Contract for Unmanned Mars Cargo Lander</h3></div><div class="card-footer"><span class="date">Sep 05, 2025</span><span class="tags">#Mars #Missions</span></div></div></a>
+      <a href="https://www.spacelink-installations.co.uk/blog/all-you-need-to-know-about-starlink-gen-3/" class="article-card-link"><div class="article-card" data-category="spacex"><img src="starlink.png" alt="Starlink v3 satellites" class="thumbnail"><div class="card-header"><img src="spacex.png" alt="SpaceX Logo" class="source-logo"><h3>Starlink V3 Satellites to Include Inter-Satellite Laser Links</h3></div><div class="card-footer"><span class="date">Sep 02, 2025</span><span class="tags">#Starlink #Tech</span></div></div></a>
+      <a href="https://indianspacetechnology.com/shukrayaan-1-isro/" class="article-card-link"><div class="article-card" data-category="isro missions"><img src="shukrayaan.png" alt="Shukrayaan orbiter" class="thumbnail"><div class="card-header"><img src="isro.png" alt="ISRO Logo" class="source-logo"><h3>Shukrayaan-1 Venus Orbiter Enters Final Testing Phase</h3></div><div class="card-footer"><span class="date">Aug 30, 2025</span><span class="tags">#Shukrayaan #Missions</span></div></div></a>
+      <a href="https://eureka.patsnap.com/blog/what-is-a-scramjet-engine/" class="article-card-link"><div class="article-card" data-category="isro tech"><img src="scramjet.png" alt="Scramjet engine" class="thumbnail"><div class="card-header"><img src="isro.png" alt="ISRO Logo" class="source-logo"><h3>ISRO Successfully Tests Hypersonic Air-Breathing Scramjet Engine</h3></div><div class="card-footer"><span class="date">Aug 28, 2025</span><span class="tags">#Propulsion #Tech</span></div></div></a>
+      <a href="https://www.isro.gov.in/Aditya_L1_SUIT.html" class="article-card-link"><div class="article-card" data-category="isro discoveries"><img src="aditya.png" alt="Aditya-L1 solar data" class="thumbnail"><div class="card-header"><img src="isro.png" alt="ISRO Logo" class="source-logo"><h3>Aditya-L1 Captures Highest Resolution Images of Solar Corona</h3></div><div class="card-footer"><span class="date">Aug 25, 2025</span><span class="tags">#AdityaL1 #Discoveries</span></div></div></a>
+      <a href="https://forumias.com/blog/answered-highlight-the-significance-of-the-success-of-isros-reusable-launch-vehicle-mission/" class="article-card-link"><div class="article-card" data-category="isro missions"><img src="rlv.png" alt="Reusable Launch Vehicle" class="thumbnail"><div class="card-header"><img src="isro.png" alt="ISRO Logo" class="source-logo"><h3>Reusable Launch Vehicle (RLV) Completes Autonomous Landing Test</h3></div><div class="card-footer"><span class="date">Aug 21, 2025</span><span class="tags">#RLV #Missions</span></div></div></a>
     </div>
   </main>
   
@@ -355,5 +481,67 @@
       });
     });
   </script>
+  <footer>
+  <div class="footer-container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <img src="logo.png" alt="StellerAtlas Logo" class="logo-footer" />
+        <p>
+          Your one-stop platform for all things space, astrophysics, and
+          astronomy. Explore the cosmos with us.
+        </p>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="missions.html">Missions</a></li>
+          <li><a href="solar-system.html">Solar System</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="news.html">News</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="blogs.html">Blogs</a></li>
+          <li><a href="astronomy.html">Astronomy 101</a></li>
+          <li><a href="resources.html">Resources</a></li>
+          <li><a href="glossary.html">Glossary</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>About</h4>
+        <ul>
+          <li><a href="about.html">About StellerAtlas</a></li>
+          <li><a href="team.html">Our Team</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+          <li><a href="community.html">Community</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <div class="social-icons">
+          <a href="#" aria-label="X formerly Twitter"><img src="x.png" alt="X" /></a>
+          <a href="#" aria-label="Instagram"><img src="insta.png" alt="Instagram" /></a>
+          <a href="#" aria-label="YouTube"><img src="yt.png" alt="YouTube" /></a>
+          <a href="#" aria-label="Facebook"><img src="fb.png" alt="Facebook" /></a>
+        </div>
+        <h4 style="margin-top: 30px">Newsletter</h4>
+        <form class="newsletter-form">
+          <input type="email" placeholder="your.email@example.com" required />
+          <button type="submit">SUB</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 StellerAtlas. All Rights Reserved.</p>
+      <div class="footer-bottom-links">
+        <a href="terms.html">Terms of Service</a>
+        <a href="privacy.html">Privacy Policy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
 </body>
 </html>

@@ -212,7 +212,7 @@
       z-index: 5;
       min-height: 100vh;
       display: flex;
-      flex-direction: column;
+      flex-direction: column; 
       justify-content: center;
       max-width: 1100px;
       margin: 0 auto;
@@ -240,21 +240,24 @@
     }
 
     .hero button {
-      padding: 16px 40px;
-      font-size: 1.1rem;
-      letter-spacing: 0.1em;
-      font-weight: 700;
-      border: 2px solid var(--primary-color);
-      background: transparent;
-      color: var(--primary-color);
-      cursor: pointer;
-      border-radius: 7px;
-      transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
-      text-shadow: 0 0 4px rgba(0, 0, 0, 0.7);
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-    }
+  padding: 16px 80px 16px 40px;  /* top right bottom left padding */
+  font-size: 1.1rem;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  border: 2px solid var(--primary-color);
+  background: transparent;
+  color: var(--primary-color);
+  cursor: pointer;
+  border-radius: 7px;
+  transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+  text-shadow: 0 0 4px rgba(0, 0, 0, 0.7);
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  text-align: left;       /* keeps text aligned to left */
+  min-width: 1100px;       /* minimum width to increase box size */
+}
+
 
     .hero button .arrow {
       display: inline-block;
@@ -652,6 +655,20 @@
 #solar-system {
   margin-top: 10px;
 }
+.button-link {
+  display: inline-block;
+  padding: 10px 20px;
+  border: 2px solid var(--primary-color);
+  background: transparent;
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 700;
+  border-radius: 7px;
+  transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+  cursor: pointer;
+  text-align: left;
+  gap: 12px;
+}
 
 
 
@@ -666,7 +683,7 @@
   <canvas id="star-field"></canvas>
 
   <nav class="navbar">
-    <a href="#" class="navbar-logo"><img src="logo.png" alt="StellerAtlas Logo"></a>
+    <a href="homepage.html" class="navbar-logo"><img src="logo.png" alt="StellerAtlas Logo"></a>
     <div class="navbar-menu">
 <a href="homepage.html">HOME</a>
 <a href="blogpage.html">BLOGS</a>
@@ -689,10 +706,13 @@
 
   <main>
     <section class="hero">
-      <h1>WELCOME TO THE WORLD OF ASTROPHYSICS</h1>
-      <p class="dynamic-subheading"><span id="dynamic-text-target"></span></p>
-      <button>EXPLORE NOW <span class="arrow">→</span></button>
-    </section>
+  <h1>WELCOME TO THE WORLD OF ASTROPHYSICS</h1>
+  <p class="dynamic-subheading"><span id="dynamic-text-target"></span></p>
+  <a href="Astronomy.html">
+    <button>EXPLORE NOW <span class="arrow">→</span></button>
+  </a>
+</section>
+
 
     <section id="news" class="content-section content-box fade-up-section" aria-label="Latest astrophysics news">
       <h2>Latest Space News</h2>
@@ -744,11 +764,39 @@
 
     <section id="missions" class="content-section content-box fade-up-section">
       <h2>Featured Missions</h2>
-      <div class="missions-grid">
-        <div class="mission-card"><div class="card-image-wrapper"><img src="artemis.png" alt="Artemis Mission"></div><div class="card-content"><h3>Artemis Mission</h3><p>Returning humanity to the Moon, establishing a sustainable presence, and preparing for the next giant leap to Mars.</p><button>Learn More</button></div></div>
-        <div class="mission-card"><div class="card-image-wrapper"><img src="jwst.png" alt="James Webb Space Telescope"></div><div class="card-content"><h3>James Webb Telescope</h3><p>The world's premier space science observatory, peering back over 13.5 billion years to see the first stars and galaxies.</p><button>Learn More</button></div></div>
-        <div class="mission-card"><div class="card-image-wrapper"><img src="pres.png" alt="Mars Perseverance Rover"></div><div class="card-content"><h3>Mars Perseverance Rover</h3><p>Seeking signs of ancient life and collecting rock and soil samples for possible return to Earth.</p><button>Learn More</button></div></div>
-      </div>
+<div class="missions-grid">
+  <div class="mission-card">
+    <div class="card-image-wrapper">
+      <img src="artemis.png" alt="Artemis Mission">
+    </div>
+    <div class="card-content">
+      <h3>James Webb Telescope</h3>
+      <p>Returning humanity to the Moon, establishing a sustainable presence, and preparing for the next giant leap to Mars.</p>
+      <a href="Missions.html"><button>Learn More</button></a>
+    </div>
+  </div>
+  <div class="mission-card">
+    <div class="card-image-wrapper">
+      <img src="jwst.png" alt="James Webb Space Telescope">
+    </div>
+    <div class="card-content">
+      <h3>James Webb Telescope</h3>
+      <p>The world's premier space science observatory, peering back over 13.5 billion years to see the first stars and galaxies.</p>
+      <a href="Missions.html"><button>Learn More</button></a>
+    </div>
+  </div>
+  <div class="mission-card">
+    <div class="card-image-wrapper">
+      <img src="pres.png" alt="Mars Perseverance Rover">
+    </div>
+    <div class="card-content">
+      <h3>Mars Perseverance Rover</h3>
+      <p>Seeking signs of ancient life and collecting rock and soil samples for possible return to Earth.</p>
+      <a href="Missions.html"><button>Learn More</button></a>
+    </div>
+  </div>
+</div>
+
     </section>
 
     <section id="solar-system" class="content-section content-box fade-up-section">

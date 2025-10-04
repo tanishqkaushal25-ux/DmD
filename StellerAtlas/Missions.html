@@ -327,6 +327,123 @@
         grid-template-columns: 1fr;
       }
     }
+footer {
+  position: relative;
+  z-index: 5;
+  background: #050505;
+  padding: 80px 40px 20px 40px;
+  border-top: 4px solid var(--accent-color);
+  color: #999;
+}
+.footer-container {
+  max-width: 1300px;
+  margin: 0 auto;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr repeat(4, 1fr);
+  gap: 50px;
+  margin-bottom: 60px;
+}
+.footer-col .logo-footer {
+  height: 50px;
+  margin-bottom: 20px;
+}
+.footer-col p {
+  line-height: 1.7;
+  max-width: 300px;
+}
+.footer-col h4 {
+  font-size: 1.1rem;
+  margin-bottom: 25px;
+  color: var(--primary-color);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+.footer-col ul {
+  list-style: none;
+  padding: 0;
+}
+.footer-col ul li {
+  margin-bottom: 15px;
+}
+.footer-col a {
+  text-decoration: none;
+  color: #999;
+  transition: color var(--transition-fast);
+}
+.footer-col a:hover {
+  color: var(--accent-color);
+}
+.social-icons {
+  display: flex;
+  gap: 15px;
+}
+.social-icons a {
+  font-size: 1.2rem;
+  color: #999;
+  background-color: #222;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+.social-icons a:hover {
+  background-color: var(--accent-color);
+  color: #000;
+}
+.newsletter-form {
+  display: flex;
+  margin-top: 10px;
+  max-width: 250px;
+}
+.newsletter-form input {
+  flex-grow: 1;
+  padding: 12px;
+  border: 1px solid #444;
+  background: #222;
+  color: var(--primary-color);
+  border-radius: 5px 0 0 5px;
+  outline: none;
+}
+.newsletter-form button {
+  padding: 12px 20px;
+  border: 1px solid var(--accent-color);
+  background: var(--accent-color);
+  color: var(--dark-bg);
+  cursor: pointer;
+  font-weight: 700;
+  border-radius: 0 5px 5px 0;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+.newsletter-form button:hover {
+  background: #ffedaa;
+}
+.footer-bottom {
+  text-align: center;
+  padding-top: 30px;
+  border-top: 1px solid #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.footer-bottom-links a {
+  color: #999;
+  text-decoration: none;
+  margin-left: 20px;
+  transition: color var(--transition-fast);
+}
+.footer-bottom-links a:hover {
+  color: var(--accent-color);
+}
+/* Responsive footer adjustments can be added similarly */
+
+    
   </style>
 </head>
 <body>
@@ -337,17 +454,17 @@
   <canvas id="star-field"></canvas>
 
   <nav class="navbar">
-    <a href="#" class="navbar-logo">
+    <a href="homepage.html" class="navbar-logo">
       <img src="logo.png" alt="Astrophysics Explorer Logo" />
     </a>
     <div class="navbar-menu">
-      <a href="#home">HOME</a>
-      <a href="#blogs">BLOGS</a>
-      <a href="#astronomy">ASTRONOMY</a>
-      <a href="#resources">RESOURCES</a>
-      <a href="#community">COMMUNITY</a>
-      <a href="#missions">MISSIONS</a>
-      <a href="#about">ABOUT</a>
+      <a href="homepage.html">HOME</a>
+<a href="blogpage.html">BLOGS</a>
+<a href="astronomy.html">ASTRONOMY</a>
+<a href="resources.html">RESOURCES</a>
+<a href="community.html">COMMUNITY</a>
+<a href="missions.html">MISSIONS</a>
+<a href="about.html">ABOUT</a>
     </div>
     <div class="navbar-special">
       <div class="dropdown">
@@ -753,5 +870,67 @@
 
     document.querySelectorAll('.fade-up-section').forEach(el => observer.observe(el));
   </script>
+  <footer>
+  <div class="footer-container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <img src="logo.png" alt="StellerAtlas Logo" class="logo-footer" />
+        <p>
+          Your one-stop platform for all things space, astrophysics, and
+          astronomy. Explore the cosmos with us.
+        </p>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="missions.html">Missions</a></li>
+          <li><a href="solar-system.html">Solar System</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="news.html">News</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="blogs.html">Blogs</a></li>
+          <li><a href="astronomy.html">Astronomy 101</a></li>
+          <li><a href="resources.html">Resources</a></li>
+          <li><a href="glossary.html">Glossary</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>About</h4>
+        <ul>
+          <li><a href="about.html">About StellerAtlas</a></li>
+          <li><a href="team.html">Our Team</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+          <li><a href="community.html">Community</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <div class="social-icons">
+          <a href="#" aria-label="X formerly Twitter"><img src="x.png" alt="X" /></a>
+          <a href="#" aria-label="Instagram"><img src="insta.png" alt="Instagram" /></a>
+          <a href="#" aria-label="YouTube"><img src="yt.png" alt="YouTube" /></a>
+          <a href="#" aria-label="Facebook"><img src="fb.png" alt="Facebook" /></a>
+        </div>
+        <h4 style="margin-top: 30px">Newsletter</h4>
+        <form class="newsletter-form">
+          <input type="email" placeholder="your.email@example.com" required />
+          <button type="submit">SUB</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 StellerAtlas. All Rights Reserved.</p>
+      <div class="footer-bottom-links">
+        <a href="terms.html">Terms of Service</a>
+        <a href="privacy.html">Privacy Policy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
 </body>
 </html>

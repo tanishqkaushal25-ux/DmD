@@ -10,19 +10,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
 
     <style>
-        /*
-        ==========================================================================
-        * ASTROPHYSICS EXPLORER - HACKATHON PROJECT
-        * Author: Hackathon Helper (Gemini)
-        * Description: A single-page, immersive astronomy guide.
-        * Theme: Sophisticated Dark Mode with "Glassmorphism" UI.
-        * Key Features: On-scroll animations, interactive tools, dynamic content.
-        ==========================================================================
-        */
+    
 
-        /* ---------------------------------- */
-        /* --- 1. Root & Global Styles --- */
-        /* ---------------------------------- */
         :root {
             --primary-bg: #000000;
             --glass-bg: rgba(10, 10, 20, 0.55);
@@ -225,9 +214,6 @@
             height: 100%;
             object-fit: cover;
             opacity: 0.4;
-            /* HACKATHON HELPER NOTE: I've set up the HTML for the background video.
-               You just need to provide the 'bg.mp4' file in the same directory.
-               A slow, panning shot of a nebula or galaxy works best. */
         }
         
         #starfield {
@@ -766,12 +752,15 @@
         }
     }
     </style>
+    <script src="https://unpkg.com/suncalc@1.8.0/suncalc.js"></script>
+
 </head>
+
 <body>
 
 
     <nav class="navbar">
-    <a href="#" class="navbar-logo"><img src="logo.png" alt="StellerAtlas Logo"></a>
+    <a href="homepage.html" class="navbar-logo"><img src="logo.png" alt="StellerAtlas Logo"></a>
     <div class="navbar-menu">
 <a href="homepage.html">HOME</a>
 <a href="blogpage.html">BLOGS</a>
@@ -879,7 +868,7 @@
                     </div>
 
                     <div class="telescope-card">
-                        <img src="refrlectorTeles.jpg" alt="Reflector Telescope">
+                        <img src="refrlectorTeles.png" alt="Reflector Telescope">
                         <h3>Reflector Telescopes</h3>
                         <p>Invented by Isaac Newton, these telescopes use a large primary mirror at the back to collect light and a smaller secondary mirror to direct it to an eyepiece on the side.</p>
                          <ul class="pros">
@@ -893,7 +882,7 @@
                     </div>
                     
                     <div class="telescope-card">
-                        <img src="catadioTelesc.jpg" alt="Catadioptric Telescope">
+                        <img src="chu1.png" alt="Catadioptric Telescope">
                         <h3>Catadioptric Telescopes</h3>
                         <p>Also known as compound telescopes, these use a combination of mirrors and lenses to fold a long optical path into a compact tube, offering the best of both worlds.</p>
                         <ul class="pros">
@@ -1185,7 +1174,7 @@
             });
         });
         
-        /* ---------------------------------- */
+        /* ---------------------------------- */    
         /* --- 5. Astronomy Weather Logic --- */
         /* ---------------------------------- */
         const cityInput = document.getElementById('city-input');
@@ -1195,7 +1184,7 @@
         const weatherResults = document.getElementById('weather-results');
         
         // HACKATHON HELPER NOTE: Use your own free API key from OpenWeatherMap.
-        const weatherApiKey = 'YOUR_API_KEY'; 
+        const weatherApiKey = 'bcabde10bc4908e6ce0fa1d2808c6d07'; 
 
         checkWeatherBtn.addEventListener('click', () => {
             const city = cityInput.value.trim();
@@ -1211,7 +1200,7 @@
             weatherError.style.display = 'none';
             weatherResults.style.display = 'none';
             
-            if (weatherApiKey === 'YOUR_API_KEY') {
+            if (weatherApiKey === 'Your_API_Key') {
                 showWeatherError('API Key not configured. Please add your OpenWeatherMap API key in the script.');
                 weatherLoader.style.display = 'none';
                 return;
@@ -1219,7 +1208,7 @@
 
             try {
                 // Fetch current weather and air pollution data
-                const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${weatherApiKey}&units=metric`;
+                const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${weatherApiKey}`;
                 const weatherResponse = await fetch(weatherUrl);
                 if (!weatherResponse.ok) throw new Error(`City not found or API error.`);
                 const weatherData = await weatherResponse.json();
@@ -1271,12 +1260,6 @@
                     <svg viewBox="0 0 24 24"><path d="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12C20,9.79 19.1,7.8 17.65,6.35M12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6A6,6 0 0,1 18,12A6,6 0 0,1 12,18M12,8V12L15,15L16,13.7L13.5,11.5V8H12Z" /></svg>
                     <div class="label">Humidity</div>
                     <div class="value">${weather.main.humidity}%</div>
-                </div>
-                 <div class="weather-item">
-                    <svg viewBox="0 0 24 24"><path d="M14,14H16V16H14M14,10H16V12H14M10,14H12V16H10M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M8,10H10V12H8M10,6H12V8H10M14,6H16V8H14M8,14H10V16H8M10,18H12V20H10M14,18H16V20H14Z" /></svg>
-                    <div class="label">Air Quality (AQI)</div>
-                    <div class="value">${aqi} (${getAqiText(aqi)})</div>
-                </div>
             `;
             
             // Calculate and display stargazing score
@@ -1360,22 +1343,36 @@
             sendGuideBtn.disabled = true;
             emailFeedback.textContent = '';
             
-            setTimeout(() => {
-                sendGuideBtn.textContent = '✓ Sent!';
-                sendGuideBtn.style.backgroundColor = 'var(--success-color)';
-                emailFeedback.textContent = 'Success! Your guide is on its way.';
-                emailFeedback.style.color = 'var(--success-color)';
+            // Real API call to backend
+emailFeedback.textContent = 'Sending...';
+sendGuideBtn.disabled = true;
+sendGuideBtn.textContent = 'Sending...';
 
-                // Revert button after a few seconds
-                setTimeout(() => {
-                    sendGuideBtn.textContent = originalText;
-                    sendGuideBtn.disabled = false;
-                    sendGuideBtn.style.backgroundColor = '';
-                    emailFeedback.textContent = '';
-                    emailInput.value = '';
-                }, 4000);
+fetch('http://127.0.0.1:5000/send-pdf', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ email }),
+})
+  .then(response => response.json())
+  .then(result => {
+    emailFeedback.textContent = result.message || 'Success! Your guide is on its way.';
+    emailFeedback.style.color = 'var(--success-color)';
+    sendGuideBtn.textContent = '✓ Sent!';
+  })
+  .catch(error => {
+    emailFeedback.textContent = 'Failed to send email. Please try again.';
+    emailFeedback.style.color = 'var(--error-color)';
+    sendGuideBtn.textContent = originalText;
+  })
+  .finally(() => {
+    setTimeout(() => {
+      emailFeedback.textContent = '';
+      sendGuideBtn.disabled = false;
+      sendGuideBtn.textContent = originalText;
+      emailInput.value = '';
+    }, 4000);
+  });
 
-            }, 1500);
         });
 
         /* ---------------------------------- */
